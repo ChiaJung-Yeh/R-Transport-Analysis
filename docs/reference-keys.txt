@@ -49,3 +49,6 @@ fig:for-loop-fig
 fig:apply-fig
 matrix
 data-frame
+list
+date-and-time
+text-processing

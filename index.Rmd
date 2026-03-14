@@ -34,7 +34,8 @@ windowsFonts(A=windowsFont("Serif"))
 
 # **Preface** {-}
 
-><p style="font-size:25px;line-height:2">**Problem solving is the primary motivation for learning data analysis.**</p>  
+><p style="font-size:20px;line-height:2">**Problem solving drives data analytics.**</p>  
+
 
 
 ## Introduction {-}
@@ -104,8 +105,6 @@ library(data.table)
 library(lubridate)
 library(ggplot2)
 library(sf)
-library(TDX)
-library(TWspdata)
 ```
 
 ```{r package-download-table, echo=F, eval=T}

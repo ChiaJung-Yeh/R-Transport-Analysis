@@ -15,7 +15,7 @@ library(jsonlite)
 library(xml2)
 library(lubridate)
 
-Sys.setlocale(category = "LC_ALL", locale = "zh_TW.UTF-8")
+Sys.setlocale(category = "LC_ALL", locale = "en")
 
 windowsFonts(A=windowsFont("Serif"))
 ```
@@ -310,10 +310,10 @@ An example is provided below, and the corresponding code is written as follows:
 ```{r vector-repeat, echo=T, eval=T}
 vec6=c(2,5,8,11,7,4,10,3)
 
-# Specify the number of times each element in vec6 is repeated
+# specify the number of times each element in vec6 is repeated
 rep(vec6, each=2)
 
-# Specify the number of times the entire vector vec6 is repeated
+# specify the number of times the entire vector vec6 is repeated
 rep(vec6, times=2)
 ```
 
@@ -336,10 +336,10 @@ In addition to the basic examples above, operators (e.g., `==`, `>`, `<`, ...) c
 ```{r vector-which2, echo=T, eval=T}
 vec6=c(2,5,8,11,7,4,10,3)
 
-# Logical test for whether elements of `vec6` are greater than 5
+# logical test for whether elements of `vec6` are greater than 5
 vec6>5
 
-# Retrieve the indices for the elements in `vec6` are greater than 5
+# retrieve the indices for the elements in `vec6` are greater than 5
 which(vec6>5)
 ```
 
@@ -405,7 +405,7 @@ age_order
 From the output, we can observe that the symbol "<" appears between the levels, indicating an ordered relationship among them. The numeric operation can also be applied once the order is created.
 
 ```{r factor-order2, echo=T, eval=T}
-# Compare the ordering between "Teen" and "Senior".
+# compare the ordering between "Teen" and "Senior".
 age_order[1]>age_order[2]
 ```
 
@@ -413,10 +413,10 @@ age_order[1]>age_order[2]
 A factor can be converted to a character vector using `as.character()`. It can also be converted to numeric values using `as.numeric()`, where the numeric values correspond to the order of the levels; the higher the level, the larger the assigned value. The following example illustrates this using `age_fc`.
 
 ```{r factor-char-num, echo=T, eval=T}
-# Convert to character
+# convert to character
 as.character(age_fc)
 
-# Convert to numeric
+# convert to numeric
 as.numeric(age_fc)
 ```
 
@@ -519,21 +519,21 @@ Please note that `mat1` has dimensions of 3 rows and 5 columns, while `mat2_tran
 ### Data Frame
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
-* 類似矩陣（Matrix），但可涵括多種不同的資料型態  
-* 功能類似 Excel 的工作表  
-* 資料分析中最常見的資料型態  
-* 可利用`dplyr`套件處理資料（參見[資料清洗與處理](#資料清洗與處理)章節）
+* Similar to a matrix, but can store different data types in columns  
+* Works like an Excel worksheet  
+* One of the most common data structures in data analysis  
+* Can be manipulated using the `dplyr` package (see [Data Tidy and Processing](#data-tidy-and-processing))
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Contruction**</p>  
-資料框的建立如下程式碼：
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Construction**</p>  
+The data frame can be created using the `data.frame()` function.
 
 ```{r dataframe-function, echo=T, eval=F}
 data.frame(VAR1=c(), VAR2=c(), VAR3=c(), ...)
 ```
 
-VAR1、VAR2、VAR3 皆表示資料框中的變數名稱，亦即表格中的表頭名。  
+VAR1, VAR2, and VAR3 in the above code represent the variable names in the data frame, that is, the column headers of the table.
 
-以下簡單範例說明資料框的建構。  
+The following simple example illustrates how to construct a data frame.
 
 ```{r dataframe1, echo=T, eval=T}
 StuScore=data.frame(StudentID=c("ID1","ID2","ID3","ID4","ID5"),
@@ -543,11 +543,11 @@ StuScore
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 回傳資料欄位名稱**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve the column name**</p>  
 ```{r dataframe2, echo=T, eval=F}
 colnames(StuScore)
 
-# 或可以直接使用names()函式
+# or simply using name() function
 names(StuScore)
 ```
 
@@ -555,8 +555,8 @@ names(StuScore)
 colnames(StuScore)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 設定資料欄位名稱**</p>  
-設定資料欄位名稱亦可透過`colnames()`達成之，程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Set the column header names**</p>  
+Column names can also be set using `colnames()`. The corresponding code is shown below.
 ```{r dataframe2-1, echo=T, eval=F}
 StuScore_rename=StuScore
 colnames(StuScore_rename)=c("STUID","SCORE")
@@ -565,16 +565,15 @@ StuScore_rename
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 回傳特定欄列**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve specific rows/columns**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>回傳指定橫列</u>**</p>  
-將列號或邏輯向量置於中括號內的逗號前，惟須注意，使用邏輯向量時，其長度必須與資料列數相同。程式碼撰寫如下。
-
+<p style="font-size:18px;line-height:1">**<u>Retrieve specific rows</u>**</p>  
+Place the row index or logical vector before the comma inside the brackets. When using a logical vector, its length must be the same as the number of rows in the data. The code is written as follows.
 ```{r dataframe3, echo=T, eval=F}
-# 使用列號
+# use the row index
 StuScore[c(1,3,5),]
 
-# 使用邏輯向量
+# sue the logical vector
 StuScore[c(T,F,T,F,T),]
 ```
 
@@ -582,23 +581,23 @@ StuScore[c(T,F,T,F,T),]
 StuScore[c(1,3,5),]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>回傳指定直行</u>**</p>  
-有三種方法可回傳指定（多個）直行，包括：  
+<p style="font-size:18px;line-height:1">**<u>Retrieve specific columns</u>**</p>  
+There are three ways to return specified (multiple) columns, including:
 
-* 列號向量  
-* 邏輯向量  
-* 欄位名稱向量  
+* Column index vector  
+* Logical vector  
+* Column name vector  
 
-其中使用邏輯向量時，其長度與資料行數必須相同。程式碼撰寫如下。
+When using a logical vector, its length must be the same as the number of columns in the data. The code is written as follows.
 
 ```{r dataframe4, echo=T, eval=F}
-# 列號向量
+# use the index
 StuScore[, c(1,2)]
 
-# 邏輯向量
+# use the logical vector
 StuScore[, c(T,F,T,F,T)]
 
-# 欄位名稱向量
+# use the column name
 StuScore[, c("StudentID","Name")]
 ```
 
@@ -606,29 +605,36 @@ StuScore[, c("StudentID","Name")]
 StuScore[, c("StudentID","Name")]
 ```
 
-此外，資料框亦可透過「`$`」回傳特定單一欄位，程式碼撰寫如下。
+In addition, a data frame can return a specific single column using `$` or `[[""]]`. Note that `[[""]]` uses **double brackets**, which differs from the previous methods. The code is written as follows.
 
 ```{r dataframe-retrieve-col, echo=T, eval=F}
-資料$欄位名稱
+DATA$COLUMN
+
+DATA[["COLUMN"]]
 ```
+
 
 ```{r dataframe5, echo=T, eval=T}
+# use $
 StuScore$Name
+
+# use [[""]] (double brackets)
+StuScore[["Score"]]
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 回傳與編輯指定元素**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve and edit a specific element**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>使用行列索引值</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Specify by index</u>**</p>  
 
 ```{r dataframe-retrieve-element, echo=T, eval=F}
-資料[橫列索引, 直行索引]
+DATA[ROW_INDEX, COLUMN_INDEX]
 ```
 
 ```{r dataframe6, echo=T, eval=T}
 StuScore[2,2]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>編輯指定元素</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Edit a specific element</u>**</p>  
 ```{r dataframe7, echo=T, eval=T}
 StuScore[2,2]="Jessica"
 
@@ -636,63 +642,73 @@ StuScore
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 查看前後六筆資料**</p>  
-在此我們使用 R 語言內建的`iris`資料說明。`iris`資料共計 150 個樣本，並含括三種不同的鳶尾花（setosa、virginica、versicolor），欄位則包含花瓣與花萼的長度與寬度。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Look up the first/last six rows**</p>  
+Here we use the built-in `iris` dataset in R for illustration. The `iris` dataset contains 150 samples and includes three species of iris flowers (setosa, virginica, and versicolor). The data record the length and width of the petals and sepals.  
 
-<p style="font-size:18px;line-height:1">**<u>回傳前六筆資料</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Retrieve the first six rows</u>**</p>  
 ```{r dataframe_head, echo=T, eval=T}
 head(iris)
 ```
 
-<p style="font-size:18px;line-height:1">**<u>回傳後六筆資料</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Retrieve the last six rows</u>**</p>  
 ```{r dataframe_tail, echo=T, eval=T}
 tail(iris)
 ```
 
+If retrieve more or less rows, we can specify the argument after the data. For example, the code of retrieving only first 3 rows in the data `iris` is shown below:
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 擴增資料框**</p>
+```{r dataframe_head2, echo=T, eval=T}
+head(iris, 3)
+```
 
-<p style="font-size:18px;line-height:1">**<u>擴增資料列（新增紀錄）</u>**</p>  
-若欲新增資料，可以透過`rbind()`函式連結。程式碼如下。
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Augment the data frame**</p>
+
+<p style="font-size:18px;line-height:1">**<u>Append a new row (new record)</u>**</p>  
+To add new data, the `rbind()` function can be used to append rows. The code is shown below.
 
 ```{r dataframe_rbind, echo=T, eval=T}
-# 建立欲新增的資料
+# create a new record
 new_student=data.frame(StudentID="ID6", Name="Roy", Score=90)
 
-# 利用rbind()函式相接
+# append the new data by rbind() function
 StuScore=rbind(StuScore, new_student)
 
 StuScore
 ```
 
 
-<p style="font-size:18px;line-height:1">**<u>擴增資料欄（新增屬性）</u>**</p>  
-若欲針對整份資料新增屬性（如`StuScore`中增加性別欄位...），可以透過`cbind()`函式連結。程式碼如下。
+<p style="font-size:18px;line-height:1">**<u>Add a new column (new field)</u>**</p>  
+To add a new field (column) to the entire data (e.g., adding a gender column to `StuScore`), the `cbind()` function can be used to combine columns. The code is shown below.
 
 ```{r dataframe_cbind, echo=T, eval=T}
-# 建立欲新增之屬性
+# create a new field
 Gender=c("M","F","M","M","F","M")
 
-# 利用cbind()函式連結
+# add the new field by cbind() function
 StuScore=cbind(StuScore, Gender)
 
 StuScore
 ```
 
-或可以直接透過「`$`」新增新欄位內容。程式碼如下：
+Alternatively, a new column can be added directly using `$` or `[[""]]`. The code is shown below:
 ```{r dataframe_add_col-fun, echo=T, eval=F}
-資料$新欄位=c(...)
+DATA$NEW_COLUMN=c(...)
+
+DATA[["NEW_COLUMN"]]=c(...)
 ```
 
 ```{r dataframe_add_col, echo=T, eval=T}
 StuScore$Height=c(180,165,170,160,175,180)
 
+StuScore[["Weight"]]=c(60,70,90,55,80,75)
+
 StuScore
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 檢查重複列**</p>  
-為說明範例，在此先行建立一句有重複資料的資料框。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check duplicated rows**</p>  
+For illustration, we first create a data frame that contains duplicate records.
 
 ```{r dataframe_duplicated1, echo=T, eval=T}
 StuScore_dup=data.frame(StudentID=c("ID1","ID2","ID4","ID3","ID4","ID5","ID2"),
@@ -701,26 +717,25 @@ StuScore_dup=data.frame(StudentID=c("ID1","ID2","ID4","ID3","ID4","ID5","ID2"),
 StuScore_dup
 ```
 
-由上述結果可知，資料中含有重複的橫列（ID2 & ID4）。我們可以進一步利用`duplicated()`函式檢查之。
+The data `StuScore_dup` contains duplicated rows (ID2 & ID4). We can further check this using the `duplicated()` function.
 
 ```{r dataframe_duplicated2, echo=T, eval=T}
 duplicated(StuScore_dup)
 
-# 使用which()函式尋找重複的資料列索引
+# use which() function to find the index with duplicated row
 which(duplicated(StuScore_dup))
 ```
 
-由執行結果可知，第 5 與第 7 筆資料屬於重複資料。請務必注意，資料框中首次出現的列不會被視為重複者。
+As shown in the result, the 5th and 7th records are identified as duplicates. Note that the first occurrence of a row in a data frame is not considered a duplicate.
 
+### List
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
-### 陣列（List）
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 陣列的性質**</p>  
+* A collection of objects (can include vectors, matrices, data frames, list, etc.)  
+* The most complex object type, but highly flexible to use
 
-* 物件的集合（可包含向量、矩陣、資料框、陣列...）  
-* 最複雜的物件，然其使用彈性相當高  
-
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立陣列**</p>  
-使用`list()`函式建立陣列資料。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Construction**</p>  
+Use `list()` function to create a list.
 
 ```{r list1, echo=T, eval=T}
 StuScore_list=list(StudentID=c("ID1","ID2","ID3","ID4","ID5"),
@@ -734,176 +749,201 @@ StuScore_list
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  回傳陣列屬性**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve the attributes in a list**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>使用`陣列$屬性`回傳</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Retrieve by `$` or `[[""]]`</u>**</p>  
+The attribute of a list can be retrieve by `LIST$ATTRIBUTE` or `LIST[["ATTRIBUTE]]`.
 
 ```{r list2, echo=T, eval=T}
 StuScore_list$Score
+
+StuScore_list[["Name"]]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>使用陣列索引回傳</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Retrive by index</u>**</p>  
 ```{r list3, echo=T, eval=T}
 StuScore_list[[2]]
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  陣列長度**</p>  
-向量的長度可以利用`length()`函式計算，而陣列亦同，程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Length of a list**</p>  
+The length of a vector can be calculated using the `length()` function, and the same applies to lsit. The code is written as follows.  
 ```{r list4, echo=T, eval=T}
-# 建立陣列
+# create a list
 num_list=list(c(1:5), c("A","B","C","D"), c(T,F,T))
 num_list
 
-# 計算陣列長度
+# extract the length of a list
 length(num_list)
 ```
 
-由此可知，`num_list`的長度為 3。而若欲知該陣列內各別陣列的長度，則必須透過`lengths()`函數達成此一目的。程式碼撰寫如下，陣列長度的計算詳如圖\@ref(fig:list-length-fig)之示意圖所示。
+From this, we can see that the length of `num_list` is 3. Moreover, if we want to know the length of each element in the list, we can use the `lengths()` function. The code is written as follows, and the calculation of list element lengths is illustrated in Figure \@ref(fig:list-length-fig).
 
 ```{r list5, echo=T, eval=T}
-# 計算陣列內各陣列長度
+# calculate the length of each list in a list
 lengths(num_list)
 ```
 
-由此可知，`num_list`陣列內第一個陣列的長度為 5，其次為 4，最後一者為 3。
+From this, we can see that the first array in `num_list` has a length of 5, the second has a length of 4, and the last has a length of 3.
 
-```{r list-length-fig, echo=F, eval=T, out.width="70%", fig.align="center", fig.cap="陣列長度示意圖"}
+```{r list-length-fig, echo=F, eval=T, out.width="70%", fig.align="center", fig.cap="Illustration of the length of list"}
 include_graphics("./figure/length_lengths.png")
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  去除陣列**</p>  
-若欲將陣列去除，並回傳所有陣列中的元素，則可使用`unlist()`達成之。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Remove the list structure**</p>  
+To remove the list structure and return all elements contained in the list, the `unlist()` function can be used.
 
 ```{r unlist, echo=T, eval=T}
-# 去除陣列
+# Remove the list structure
 unlist(num_list)
 ```
 
 
-### 日期與時間
-在資料處理中，設定日期與時間的格式有助於後續計算時間差、繪製時間序列圖等，而在 R 語言中，可以利用`base`、`lubridate`套件處理時間資料。請注意，由於兩套件的部分函式名稱相同，故建議使用函式時寫清楚套件的名稱，如`lubridate::XXXX()`。
+### Date and Time
+In data processing, setting proper date and time formats helps with tasks such as calculating time differences and plotting time series data. In R, time data can be handled using the `base` and `lubridate` packages. Note that some functions in these packages share the same names, so it is recommended to specify the package when using them, i.e., `lubridate::XXXX()`.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  基礎設定**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Basic settings**</p>  
 
-時間的格式與電腦所在地區有相當的關聯，若時間格式中含有中文，請務必設定中文的地區格式如下：
+Time formats depend on the local computer settings; therefore, they should be specified explicitly.
 ```{r setlocale1, echo=T, eval=F}
+# locale settings (English)
+Sys.setlocale(category="LC_ALL", locale="en")
+
+# locale settings (Traditional Chinese, Taiwan)
 Sys.setlocale(category="LC_ALL", locale="zh_TW.UTF-8")
 ```
 
-而若為全英文者，可直接設定英文的地區格式如下：
-```{r setlocale2, echo=T, eval=F}
-Sys.setlocale(category="LC_ALL", locale="en")
-```
-
-此外，時區亦為重要的資訊，在日期與時間的函式中皆可設定之，數個常見的時區設定如表\@ref(tab:timezone)所示。
+In addition, time zones are important component and can be specified in date-time functions. Several time zone settings are shown in Table \@ref(tab:timezone).
 
 ```{r timezone, echo=F, eval=T}
-temp=data.frame(timezone=c("標準時間","臺北時區","東京時區","美國東部標準時間","坎培拉時間"), tz_code=c("UTC","Asia/Taipei","Asia/Tokyo","US/Eastern","Australia/Canberra"), code=c("UTC","CST","JST","EDT","AEDT"))
+temp=data.frame(timezone=c("Standard Time", "Sydney Time", "U.S. Eastern Standard Time", "Taipei Time", "Tokyo Time"), tz_code=c("UTC","Australia/Sydney","US/Eastern","Asia/Taipei","Asia/Tokyo"), code=c("UTC","AEDT/AEST","EDT","CST","JST"))
 
-kbl(temp, booktabs=T, escape=F, caption="時區格式範例", col.names=c("時區","全名","縮寫"))%>%
+kbl(temp, booktabs=T, escape=F, caption="Examples of timezone format", col.names=c("Time Zone","TZ Identifier","TZ Abbreviations"))%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
-其他時區的設定請參照[此](https://www.wikiwand.com/en/List_of_tz_database_time_zones)。
+Detailed time zone format can be found [here](https://www.wikiwand.com/en/List_of_tz_database_time_zones).  
 
-而時間與日期的格式亦有通用的格式設定方式，常見者彙整如表\@ref(tab:timeformat)所示。
+Date and time values also follow standardised formatting conventions. Commonly used formats are summarised in Table \@ref(tab:timeformat).  
+
 ```{r timeformat, echo=F, eval=T}
 temp=data.frame(code=c("%Y","%y","%B","%b","%m","%d","%H","%h","%M","%S","%p","%Z"),
-                name=c("年（四位數）","年（二位數）","月（全稱）","月（縮寫）","月（數字）","日","時（24 小時制）","時（12 小時制）","分","秒","AM/PM","時區"))
+                name=c("Year (four digits)", "Year (two digits)", "Month (full name)", "Month (abbreviation)", "Month (numeric)", "Day", "Hour (24-hour format)", "Hour (12-hour format)", "Minute", "Second", "AM/PM", "Time zone"))
 
 temp=cbind(temp[1:6,], temp[7:12,])
-kbl(temp, booktabs=T, escape=F, caption="時間格式範例", col.names=c("代號","意義","代號","意義"), align="cccc")%>%
+kbl(temp, booktabs=T, escape=F, caption="Time format settings", col.names=c("Code","Meaning","Code","Meaning"), align="cccc")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="black", background="#8E8E8E")%>%
   column_spec(2, border_right="1.5px solid #ADADAD")
 ```
 
-舉例而言，「2024-02-14 13:14:52」的時間格式為「%Y-%m-%d %H:%M:%S」。
+For example, the datetime "2024-02-14 13:14:52" follows the format "%Y-%m-%d %H:%M:%S".
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  建立日期與時間**</p>  
-建立日期可利用`as.Date()`函式，其中只要輸入日期格式即可，另可加入`format=`引數，用以確保正確的格式，程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Create time and date**</p>  
+Dates can be created using the `as.Date()` function. Simply provide the date value, and optionally specify the `format=` argument to ensure the correct format. The code is written as follows.
 
 ```{r as-date, echo=T, eval=T}
-# 建立日期文字
+# create date in character vector
 date_str=c("2024-02-14","2023-11-07","2022-07-28")
 
-# 將文字向量轉換為日期格式
+# covert character to date format
 date_str=as.Date(date_str)
 
-# 檢查格式
+# check the format
 class(date_str)
 ```
 
-建立時間可利用`as.POSIXct()`函式，其中只要輸入完整的日期與時間即可（日期若忽略，系統會自動填補為當下的電腦日期），另可加入`format=`與`tz=`引數，用以確保正確的時間格式。程式碼撰寫如下。
+Datetime values can be created using the `as.POSIXct()` function by providing the full date and time. If the date is omitted, the system will automatically use the current computer date. The `format=` and `tz=` arguments can also be specified to ensure the correct time format and time zone. The code is written as follows.
 
 ```{r as-POSIXct1, echo=T, eval=T}
-# 建立日期時間文字
+# create datetime in character vector
 time_str1=c("2024-02-14 13:14:52","2023-11-07 07:18:22","2022-07-28 20:10:31")
 
-# 將文字向量轉換為時間格式
-time_str1=as.POSIXct(time_str1, tz="Asia/Taipei")
+# covert character to datetime format
+time_str1=as.POSIXct(time_str1, tz="Australia/Sydney")
 
-# 檢查格式
+# check the format
 class(time_str1)
 
-# 輸出結果
+# result output
 time_str1
 ```
 
-若時間格式並非上述典型的形式，則必須自行設定`format=`引數，並參照表\@ref(tab:timeformat)填入適當的格式，範例如以下程式碼。**_另請注意，若文字中含有「英文」，請務必確保電腦的文字及地區設定為`LC_ALL`，否則會出錯！！_**
+If the time format does not follow the typical format above, the `format=` argument must be specified manually, with the appropriate format based on Table \@ref(tab:timeformat). An example is shown in the code below.  
 
 ```{r as-POSIXct2, echo=T, eval=T}
-# 建立日期時間文字
+# create a datetime string
 time_str2=c("2024/Feb/14 011452 PM","2023/Nov/07 071822 AM","2022/July/28 081031 PM")
 
-# 確保電腦的文字及地區為英文
+# ensure that the locale is set at proper region
 Sys.setlocale(category="LC_ALL", locale="en")
 
-# 將文字向量轉換為時間格式
-as.POSIXct(time_str2, format="%Y/%B/%d %I%M%S %p", tz="Asia/Taipei")
+# covert character to datetime
+as.POSIXct(time_str2, format="%Y/%B/%d %I%M%S %p", tz="Australia/Sydney")
+```
 
-# 建議時間處理完後，再調整到中文地區，否則後續中文文字的輸出會有問題！！
-Sys.setlocale(category="LC_ALL", locale="zh_TW.UTF-8")
+Note that if the text contains non-English characters, the locale should be set to the appropriate region; otherwise, errors may occur. An example in which the datetime string contains Japanese characters is shown below.  
+
+```{r as-POSIXct3, echo=T, eval=F}
+# create a datetime string (contain non-English character)
+time_str3=c("2024/03/15 午前04:14:52","2023/11/07 午前07:18:22","2022/07/28 午後08:10:31")
+
+# ensure that the locale is set at proper region
+Sys.setlocale("LC_ALL", "ja_JP.UTF-8")
+
+# covert character to datetime
+as.POSIXct(time_str3, format="%Y/%m/%d %p%I:%M:%S", tz="Asia/Tokyo")
+
+# it is highly recommended to set the locale to your origin one
+Sys.setlocale(category="LC_ALL", locale="en")
+```
+
+```{r as-POSIXct, echo=F, eval=T}
+print(c("2024-03-15 04:14:52 JST","2023-11-07 07:18:22 JST","2022-07-28 20:10:31 JST"))
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  回傳日期時間資訊**</p>
-回傳日期與時間相關資訊的函式彙整如表\@ref(tab:time-retrieve)所示，並以前文的`time_str1`資料為例。
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve datetime information**</p>
+Functions for retrieving date and time information are summarised in Table \@ref(tab:time-retrieve), using the previously defined `time_str1` data as an example.
 
 ```{r time-retrieve, echo=F, eval=T}
 temp=data.frame(fun=c("","`year()`","`month()`","`day()`","`week()`","`wday()`","`hour()`","`minute()`","`second()`"),
-                meaning=c("","年","月","日","週","星期","時","分","秒"),
+                meaning=c("","Year","Month","Day","Week","Weekday","Hour","Minute","Second"),
                 eg=c(paste(c("2024-02-14 13:14:52","2023-11-07 07:18:22","2022-07-28 20:10:31"), collapse="<br>"), paste(year(time_str1), collapse=", "), paste(month(time_str1), collapse=", "), paste(day(time_str1), collapse=", "), paste(week(time_str1), collapse=", "), paste(wday(time_str1), collapse=", "), paste(hour(time_str1), collapse=", "), paste(minute(time_str1), collapse=", "), paste(second(time_str1), collapse=", ")))
 
-kbl(temp, booktabs=T, escape=F, caption="回傳日期時間範例", col.names=c("函式","意義","範例（以<span style='color:black'>`time_str1`</span>為例）"))%>%
+kbl(temp, booktabs=T, escape=F, caption="Example of datetime information retrieval", col.names=c("Function","Meaning","Example (<span style='color:black'>`time_str1`</span>)"))%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")%>%
   row_spec(1, bold=T, color="black", background="#ECFFFF", monospace=T)
 ```
 
-其中`wday()`星期函式所回傳的結果並非實際的星期，乃因該函式預設以「星期日」為一週的首日。此外，`month()`與`wday()`兩函式皆可設定回傳中英文、全名與縮寫等詳細資訊，完整參數設定詳如表\@ref(tab:time-retrieve)。其中`label=`引數設定是否回傳文字，否則預設為數值；`abbr=`引數設定是否回傳縮寫，此引數僅在`label=T`有效；`locale=`引數設定語言，如`en`為英文，而`zh_TW.UTF-8`為臺灣中文。
+The result returned by the `wday()` function does not directly correspond to the actual weekday because the function assumes Sunday as the first day of the week by default. In addition, both `month()` and `wday()` allow users to return detailed information such as full names and abbreviations. The complete parameter settings are listed in Table \@ref(tab:time-retrieve). The `label=` argument determines whether the result is returned as text (otherwise the default is numeric); the `abbr=` argument specifies whether abbreviations are returned and is only effective when `label=TRUE`; and the `locale=` argument sets the language, for example `en` for English and `zh_TW.UTF-8` for Traditional Chinese (Taiwan).  
 
 ```{r wday-month, echo=F, eval=T}
+invisible(Sys.setlocale(category="LC_ALL", locale="zh_TW.UTF-8"))
+
 temp1=as.Date(c(as.Date("2024-01-01"):as.Date("2024-01-07")))
 temp2=as.Date(paste0("2024-", str_pad(1:12, 2, "left", 0), "-01"))
 
-temp=data.frame(fun=c('`month(日期向量)`','`month(日期向量, label=T, locale="en")`','`month(日期向量, label=T, abbr=F, locale="en")`','`month(日期向量, label=T, locale="zh_TW.UTF-8")`','`wday(日期向量)`','`wday(日期向量, week_start=1)`','`wday(日期向量, label=T, locale="en")`','`wday(日期向量, label=T, abbr=F, locale="en")`','`wday(日期向量, label=T, locale="zh_TW.UTF-8")`','`wday(日期向量, label=T, abbr=F, locale="zh_TW.UTF-8")`'),
+temp=data.frame(fun=c('`month(DATE)`','`month(DATE, label=T, locale="en")`','`month(DATE, label=T, abbr=F, locale="en")`','`month(DATE, label=T, locale="zh_TW.UTF-8")`','`wday(DATE)`','`wday(DATE, week_start=1)`','`wday(DATE, label=T, locale="en")`','`wday(DATE, label=T, abbr=F, locale="en")`','`wday(DATE, label=T, locale="zh_TW.UTF-8")`','`wday(DATE, label=T, abbr=F, locale="zh_TW.UTF-8")`'),
                 result=c(paste0(month(temp2), collapse=" "), paste0(month(temp2, label=T, locale="en"), collapse=" "), paste0(month(temp2, label=T, abbr=F, locale="en"), collapse=" "), paste0(month(temp2, label=T, locale="zh_TW.UTF-8"), collapse=" "), paste0(wday(temp1), collapse=" "), paste0(wday(temp1, week_start=1), collapse=" "), paste0(wday(temp1, label=T, locale="en"), collapse=" "), paste0(wday(temp1, label=T, abbr=F, locale="en"), collapse=" "), paste0(wday(temp1, label=T, locale="zh_TW.UTF-8"), collapse=" "), paste0(wday(temp1, label=T, abbr=F, locale="zh_TW.UTF-8"), collapse=" ")))
 
-kbl(temp, booktabs=T, escape=F, caption="`month()`與`wday()`函式引數設定", col.names=c("函式與引數","回傳結果"))%>%
+kbl(temp, booktabs=T, escape=F, caption="Functions and Arguments in `month()` and `wday()`", col.names=c("Function & Argument","Result"))%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")%>%
   column_spec(1, width="11cm")%>%
-  pack_rows("`month()` 月", 1, 4, bold=T, background="#ECFFFF")%>%
-  pack_rows("`wday()` 星期", 5, 10, bold=T, background="#ECFFFF")
+  pack_rows("`month()`", 1, 4, bold=T, background="#ECFFFF")%>%
+  pack_rows("`wday()`", 5, 10, bold=T, background="#ECFFFF")
+
+invisible(Sys.setlocale(category="LC_ALL", locale="en"))
 ```
 
 
 
-## 文字處理
+## Text Processing
 在資料分析中，文字處理是相當重要的程序，可從中解析特定的詞彙，如計算詞彙數量、取代特定字詞、查看文字出現位置等等，從中探索資料中的文字內容。文字處理可以透過 R 內建的`base`套件或另安裝`stringr`套件處理之，本節主要即是針對此二套件說明文字處理之應用。
 
 ```{r stringr-install, echo=T, eval=F}
