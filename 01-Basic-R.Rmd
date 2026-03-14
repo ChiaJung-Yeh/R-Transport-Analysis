@@ -318,142 +318,142 @@ rep(vec6, times=2)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 回傳向量中 TRUE 索引值**</p>   
-`which()`函式可用以回傳向量中 TRUE 的索引值。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Return the indices of TRUE values in a vector**</p>   
 
-<p style="font-size:18px;line-height:1">**<u>TRUE 索引值</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Indices of TRUE</u>**</p>  
+The `which()` function returns the indices of `TRUE` values in a vector.
 ```{r vector-which1, echo=T, eval=T}
 vec3=c(T,F,T,F,T)
 which(vec3)
 ```
 
-由上述範例可知，TRUE 位於`vec3`向量的第 1、3、5 個元素。
+From the example above, the `TRUE` values are located at the 1st, 3rd, and 5th elements of the vector `vec3`.
 
 
-<p style="font-size:18px;line-height:1">**<u>回傳符合條件索引值</u>**</p>  
-除了上述基本案例外，通常我們會藉由運算子（`==`, `>`, `<`, ...）以尋找符合條件的元素，並進一步透過`which()`函式回傳結果為 TRUE 的索引值。範例如下。
+<p style="font-size:18px;line-height:1">**<u>Return the indices that satisfy a condition</u>**</p>  
+In addition to the basic examples above, operators (e.g., `==`, `>`, `<`, ...) can be used to identify elements that satisfy specific conditions. The `which()` function can then be used to return the indices of elements for which the result is `TRUE`. An example is shown below.
 
 ```{r vector-which2, echo=T, eval=T}
 vec6=c(2,5,8,11,7,4,10,3)
 
-# vec6大於5的邏輯判斷
+# Logical test for whether elements of `vec6` are greater than 5
 vec6>5
 
-# 回傳vec6大於5的索引值
+# Retrieve the indices for the elements in `vec6` are greater than 5
 which(vec6>5)
 ```
 
 
-### 因子（Factor）
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 因子的性質**</p>  
+### Factor
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
-* 由文字向量建立  
-* 須設定文字層級  
-* 設立因子的延伸應用：  
-  * 在`ggplot2`套件中調整圖例順序  
-  * 在計量模型中建立啞變量（dummy variables）  
+* created from a character vector  
+* requires specifying factor levels  
+* extended applications of factors:  
+  * adjusting legend order in the plot using `ggplot2` package  
+  * creating dummy variables in econometric models
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立因子**</p>   
-因子的建立可以使用`factor()`函式，其中必須透過`levels=`引數設定層級，程式碼建構如下：  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Construction**</p>   
+Factors can be created using the `factor()` function, where the levels must be specified using the `levels=` argument. The code is constructed as follows:
 
 ```{r factor1, echo=T, eval=F}
-factor(文字向量, levels=期望的層級向量)
+factor(CHARACTER VECTOR, levels=LEVELS)
 ```
 
-以下列簡單範例說明因子的功能，建立`school`之文字向量。
+An example is provided below by creating a character vector `age`.
 
 ```{r factor2, echo=T, eval=T}
-school=c("大學","幼稚園","國小","高中","國中")
+age=c("Teen","Senior","Childhood","Toddler","Adulthood")
 ```
 
-若欲將`school`轉換為具有層級意義的因子，並依據學校層級排序，則程式碼撰寫如下：
+To convert `age` into a factor with ordered levels and arrange it according to the age hierarchy, the code is written as follows:
 
 ```{r factor3, echo=T, eval=T}
-school_fc=factor(school, levels=c("幼稚園","國小","國中","高中","大學"))
-school_fc
+age_fc=factor(age, levels=c("Toddler","Childhood","Teen","Adulthood","Senior"))
+age_fc
 ```
 
-由上述可發現，有別於文字向量，因子會另出現「Levels:」的訊息，表示文字具有層級意義。  
-最後可利用`is.factor()`函式判斷一變數是否為因子，抑或利用`class()`函式逕查詢該變數的資料型態。  
+From the above example, we can observe that, unlike a character vector, a factor displays an additional message "Levels", indicating that the values have categorical levels.  
+
+Finally, the `is.factor()` function can be used to determine whether a variable is a factor, or the `class()` function can be used to directly check the data type of the variable.  
 
 ```{r factor5, echo=T, eval=T}
-is.factor(school_fc)
-class(school_fc)
+is.factor(age_fc)
+class(age_fc)
 ```
 
-上述所建立的因子具有層級意義，故可以排序，可進一步利用`sort()`函式排序，程式碼如下：
-
+Since factors have ordered levels, they can be sorted. The <A href="#vector-sort">`sort()`</A> function can be used to perform the sorting, as shown in the following code:  
 ```{r factor-sort, echo=T, eval=T}
-sort(school_fc)
+sort(age_fc)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立有序因子**</p>   
-上述所建立的因子具有層級意義，可以排序，然而各元素間不具有大小意義，無法直接比較大小值。以`school_fc`為例，我們所設定的「大學」層級高於「幼稚園」，然而這不意謂著`大學>幼稚園`。因此若直接拿兩元素相比較大小，程式會出現警告（大小關係對因子無意義），且回傳`NA`，試驗如下：
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Ordered factor**</p>   
+The factor created above has ordered levels and therefore can be sorted. However, the elements themselves do not carry numerical magnitude and cannot be directly compared in terms of size. For example, in `age_fc`, the level "Senior" is defined as higher than "Teen". This ordering only indicates the hierarchy of categories and does not imply that `Senior > Teen`. Therefore, if two elements are compared directly using comparison operators, R will produce a warning (indicating that ordering comparisons are not meaningful for factors) and return `NA`. The demonstration is shown below:
 
 ```{r factor-error, echo=T, eval=T}
-school_fc[1]>school_fc[2]
+age_fc[1]>age_fc[2]
 ```
 
-若欲建立具大小關係的因子，則需在`factor()`函式中設定`order=T`引數，以表達具有順序意義。
+To create a factor with an inherent ordering, the argument `ordered=TRUE` must be specified in the `factor()` function to indicate that the levels have an ordinal relationship.
 
 ```{r factor-order1, echo=T, eval=T}
-school_order=factor(school, levels=c("幼稚園","國小","國中","高中","大學"), order=T)
-school_order
+age_order=factor(age, levels=c("Toddler","Childhood","Teen","Adulthood","Senior"), order=T)
+age_order
 ```
 
-由輸出結果可發現，層級中具有「<」符號，用以表達有序之大小關係。
+From the output, we can observe that the symbol "<" appears between the levels, indicating an ordered relationship among them. The numeric operation can also be applied once the order is created.
 
 ```{r factor-order2, echo=T, eval=T}
-# 比較幼稚園與大學的大小關係
-school_order[1]>school_order[2]
+# Compare the ordering between "Teen" and "Senior".
+age_order[1]>age_order[2]
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 轉換資料型態**</p>   
-可透過`as.character()`將因子轉換為單純的文字向量，亦可藉由`as.numeric()`將因子轉換為數值，而該數值乃依據層級的大小給定，層級越高（後）者，數值愈大。以上述`school_fc`為案例說明。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Convert data format of a factor**</p>   
+A factor can be converted to a character vector using `as.character()`. It can also be converted to numeric values using `as.numeric()`, where the numeric values correspond to the order of the levels; the higher the level, the larger the assigned value. The following example illustrates this using `age_fc`.
 
 ```{r factor-char-num, echo=T, eval=T}
-# 轉換為文字向量
-as.character(school_fc)
+# Convert to character
+as.character(age_fc)
 
-# 轉換為數值向量
-as.numeric(school_fc)
+# Convert to numeric
+as.numeric(age_fc)
 ```
 
 
-### 矩陣（Matrix）
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 矩陣的性質**</p>  
+### Matrix
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
-* 二維  
-* 含括多個橫列（rows）與直行（columns）  
-* 可以組合「相同」資料型態的向量 (文字向量、數值向量、邏輯向量)  
+* two-dimensional  
+* consists of multiple rows and columns  
+* combines vectors of the same data type (character, numeric, or logical vectors)
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立矩陣**</p>  
-利用`matrix()`函式建立矩陣，其中必須設定兩引數：  
- 
-* `nrow=` 設定矩陣的橫列數  
-* `ncol=` 設定矩陣的直行數  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Construction**</p>  
+A matrix can be created using the `matrix()` function, where two arguments must be specified:
+
+* `nrow=` specifies the number of rows in the matrix  
+* `ncol=` specifies the number of columns in the matrix
 
 ```{r matrix-function, echo=T, eval=F}
-matrix(向量, nrow=, ncol=)
+matrix(VECTOR, nrow=, ncol=)
 ```
 
-範例如下：
+Using a numeric vector 1 to 15 for example to create a matrci as follows.
+
 ```{r matrix1, echo=T, eval=T}
 mat1=matrix(c(1:15), nrow=3, ncol=5)
 mat1
 ```
 
-由回傳結果可發現，該矩陣是先由上至下，再由左至右填入向量。若希望矩陣的填法是先由左至右，再由上至下，則須設定引數`byrow=T`，程式碼撰寫如下。
-
+From the returned result, we can observe that the matrix is filled column-wise, that is, from top to bottom and then from left to right. If the matrix should instead be filled row-wise (from left to right and then from top to bottom), the argument `byrow=TRUE` must be specified. The code is written as follows.
 
 ```{r matrix2, echo=T, eval=T}
 mat2=matrix(c(1:15), nrow=3, ncol=5, byrow=T)
 mat2
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 查看矩陣的維度**</p>  
-矩陣是二維的資料，若要進一步該二維資料中的橫列與直行個數，可利用`nrow()`與`ncol()`函式分別查看，或逕利用`dim()`函式查看之。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Matrix dimensions**</p>  
+A matrix is a two-dimensional data structure. To examine the number of rows and columns in the matrix, the functions `nrow()` and `ncol()` can be used, respectively, or the `dim()` function can be used to view both dimensions directly.
 
 ```{r matrix3, echo=T, eval=T}
 nrow(mat2)
@@ -461,32 +461,31 @@ ncol(mat2)
 dim(mat2)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 回傳矩陣的特定元素**</p>  
-利用中括號`[ , ]`可回傳特定元素的值，其中逗點前必須放置橫列的索引值，而逗點後則是直行的索引值。  
-以第 2 橫列第 4 行為例，程式碼撰寫如下。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Extract a specific element in a matrix**</p>  
+Square brackets `[ , ]` can be used to return the value of a specific element. The index before the comma indicates the row, while the index after the comma indicates the column. For example, to access the element in the 2nd row and 4th column, the code is written as follows.
 
 ```{r matrix4, echo=T, eval=T}
 mat2[2, 4]
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 轉置矩陣**</p>  
-藉由`t()`函式將矩陣予以轉置（transpose）。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Transpose the matrix**</p>  
+Use the `t()` function to transpose a matrix.
 
 ```{r matrix5, echo=T, eval=T}
 t(mat2)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 矩陣運算**</p>  
-矩陣的運算是 R 語言的利器，執行效率相當高，在許多統計模型背後的運算亦是牽涉複雜的矩陣運算。以下簡單介紹重要的運算函式。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Matrix computation**</p>  
+R provides a powerful and efficient framework for matrix operations, which are essential for many statistical models. This section introduces the key functions used to perform these computations.
 
-<p style="font-size:18px;line-height:1">**<u>橫列與直行運算</u>**</p>  
-橫列與直行的加總與平均值計算彙整如表\@ref(tab:matrix-operation-table)。
+<p style="font-size:18px;line-height:1">**<u>Row and column computations</u>**</p>  
+The calculations of row and column sums and means are summarised in Table \@ref(tab:matrix-operation-table).
 
 ```{r matrix-operation-table, echo=F, eval=T}
-matrix_operation=data.frame(TYPE=rep(c("橫列","直行"), each=2), sum=c("`rowSums(mat2)`", paste0("`", paste(rowSums(mat2), collapse=" "), "`"), "`colSums(mat2)`", paste0("`", paste(colSums(mat2), collapse=" "), "`")), ave=c("`rowMeans(mat2)`", paste0("`", paste(rowMeans(mat2), collapse=" "), "`"), "`colMeans(mat2)`", paste0("`", paste(colMeans(mat2), collapse=" "), "`")))
+matrix_operation=data.frame(TYPE=rep(c("Row","Column"), each=2), sum=c("`rowSums(mat2)`", paste0("`", paste(rowSums(mat2), collapse=" "), "`"), "`colSums(mat2)`", paste0("`", paste(colSums(mat2), collapse=" "), "`")), ave=c("`rowMeans(mat2)`", paste0("`", paste(rowMeans(mat2), collapse=" "), "`"), "`colMeans(mat2)`", paste0("`", paste(colMeans(mat2), collapse=" "), "`")))
 
-colnames(matrix_operation)=c("","加總","平均")
-kable(matrix_operation, booktabs=T, caption="矩陣運算")%>%
+colnames(matrix_operation)=c("","Sum","Average")
+kable(matrix_operation, booktabs=T, caption="Matrix computation")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   column_spec(1, bold=T)%>%
   collapse_rows(c(1:2))%>%
@@ -494,32 +493,38 @@ kable(matrix_operation, booktabs=T, caption="矩陣運算")%>%
 ```
 
 
-<p style="font-size:18px;line-height:1">**<u>四則運算</u>**</p>  
-矩陣的四則運算大致操作方法與<A href="#vector-computation">向量的運算</A>雷同，惟須注意的是大部分的四則運算皆須確保兩矩陣的維度（`dim()`）相同。以矩陣的加法為例，程式碼如下。
+<p style="font-size:18px;line-height:1">**<u>Matrix arithmetic</u>**</p>  
+The basic arithmetic operations for matrices are similar to those for <A href="#vector-computation">vectors</A>. However, it is important to note that, for most arithmetic operations, the two matrices must have the same dimensions (`dim()`). Taking matrix addition as an example, the code is as follows.
 
 ```{r matrix-addition, echo=T, eval=T}
 mat1+mat2
 ```
 
-矩陣運算中「內積」是相當常見的，應用於諸多模型的係數校估過程中，可利用`%*%`達成目的。在內積運算時另須確保第一個運算之矩陣的直行數（`ncol`）必須與第二個運算矩陣之橫列數（`nrow`）相同。以`mat1`與`mat2_trans`（`mat2`的轉置矩陣）為例，程式範例如下。
+The inner product is a common operation in matrix computations and is widely used in the estimation of coefficients in many models. In R, it can be performed using `%*%`. When computing the inner product, the number of columns (`ncol`) of the first matrix must be equal to the number of rows (`nrow`) of the second matrix. Taking `mat1` and `mat2_trans` (the transpose of `mat2`) as an example, the code is shown below.
 
 ```{r matrix-product, echo=T, eval=T}
+# transpose mat2
 mat2_trans=t(mat2)
+
+# check whether the number of columns for mat1 is exactly the same as the number of rows in mat2_trans
+ncol(mat1)==nrow(mat2_trans)
+
+# inner product
 mat1 %*% mat2_trans
 ```
 
-請注意，`mat1`的維度為 3 橫列 5 直行；`mat2_trans`的維度為 5 橫列 3 直行，其中第一個矩陣的直行數與第二個運算矩陣之橫列數務必相同，最終所得結果為 `3*3` 的矩陣。
+Please note that `mat1` has dimensions of 3 rows and 5 columns, while `mat2_trans` has dimensions of 5 rows and 3 columns. For matrix inner product, the number of columns in the first matrix must be equal to the number of rows in the second matrix. In the example above, the resulting matrix from the inner product has dimensions of `3 × 3`.
 
 
-### 資料框（Data Frame）
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 資料框的性質**</p>  
+### Data Frame
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
 * 類似矩陣（Matrix），但可涵括多種不同的資料型態  
 * 功能類似 Excel 的工作表  
 * 資料分析中最常見的資料型態  
 * 可利用`dplyr`套件處理資料（參見[資料清洗與處理](#資料清洗與處理)章節）
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立資料框**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Contruction**</p>  
 資料框的建立如下程式碼：
 
 ```{r dataframe-function, echo=T, eval=F}
