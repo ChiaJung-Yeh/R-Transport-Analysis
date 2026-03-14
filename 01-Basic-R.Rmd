@@ -17,51 +17,47 @@ library(lubridate)
 
 Sys.setlocale(category = "LC_ALL", locale = "zh_TW.UTF-8")
 
-windowsFonts(A=windowsFont("微軟正黑體"))
-
-client_id=read.csv("./key.txt", header=F)[1,2]
-client_secret=read.csv("./key.txt", header=F)[2,2]
-access_token=get_token(client_id, client_secret)
+windowsFonts(A=windowsFont("Serif"))
 ```
 
-<!--#description 本章節系統性介紹R語言的基礎語法，包含R語言中的資料型態、物件、文字處理方式、控制流程，以及資料讀取與匯出方法。 -->
+<!--#description This chapter systematically introduces the basic syntax of the R language, including data types, objects, text processing methods, control flow, and methods for data import and export. -->
 
-# (PART\*) 資料分析基礎 {-}
+# (PART\*) Basic Data Analysis {-}
 
-# **R 語言基礎語法**
-本章節系統性介紹 R 語言的重要基礎語法，包含 R 語言中的資料型態（物件）、文字處理方式、控制流程，以及資料讀取與匯出方法，請務必熟悉各物件函式，以便後續程式碼撰寫。  
+# **Basic Syntax in R**
+This chapter systematically introduces the essential basic syntax of the R language, including data types (objects), text processing methods, control flow, and methods for reading and exporting data. Readers are encouraged to become familiar with the functions associated with these objects to facilitate subsequent code development.
 
-## 物件（Object）
-物件是 R 語言中構成資料的基本要素，常見者包含五大類：  
+## Object
+Objects are the fundamental elements used to store data in R. The most common types include the following:
 
-1.  [向量（vector）](#向量vector)  
-2.  [因子（factor）](#因子factor)  
-3.  [矩陣（matrix）](#矩陣matrix)   
-4.  [資料框（data frame）](#資料框data-frame)  
-5.  [陣列（list）](#陣列list)  
-6.  [日期與時間](#日期與時間)  
+1.  [Vector](#vector)  
+2.  [Factor](#factor)  
+3.  [Matrix](#matrix)  
+4.  [Data frame](#data-frame)  
+5.  [List](#list)  
+6.  [Date and time](#date-and-time)
 
-物件的圖示如圖\@ref(fig:object-fig)。
+Objects can be illustrated as shown in \@ref(fig:object-fig)。
 
-```{r object-fig, echo=F, eval=T, out.width="80%", fig.align="center", fig.cap="R 物件示意圖"}
+```{r object-fig, echo=F, eval=T, out.width="80%", fig.align="center", fig.cap="Objects in R"}
 include_graphics("./figure/object.png")
 ```
 
 
-以下小節針對各基本要素的構建與運算詳細說明。
+The following sections provide a detailed explanation of the construction and operations of each object.
 
-### 向量（Vector）
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量的性質**</p>  
+### Vector
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Characteristics**</p>  
 
-* 一組值  
-* 一維  
-* 資料型態可為：數值、文字、邏輯值  
+* a collection of values  
+* one-dimensional structure  
+* values can be numeric, character (string), and logical    
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立向量**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Construction**</p>  
 
-建立向量可利用`c()`函式建構。  
+A vector can be created using the `c()` function.  
 
-<p style="font-size:18px;line-height:1">**<u>數值向量</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Numeric vector</u>**</p>  
 ```{r vector1, echo=T, eval=F}
 vec1=c(1,2,3,4,5)
 ```
@@ -71,7 +67,7 @@ vec1=c(1,2,3,4,5)
 vec1
 ```
 
-<p style="font-size:18px;line-height:1">**<u>文字向量</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Character vector</u>**</p>  
 ```{r vector2, echo=T, eval=F}
 vec2=c("A","B","C","D","E")
 ```
@@ -81,11 +77,12 @@ vec2=c("A","B","C","D","E")
 vec2
 ```
 
-<p style="font-size:18px;line-height:1">**<u>邏輯向量</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Logical vector</u>**</p>  
 ```{r vector3, echo=T, eval=F}
+# Use abbreviation (T,F) of the logical values
 vec3=c(T,F,T,F,T)
 
-# 或寫完整的邏輯值
+# Or specify the logical values using their complete names
 vec3=c(TRUE,FALSE,TRUE,FALSE,TRUE)
 ```
 
@@ -94,115 +91,117 @@ vec3=c(T,F,T,F,T)
 vec3
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 擷取向量中特定元素**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Extract the elements in the vector**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>擷取單一元素</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Extract a single element</u>**</p>  
 ```{r vector-retrieve1, echo=T, eval=T}
 vec2[3]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>擷取多個連續元素</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Extract multiple and continuous elements</u>**</p>  
 ```{r vector-retrieve2, echo=T, eval=T}
 vec2[2:4]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>擷取多個非連續元素</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Extract multiple and noncontinuous elements</u>**</p>  
 ```{r vector-retrieve3, echo=T, eval=T}
 vec2[c(1,3,5)]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>以邏輯值擷取元素</u>**</p>  
-請注意輸入的邏輯值向量長度必須與原向量相同！
+<p style="font-size:18px;line-height:1">**<u>Extract elements by logical vector</u>**</p>  
+Note that the length of the logical vector must be the same as that of the original vector.  
 ```{r vector-retrieve4, echo=T, eval=T}
 vec2[c(T,T,F,F,T)]
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 連續數值資料**</p> 
-利用`seq()`函式建立連續數值，程式碼撰寫如下：
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Sequence vector**</p> 
+A sequence vector can be generated using the `seq()` function, as shown in the following code. The argument `from=` specifies the starting point of the vector, while `to=` is the ending point. The argument `by=` determines the step size (i.e., the rate of increase or decrease) of the sequence.  
+
 ```{r vector-continuous0, echo=T, eval=F}
-seq(from=開始數值, to=結束數值, by=遞增數值)
+seq(from=START, to=END, by=VALUES)
 ```
 
 ```{r vector-continuous1, echo=T, eval=T}
 seq(from=2, to=20, by=2)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量運算**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Vector computations**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>統計運算</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Basic statistics</u>**</p>  
 
-以下建立一個向量`vec4`作為範例，所有運算的程式碼與結果請參照表\@ref(tab:vector-operation-table)。
+The following example creates a vector `vec4`. The corresponding code and results of the operations are shown in Table \@ref(tab:vector-operation-table).
+
 ```{r vector-exg1, echo=T, eval=T}
 vec4=c(5,9,3,15,6,2,8,12)
 ```
 
 
 ```{r vector-operation-table, echo=F, eval=T}
-vector_operation=data.frame(ope_name=c("最大值","最小值","最大值索引","最小值索引","全域","總和","平均","中位數","乘積","變異數","標準差"), operation=c("`max(vec4)`","`min(vec4)`","`which.max(vec4)`","`which.min(vec4)`","`range(vec4)`","`sum(vec4)`","`mean(vec4)`","`median(vec4)`","`prod(vec4)`","`var(vec4)`","`sd(vec4)`"),
+vector_operation=data.frame(ope_name=c("Maximum","Minimum","Index of the maximum value","Index of the minimum value","Range","Sum","Average","Median","Product","Variance","Standard Deviation"), operation=c("`max(vec4)`","`min(vec4)`","`which.max(vec4)`","`which.min(vec4)`","`range(vec4)`","`sum(vec4)`","`mean(vec4)`","`median(vec4)`","`prod(vec4)`","`var(vec4)`","`sd(vec4)`"),
                          result=c(paste0("`", max(vec4), "`"), paste0("`", min(vec4), "`"), paste0("`", which.max(vec4), "`"), paste0("`", which.min(vec4), "`"), paste0("`", paste(range(vec4), collapse="  "), "`"), paste0("`", sum(vec4), "`"), paste0("`", mean(vec4), "`"), paste0("`", median(vec4), "`"), paste0("`", prod(vec4), "`"), paste0("`", round(var(vec4), 3), "`"), paste0("`", round(sd(vec4), 3), "`")))
 
-colnames(vector_operation)=c("運算","程式碼","輸出結果")
-kable(vector_operation, booktabs=T, caption="向量運算")%>%
+colnames(vector_operation)=c("Computation","Code","Result")
+kable(vector_operation, booktabs=T, caption="Basic statistics of vector")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   column_spec(1, bold=T)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
-其中上述的函式大部分皆可設定`na.rm=`之引數，其用以設定是否忽略「NA」。若資料中存在「NA」，但未設定此一引數時，回傳結果亦為「NA」。範例說明如下：
+Most of the functions mentioned above enable the argument `na.rm=` to be specified, which determines whether `NA` values should be ignored. If `NA` values are present in the data and this argument is not specified, the returned result will also be `NA`. An example is shown below:
 
 ```{r vector-exg-na, echo=T, eval=T}
 vec_na=c(1,2,NA,3,4)
 
-# 未設定na.rm=之引數
+# without specifying argument na.rm
 sum(vec_na)
 
-# 設定na.rm=T
+# specifying argument na.rm=T
 sum(vec_na, na.rm=T)
 ```
 
 
-<p style="font-size:18px;line-height:1">**<u>數學運算</u>**</p>  
+<p style="font-size:18px;line-height:1">**<u>Numeric computation</u>**</p>  
 
-以下利用`vec4`與新建向量`vec5`作為範例，所有運算的程式碼與結果請參照表\@ref(tab:vector-calculation-table)。。
+The following example uses `vec4` and a newly created vector `vec5`. The corresponding code and results of all operations are presented in Table \@ref(tab:vector-calculation-table).
 ```{r vector-exg2, echo=T, eval=T}
 vec5=c(0.57,4.28,-1.23,6.58,-4.67,2.09)
 ```
 
 ```{r vector-calculation-table, echo=F, eval=T}
-vector_calculation=data.frame(ope_name=c("絕對值","根號","四捨五入","取整函數","下取整函數","對數","指數","標準化","累積加總"), operation=c("`abs(vec5)`","`sqrt(vec4)`","`round(vec5, digits=1)`","`ceiling(vec5)`","`floor(vec5)`","`log(vec4)`","`exp(vec4)`","`scale(vec4)`","`cumsum(vec4)`"),
+vector_calculation=data.frame(ope_name=c("Absolute value", "Square root", "Round", "Truncate", "Floor", "Logarithm", "Exponential", "Standardization", "cumulative sum"), operation=c("`abs(vec5)`","`sqrt(vec4)`","`round(vec5, digits=1)`","`ceiling(vec5)`","`floor(vec5)`","`log(vec4)`","`exp(vec4)`","`scale(vec4)`","`cumsum(vec4)`"),
                          result=c(paste0("`", paste(abs(vec5), collapse=" "), "`"), paste0("`", paste(round(sqrt(vec4), 3), collapse=" "), "`"), paste0("`", paste(round(vec5, digits=1), collapse="  "), "`"), paste0("`", paste(ceiling(vec5), collapse=" "), "`"), paste0("`", paste(floor(vec5), collapse=" "), "`"), paste0("`", paste(round(log(vec4), 3), collapse=" "), "`"), paste0("`", paste(round(exp(vec4), 1), collapse=" "), "`"), paste0("`", paste(round(scale(vec4), 3), collapse=" "), "`"), paste0("`", paste(cumsum(vec4), collapse=" "), "`")))
 
-colnames(vector_calculation)=c("運算","程式碼","輸出結果")
-kable(vector_calculation, booktabs=T, caption="數學運算")%>%
+colnames(vector_calculation)=c("Computation","Code","Result")
+kable(vector_calculation, booktabs=T, caption="Numeric computation")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   column_spec(1, bold=T)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量長度**</p>  
-計算向量中的元素個數。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Length of vector**</p>  
+Calculate the number of elements in a vector.  
 ```{r vector-length, echo=T, eval=T}
 length(vec4)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量統計**</p>  
-統計向量中各元素的個數。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Frequency count of elements in a vector**</p>  
+Calculate the frequency of each element in a vector.  
 ```{r vector-table, echo=T, eval=T}
 vec_tab=c("A","C","B","D","E","C","E","B","A","E","E","B")
 table(vec_tab)
 ```
 
-<H2 id="vector-sort"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量排序**</p></H2>
+<H2 id="vector-sort"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Sequence of a vector**</p></H2>
 
-* `sort()`函式直接將向量予以由小至大之排序  
-* `order()`函式回傳向量由小至大排序所對應的原向量序號  
-* `rank()`函式回傳向量中各元素由小至大之順序  
+* The `sort()` function sorts a vector in ascending order.  
+* The `order()` function returns the indices of the original vector that correspond to the ascending order.  
+* The `rank()` function returns the rank of each element in the vector from smallest to largest.  
 
-程式碼撰寫如下，請參照圖\@ref(fig:vector-sort-order-rank-fig)之示意圖。
+The code is written as follows; see the illustration in Figure \@ref(fig:vector-sort-order-rank-fig).  
 
-```{r vector-sort-order-rank-fig, echo=F, eval=T, out.width="90%", fig.align="center", fig.cap="排序函式示意圖"}
+```{r vector-sort-order-rank-fig, echo=F, eval=T, out.width="90%", fig.align="center", fig.cap="Illustration of sort, orderm and rank"}
 include_graphics("./figure/sort_order_rank.png")
 ```
 
@@ -212,110 +211,109 @@ order(vec4)
 rank(vec4)
 ```
  
-由`sort()`的結果可知，其將`vec4`向量由小至大排序。`order()`則是回傳排序所對應至原向量的序號，例如回傳結果的最後一個值是`4`，表示該向量中最大的數值位於向量的第 4 個元素。根據上述，我們亦可透過如下程式碼達到與`sort()`相同的結果。
+From the result of `sort()`, we can see that the vector `vec4` is sorted in ascending order. The `order()` function returns the indices of the original vector corresponding to this sorted order. For example, the last value in the returned result is `4`, indicating that the largest value in the vector is located at the 4th position of the original vector. Based on this result, we can also obtain the same output as `sort()` using the following code.
 
 ```{r vector-sort-order-eg, echo=T, eval=T}
 vec4[order(vec4)]
 ```
 
+Lastly, `rank()` returns the rank of each element in the vector. For example, the first element `5` in `vec4` has a rank of `3`, meaning that it is the third smallest value in the vector.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量唯一值**</p>  
-去除重複的值。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Unique values in a vector**</p>  
+The `unique()` function can remove the duplicated values.  
 ```{r vector-unique, echo=T, eval=T}
 vec_dup=c(1,9,5,2,6,1,8,5,2)
 unique(vec_dup)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 檢查使否存在 NA**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check whether `NA` values are present**</p>  
+The `is.na()` function checks whether an element is `NA` and returns a logical value.
 ```{r vector-na, echo=T, eval=T}
 vec_na=c(1,9,5,NA,6,NA)
 is.na(vec_na)
 ```
 
-<H2 id="vector-computation"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ 向量四則運算**</p></H2>
+<H2 id="vector-computation"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Arithmetic operations on vectors**</p></H2>
 
-以下範例使用`vec4`與新建立的`vec6`示範向量的四則運算。
-
+The following example demonstrates vector arithmetic using `vec4` and a newly created vector `vec6`.  
 ```{r vector-vec5, echo=T, eval=T}
 vec6=c(2,5,8,11,7,4,10,3)
 ```
 
 
-<H2 id="vector-compute"><p style="font-size:18px;line-height:1">**<u>兩向量運算</u>**</p></H2>
-兩向量運算時，兩組向量的長度（`length()`）務必相同！  
-所有運算結果如表\@ref(tab:vector-arithmetic-table)。
+<H2 id="vector-compute"><p style="font-size:18px;line-height:1">**<u>Operations on two vectors</u>**</p></H2>
+When performing operations on two vectors, the lengths (`length()`) of both vectors must be the same.  
+The results of all operations are shown in Table \@ref(tab:vector-arithmetic-table).  
 
 ```{r vector-arithmetic-table, echo=F, eval=T}
-vector_arithmetic=data.frame(ope_name=c("","加法","減法","乘法","除法","取餘數","取除數","內積"), operation=c("", "`vec4+vec6`","`vec4-vec6`","`vec4*vec6`","`vec4/vec6`","`vec4 %% vec6`","`vec4 %/% vec6`","`vec4 %*% vec6`"), result=c("", paste0("`", paste(vec4+vec6, collapse=" "), "`"), paste0("`", paste(vec4-vec6, collapse=" "), "`"), paste0("`", paste(vec4*vec6, collapse=" "), "`"), paste0("`", paste(round(vec4/vec6, 3), collapse=" "), "`"), paste0("`", paste(vec4 %% vec6, collapse=" "), "`"), paste0("`", paste(vec4 %/% vec6, collapse=" "), "`"), paste0("`", paste(vec4 %*% vec6, collapse=" "), "`")))
+vector_arithmetic=data.frame(ope_name=c("","Addition", "Subtraction", "Multiplication", "Division", "Remainder", "Quotient", "Inner product"), operation=c("", "`vec4+vec6`","`vec4-vec6`","`vec4*vec6`","`vec4/vec6`","`vec4 %% vec6`","`vec4 %/% vec6`","`vec4 %*% vec6`"), result=c("", paste0("`", paste(vec4+vec6, collapse=" "), "`"), paste0("`", paste(vec4-vec6, collapse=" "), "`"), paste0("`", paste(vec4*vec6, collapse=" "), "`"), paste0("`", paste(round(vec4/vec6, 3), collapse=" "), "`"), paste0("`", paste(vec4 %% vec6, collapse=" "), "`"), paste0("`", paste(vec4 %/% vec6, collapse=" "), "`"), paste0("`", paste(vec4 %*% vec6, collapse=" "), "`")))
 vector_arithmetic$result[1]="**`vec4=c(5,9,3,15,6,2,8,12)`\\\n`vec6=c(2,5,8,11,7,4,10,3)`**"
 
-colnames(vector_arithmetic)=c("運算","程式碼","輸出結果")
-kable(vector_arithmetic, booktabs=T, caption="向量運算")%>%
+colnames(vector_arithmetic)=c("Computation","Code","Result")
+kable(vector_arithmetic, booktabs=T, caption="Arithmetic operations")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   column_spec(1, bold=T)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
 
-<p style="font-size:18px;line-height:1">**<u>向量與元素運算</u>**</p>  
-一組向量與一個元素之間的運算，即是將向量中的每一個元素分別與該元素運算。  
-
+<p style="font-size:18px;line-height:1">**<u>Vector–scalar operations</u>**</p>  
+Operations between a vector and a scalar apply the operation to each element of the vector with that scalar.  
 ```{r vector-addition2, echo=T, eval=T}
 vec6+5
 vec6*5
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 檢查元素是否包含於向量**</p>  
-檢查`vec6`向量內個元素是否包含於`c(1,2,3)`的向量中。
-
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check whether each element in a vector is contained in another vector**</p>  
+Check whether each element in the vector `vec6` is contained in the vector `c(1, 2, 3)`. 
 ```{r vector-contain, echo=T, eval=T}
 vec6 %in% c(1,2,3)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 轉換資料型態**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Data type conversion**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>文字轉換為數值</u>**</p>  
-建立`vec_cha`文字資料
+<p style="font-size:18px;line-height:1">**<u>Convert character to numeric</u>**</p>  
+Create a character vector `vec_cha`.
 
 ```{r vector-convert1, echo=T, eval=T}
 vec_cha=c("1","2","3","4","5")
 ```
 
-先利用`class()`函式檢查`vec_cha`資料型態
+First, use the `class()` function to check the data type of `vec_cha`.  
 ```{r vector-convert2, echo=T, eval=T}
 class(vec_cha)
 ```
 
-利用`as.numeric()`函式轉化為數值資料
+Use the `as.numeric()` function to convert the data to numeric values.  
 ```{r vector-convert3, echo=T, eval=T}
 as.numeric(vec_cha)
 ```
 
-<p style="font-size:18px;line-height:1">**<u>數值轉換為文字</u>**</p>  
-另外，可利用`as.character()`函式轉化為文字資料
+<p style="font-size:18px;line-height:1">**<u>Convert numeric to character</u>**</p>  
+Alternatively, the `as.character()` function can be used to convert the data to character values.  
 ```{r vector-convert4, echo=T, eval=T}
 vec_num=c(1,2,3,4,5)
 as.character(vec_num)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 建立重複資料**</p> 
-利用`rep()`函式建立重複資料，該函式主要有兩大引數可以設定：  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Create repeated data**</p> 
+Repeated values can be generated using the `rep()` function. This function mainly includes two arguments:  
 
-* `each=`是設定每一個元素重複的次數
-* `times=`是設定該向量整體循環的次數
+* `each=` specifies the number of times each element is repeated  
+* `times=` specifies the number of times the entire vector is repeated
 
-以實際範例說明之，程式碼撰寫如下：
+An example is provided below, and the corresponding code is written as follows:  
 ```{r vector-repeat, echo=T, eval=T}
 vec6=c(2,5,8,11,7,4,10,3)
 
-# 設定每一個元素重複的次數
+# Specify the number of times each element in vec6 is repeated
 rep(vec6, each=2)
 
-# 設定向量整體重複的次數
+# Specify the number of times the entire vector vec6 is repeated
 rep(vec6, times=2)
 ```
 

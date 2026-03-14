@@ -113,3 +113,6 @@ tab:outline-table
 fig:data-information-fig
 fig:learning-curve-fig
 tab:package-download-table
+basic-syntax-in-r
+object
+vector
