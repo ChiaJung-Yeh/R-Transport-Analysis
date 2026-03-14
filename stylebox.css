@@ -1,0 +1,41 @@
+div.strong {
+    padding: 1em 1em 1em 1em;
+    margin: 1em 0;
+    background-size: 60px;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    background-position: 15px center;
+    min-height: 50px;
+    font-size: 15px;
+    background-color: #fdf3dd;
+    border: solid 1px #c78710;
+  }
+  
+  div.note {
+    padding: 1em 1em 1em 7em;
+    margin: 1em 0;
+    background-size: 60px;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    background-position: 15px center;
+    min-height: 50px;
+    color: #000079;
+    font-size: 15px;
+    background-color: #FFFFCE;
+    border: solid 5px #E1E100;
+    background-image: url("./figure/image/note.png");
+  }
+  
+  div.install {
+    padding: 1em 1em 1em 6em;
+    background-size: 60px;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    background-position: 15px center;
+    color: #004891;
+    font-size: 15px;
+    background-color: #ecf5ff;
+    border: solid 2px #004B97;
+    background-image: url("./figure/image/install.png");
+    background-size: 45px 45px;
+  }

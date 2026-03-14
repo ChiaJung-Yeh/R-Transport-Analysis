@@ -1,0 +1,23 @@
+bookdown::gitbook:
+  css:
+    - lib/css/bootstrap.min.css
+    - lib/css/style.css
+    - lib/css/lesson.css
+    - stylebox.css
+  includes:
+  config:
+    toc:
+      before: |
+        <li><a href="./">Transport Analysis with R</a></li>
+      after: |
+        <li><a href="https://www.linkedin.com/in/chia-jung-yeh-a04835196/" target="blank">Chia-Jung (Robert) Yeh</a></li>
+    fontsettings:
+      theme: white
+      family: serif
+    edit: https://github.com/ChiaJung-Yeh/R-Transport-Analysis/tree/master/%s
+    download: ["pdf"]
+#bookdown::pdf_book:
+#  includes:
+#    in_header: _preamble.tex
+#  latex_engine: xelatex
+#  keep_tex: no
