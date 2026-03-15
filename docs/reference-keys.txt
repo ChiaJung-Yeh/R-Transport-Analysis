@@ -68,3 +68,7 @@ while-loop
 custom-functions
 error-handling
 apply-family
+data-import-and-export
+csv-and-txt-file
+json-file
+xml-file
