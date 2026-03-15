@@ -20,12 +20,12 @@ Sys.setlocale(category = "LC_ALL", locale = "en")
 windowsFonts(A=windowsFont("Serif"))
 ```
 
-<!--#description This chapter systematically introduces the basic syntax of the R language, including data types, objects, text processing methods, control flow, and methods for data import and export. -->
+<!--#description This chapter systematically introduces the basic syntax of the R software, including data types, objects, text processing methods, control flow, and methods for data import and export. -->
 
 # (PART\*) Basic Data Analysis {-}
 
 # **Basic Syntax in R**
-This chapter systematically introduces the essential basic syntax of the R language, including data types (objects), text processing methods, control flow, and methods for reading and exporting data. Readers are encouraged to become familiar with the functions associated with these objects to facilitate subsequent code development.
+This chapter provides a systematic introduction to the foundational syntax of R, covering data structures (objects), string manipulation, control flow, and data import/export. Mastering the functions associated with these objects is a critical step toward developing code in subsequent chapters.
 
 ## Object
 Objects are the fundamental elements used to store data in R. The most common types include the following:
@@ -148,7 +148,7 @@ kable(vector_operation, booktabs=T, caption="Basic statistics of vector")%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
-Most of the functions mentioned above enable the argument `na.rm=` to be specified, which determines whether `NA` values should be ignored. If `NA` values are present in the data and this argument is not specified, the returned result will also be `NA`. An example is shown below:
+Most of the functions mentioned above enable the argument `na.rm=` to be specified, which determines whether `NA` values should be ignored. If `NA` values are present in the data and this argument is not specified, the result will also be `NA`. An example is shown below:
 
 ```{r vector-exg-na, echo=T, eval=T}
 vec_na=c(1,2,NA,3,4)
@@ -169,7 +169,7 @@ vec5=c(0.57,4.28,-1.23,6.58,-4.67,2.09)
 ```
 
 ```{r vector-calculation-table, echo=F, eval=T}
-vector_calculation=data.frame(ope_name=c("Absolute value", "Square root", "Round", "Truncate", "Floor", "Logarithm", "Exponential", "Standardization", "cumulative sum"), operation=c("`abs(vec5)`","`sqrt(vec4)`","`round(vec5, digits=1)`","`ceiling(vec5)`","`floor(vec5)`","`log(vec4)`","`exp(vec4)`","`scale(vec4)`","`cumsum(vec4)`"),
+vector_calculation=data.frame(ope_name=c("Absolute value", "Square root", "Round", "Truncate", "Floor", "Logarithm", "Exponential", "Standardisation", "Cumulative sum"), operation=c("`abs(vec5)`","`sqrt(vec4)`","`round(vec5, digits=1)`","`ceiling(vec5)`","`floor(vec5)`","`log(vec4)`","`exp(vec4)`","`scale(vec4)`","`cumsum(vec4)`"),
                          result=c(paste0("`", paste(abs(vec5), collapse=" "), "`"), paste0("`", paste(round(sqrt(vec4), 3), collapse=" "), "`"), paste0("`", paste(round(vec5, digits=1), collapse="  "), "`"), paste0("`", paste(ceiling(vec5), collapse=" "), "`"), paste0("`", paste(floor(vec5), collapse=" "), "`"), paste0("`", paste(round(log(vec4), 3), collapse=" "), "`"), paste0("`", paste(round(exp(vec4), 1), collapse=" "), "`"), paste0("`", paste(round(scale(vec4), 3), collapse=" "), "`"), paste0("`", paste(cumsum(vec4), collapse=" "), "`")))
 
 colnames(vector_calculation)=c("Computation","Code","Result")
@@ -389,7 +389,7 @@ sort(age_fc)
 ```
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Ordered factor**</p>   
-The factor created above has ordered levels and therefore can be sorted. However, the elements themselves do not carry numerical magnitude and cannot be directly compared in terms of size. For example, in `age_fc`, the level "Senior" is defined as higher than "Teen". This ordering only indicates the hierarchy of categories and does not imply that `Senior > Teen`. Therefore, if two elements are compared directly using comparison operators, R will produce a warning (indicating that ordering comparisons are not meaningful for factors) and return `NA`. The demonstration is shown below:
+The factor created above has ordered levels and therefore can be sorted. However, the elements themselves do not carry numerical magnitude and cannot be directly compared in terms of size. For example, in `age_fc`, the level "Senior" is defined as higher than "Teen". This ordering only indicates the hierarchy of categories and does not imply that `Senior > Teen`. Therefore, if two elements are compared directly using comparison operators, R will generate a warning (indicating that ordering comparisons are not meaningful for factors) and return `NA`. A demonstration is shown below.
 
 ```{r factor-error, echo=T, eval=T}
 age_fc[1]>age_fc[2]
@@ -752,7 +752,7 @@ StuScore_list
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Retrieve the attributes in a list**</p>  
 
 <p style="font-size:18px;line-height:1">**<u>Retrieve by `$` or `[[""]]`</u>**</p>  
-The attribute of a list can be retrieve by `LIST$ATTRIBUTE` or `LIST[["ATTRIBUTE]]`.
+The attribute of a list can be retrieve by `LIST$ATTRIBUTE` or `LIST[["ATTRIBUTE"]]`.
 
 ```{r list2, echo=T, eval=T}
 StuScore_list$Score
@@ -767,7 +767,7 @@ StuScore_list[[2]]
 
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Length of a list**</p>  
-The length of a vector can be calculated using the `length()` function, and the same applies to lsit. The code is written as follows.  
+The length of a vector can be calculated using the `length()` function, and the same applies to list. The code is written as follows.  
 ```{r list4, echo=T, eval=T}
 # create a list
 num_list=list(c(1:5), c("A","B","C","D"), c(T,F,T))
@@ -777,7 +777,7 @@ num_list
 length(num_list)
 ```
 
-From this, we can see that the length of `num_list` is 3. Moreover, if we want to know the length of each element in the list, we can use the `lengths()` function. The code is written as follows, and the calculation of list element lengths is illustrated in Figure \@ref(fig:list-length-fig).
+From this, we can see that the length of `num_list` is 3. Moreover, if we want to know the length of each element in the list, we can use the `lengths()` function. The code is written as follows, and the concept of `length()` and `lengths()` are illustrated in Figure \@ref(fig:list-length-fig).
 
 ```{r list5, echo=T, eval=T}
 # calculate the length of each list in a list
@@ -875,13 +875,13 @@ If the time format does not follow the typical format above, the `format=` argum
 
 ```{r as-POSIXct2, echo=T, eval=T}
 # create a datetime string
-time_str2=c("2024/Feb/14 011452 PM","2023/Nov/07 071822 AM","2022/July/28 081031 PM")
+time_str2=c("14/Feb/2024 011452 PM","07/Nov/2023 071822 AM","28/July/2022 081031 PM")
 
 # ensure that the locale is set at proper region
 Sys.setlocale(category="LC_ALL", locale="en")
 
 # covert character to datetime
-as.POSIXct(time_str2, format="%Y/%B/%d %I%M%S %p", tz="Australia/Sydney")
+as.POSIXct(time_str2, format="%d/%B/%Y %I%M%S %p", tz="Australia/Sydney")
 ```
 
 Note that if the text contains non-English characters, the locale should be set to the appropriate region; otherwise, errors may occur. An example in which the datetime string contains Japanese characters is shown below.  
@@ -920,7 +920,7 @@ kbl(temp, booktabs=T, escape=F, caption="Example of datetime information retriev
   row_spec(1, bold=T, color="black", background="#ECFFFF", monospace=T)
 ```
 
-The result returned by the `wday()` function does not directly correspond to the actual weekday because the function assumes Sunday as the first day of the week by default. In addition, both `month()` and `wday()` allow users to return detailed information such as full names and abbreviations. The complete parameter settings are listed in Table \@ref(tab:time-retrieve). The `label=` argument determines whether the result is returned as text (otherwise the default is numeric); the `abbr=` argument specifies whether abbreviations are returned and is only effective when `label=TRUE`; and the `locale=` argument sets the language, for example `en` for English and `zh_TW.UTF-8` for Traditional Chinese (Taiwan).  
+The result returned by the `wday()` function does not directly correspond to the actual weekday because the function assumes Sunday as the first day of the week by default. To address this, both `month()` and `wday()` allow users to provide detailed settings, such as  full names and abbreviations. The complete parameter settings are listed in Table \@ref(tab:time-retrieve). The `label=` argument determines whether the result is returned as text (otherwise the default is numeric); the `abbr=` argument specifies whether abbreviations are returned and is only effective when `label=TRUE`; and the `locale=` argument sets the language, for example `en` for English and `zh_TW.UTF-8` for Traditional Chinese (Taiwan).  
 
 ```{r wday-month, echo=F, eval=T}
 invisible(Sys.setlocale(category="LC_ALL", locale="zh_TW.UTF-8"))
@@ -944,24 +944,24 @@ invisible(Sys.setlocale(category="LC_ALL", locale="en"))
 
 
 ## Text Processing
-在資料分析中，文字處理是相當重要的程序，可從中解析特定的詞彙，如計算詞彙數量、取代特定字詞、查看文字出現位置等等，從中探索資料中的文字內容。文字處理可以透過 R 內建的`base`套件或另安裝`stringr`套件處理之，本節主要即是針對此二套件說明文字處理之應用。
+In data analysis, text processing is an important step that allows us to extract specific words or patterns, such as counting word frequencies, replacing particular terms, or identifying the positions where text appears. Through these operations, we can further explore textual information within the data. Text processing in R can be performed using the built-in `base` package or the `stringr` package. This section introduces text processing methods using these two packages.
 
 ```{r stringr-install, echo=T, eval=F}
 install.packages("stringr")
 library(stringr)
 ```
 
-本節中所論及的函式彙整如表\@ref(tab:string-fun)。  
+All functions introduced in this section are summarised in \@ref(tab:string-fun)。  
 
 ```{r string-fun, echo=F, eval=T}
-str_fun=data.frame(Package=c(rep("`base`", 11), rep("`stringr`", 18)), fun=c("[`paste()`](#連接字串)","[`paste0()`](#連接字串)","[`toupper()`](#轉換大小寫)","[`tolower()`](#轉換大小寫)","[`substr()`](#擷取與取代字元)","[`strsplit()`](#拆解字串)","[`gsub()`](#擷取與取代字元)","[`nchar()`](#計算字元數)","[`grep()`](#搜尋字元)","[`grepl()`](#搜尋字元)","[`regexpr()`](#搜尋字元)","[`str_to_upper()`](#轉換大小寫)","[`str_to_lower()`](#轉換大小寫)","[`str_to_title()`](#轉換大小寫)","[`str_which()`](#搜尋字元)","[`str_detect()`](#搜尋字元)","[`str_starts()`](#搜尋字元)","[`str_locate()`](#搜尋字元)","[`str_locate_all()`](#搜尋字元)","[`str_count()`](#計算字元數)","[`str_sub()`](#擷取與取代字元)","[`str_replace_all()`](#擷取與取代字元)","[`str_length()`](#計算字元數)","[`str_pad()`](#文字填補)","[`str_split()`](#拆解字串)","[`str_flatten()`](#連接字串)","[`str_glue()`](#連接字串)","[`str_order()`](#文字排序)","[`str_sort()`](#文字排序)"), description=c("連接字串","連接字串（無分隔）","轉換為大寫","轉換為小寫","擷取字元","拆解字串","取代字元","字串長度(字元數)","回傳符合條件的索引值","回傳是否含有特定字元","回傳特定字元首次出現的位置索引","轉換為大寫","轉換為小寫","首字大寫","回傳符合條件的索引值","回傳是否含有特定字元","回傳是否以特定字元開頭","回傳特定字元首次出現的位置索引","回傳特定字元所有出現的位置索引","回傳特定字元出現的次數","擷取字元（可進一步取代）","取代字元","字串長度(字元數)","統一字串長度的格式","拆解字串","連接字串","連接字串（含變數）","回傳字串排序索引值","回傳字串排序後結果"))
+str_fun=data.frame(Package=c(rep("`base`", 11), rep("`stringr`", 18)), fun=c("[`paste()`](#concatenate-strings)","[`paste0()`](#concatenate-strings)","[`toupper()`](#convert-case)","[`tolower()`](#convert-case)","[`substr()`](#extract-and-replace-characters)","[`strsplit()`](#split-strings)","[`gsub()`](#extract-and-replace-characters)","[`nchar()`](#count-characters)","[`grep()`](#search-characters)","[`grepl()`](#search-characters)","[`regexpr()`](#search-characters)","[`str_to_upper()`](#convert-case)","[`str_to_lower()`](#convert-case)","[`str_to_title()`](#convert-case)","[`str_which()`](#search-characters)","[`str_detect()`](#search-characters)","[`str_starts()`](#search-characters)","[`str_locate()`](#search-characters)","[`str_locate_all()`](#search-characters)","[`str_count()`](#count-characters)","[`str_sub()`](#extract-and-replace-characters)","[`str_replace_all()`](#extract-and-replace-characters)","[`str_length()`](#count-characters)","[`str_pad()`](#string-padding)","[`str_split()`](#split-strings)","[`str_flatten()`](#concatenate-strings)","[`str_glue()`](#concatenate-strings)","[`str_order()`](#string-sorting)","[`str_sort()`](#string-sorting)"), description=c("Concatenate strings", "Concatenate strings (no separator)", "Convert to uppercase", "Convert to lowercase", "Extract characters", "Split string", "Replace characters", "String length (number of characters)", "Return indices matching pattern", "Check if string contains specific pattern", "Return index of first occurrence of pattern", "Convert to uppercase", "Convert to lowercase", "Capitalise first letter", "Return indices matching pattern", "Check if string contains specific pattern", "Check if string starts with specific pattern", "Return index of first occurrence of pattern", "Return indices of all occurrences of pattern", "Count occurrences of pattern", "Extract characters (can also replace)", "Replace characters", "String length (number of characters)", "Standardise string width", "Split string", "Concatenate strings", "Concatenate strings (with variables)", "Return sorting indices of strings", "Return sorted strings"))
 str_fun$FIGURE=""
 
-colnames(str_fun)=c("套件","函式","功能","圖示")
+colnames(str_fun)=c("Package","Function","Usage","Illustration")
 
 temp=paste0("./figure/string/", c(1:11,3,4,12,9,10,13,11,14,15,5,7,8,16,6,1,1,17,18), ".png")
 
-kbl(str_fun, booktabs=T, escape=F, caption="文字處理重要函式")%>%
+kbl(str_fun, booktabs=T, escape=F, caption="Summary of text processing functions")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   column_spec(4, image=spec_image(temp, 700, 100))%>%
   column_spec(1:4 ,extra_css="vertical-align:middle;")%>%
@@ -970,357 +970,361 @@ kbl(str_fun, booktabs=T, escape=F, caption="文字處理重要函式")%>%
 ```
 
 
-### 連接字串
+### Concatenate Strings
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `paste()`：以特定符號連接**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `paste()`: Concatenate with a specific separator**</p>  
 ```{r paste-string1, echo=T, eval=F}
-paste(文字向量, collapse="分隔符號")
+paste(CHARACTER_VECTOR, collapse="SEPERATION")
 ```
 
-`collapse=`引數須設定欲分隔字串的符號。
+The `collapse=` argument specifies the character used to separate the concatenated strings.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `paste0()`：直接連接（無分隔）**</p>  
-`paste0()`將向量內各元素直接連接，相當於`paste(文字向量, collapse="")`。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `paste0()`:Concatenate with no separator**</p>  
+`paste0()` directly concatenates elements within a vector, which is equivalent to `paste(text_vector, collapse="")`.
 
 ```{r paste-string2, echo=T, eval=F}
-paste0(文字向量)
+paste0(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_flatten()`：以特定符號連接**</p>  
-與`paste()`函式功能相同。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_flatten()`: Concatenate with a specific separator**</p>  
+`str_flatten()` function is equivalent to `paste()`.
 ```{r paste-string3, echo=T, eval=F}
-str_flatten(文字向量, collapse="分隔符號")
+str_flatten(CHARACTER_VECTOR, collapse="SEPERATION")
 ```
 
-`collapse=`引數須設定欲分隔字串的符號。
+The `collapse=` argument specifies the separator used to concatenate the strings.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_glue()`：連結字串與變數**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_glue()`: Concatenate strings and variables**</p>  
 ```{r paste-string4, echo=T, eval=F}
-str_glue("文字{變數}")
+str_glue("CHARACTER{VARIABLE}")
 ```
 
-以下簡單示範連結字串之函式應用案例。
+The following example demonstrates the application of string concatenation functions.
 
 ```{r paste-string5, echo=T, eval=T}
-# 原始文字向量
+# create character vector
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 all_name="Mode"
 
-# paste()函式連結所有transport內的元素
+# use paste() function to concatenate all elements with separator "|"
 paste(transport, collapse="|")
 
-# paste()函式連結all_name與transport內各元素
+# use paste() function to concatenate a character with each element
 paste(all_name, ":", transport)
 
-# paste0()函式連結all_name與transport內各元素
+# use paste0() function to concatenate a character with each element (with no space)
 paste0(all_name, ": ", transport)
 
-# str_flatten()函式連結所有transport內的元素
+# use str_flatten() function to concatenate all elements with separator "|"
 str_flatten(transport, collapse="|")
 
-# str_glue()函式連結all_name與transport內各元素
+# use str_glue() function to concatenate variables
 str_glue("{all_name}: {transport}")
 ```
 
 
-### 轉換大小寫
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `toupper()`：全部轉換為大寫**</p>  
+### Convert Case
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `toupper()`: Convert to upper case**</p>  
 ```{r uplow-string1, echo=T, eval=F}
-toupper(文字向量)
+toupper(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `tolower()`：全部轉換為小寫**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `tolower()`: Convert to lower case**</p>  
 ```{r uplow-string2, echo=T, eval=F}
-tolower(文字向量)
+tolower(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_upper()`：全部轉換為大寫**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_upper()`: Convert to upper case***</p>  
 ```{r uplow-string3, echo=T, eval=F}
-str_to_upper(文字向量)
+str_to_upper(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_lower()`：全部轉換為小寫**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_lower()`: Convert to lower case***</p>  
 ```{r uplow-string4, echo=T, eval=F}
-str_to_lower(文字向量)
+str_to_lower(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_title()`：首字大寫**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_to_title()`: Capitalise the first letter**</p>  
 ```{r uplow-string5, echo=T, eval=F}
-str_to_title(文字向量)
+str_to_title(CHARACTER_VECTOR)
 ```
 
-以下簡單示範轉換字元大小寫之應用案例。
+The following example demonstrates the application of converting character case.。
 
 ```{r uplow-string6, echo=T, eval=T}
-# 原始文字向量
+# create character vector
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 all_name="Mode"
 
-# toupper()函式轉換大寫
+# use toupper() function to covert to upper case
 toupper(transport)
 
-# tolower()函式轉換小寫
+# use tolower() function to covert to lower case
 tolower(transport)
 
-# str_to_upper()函式轉換大寫
+# use str_to_upper() function to covert to upper case
 str_to_upper(transport)
 
-# str_to_lower()函式轉換小寫
+# use str_to_lower() function to covert to lower case
 str_to_lower(transport)
 
-# str_to_title()函式首字大寫
-str_to_title("national yang ming chiao tung university")
+# use str_to_title() function to capitalise the first letter
+str_to_title("new south wales")
+
+# use tools::toTitleCase() function to capitalise the first letter in proper English title case
+tools::toTitleCase("university of sydney")
 ```
 
 
-### 擷取與取代字元
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `substr()`：擷取字元**</p>  
+### Extract and Replace Characters
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `substr()`: Extract characters**</p>  
 ```{r sub-string1, echo=T, eval=F}
-substr(文字向量, 開始字元索引, 結束字元索引)
+substr(CHARACTER_VECTOR, START_INDEX, END_INDEX)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `gsub()`：取代字元**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `gsub()`: Replace characters**</p>  
 ```{r sub-string2, echo=T, eval=F}
-gsub("被取代字元", "新替換字元", 文字向量)
+gsub("REPLACED", "REPLACEMENT", CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_sub()`：擷取並取代字元**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_sub()`: Extract and replace characters**</p>  
 ```{r sub-string3, echo=T, eval=F}
-# 擷取字元
-str_sub(文字向量, 開始字元索引, 結束字元索引)
+# extract character based on the index
+str_sub(CHARACTER_VECTOR, START_INDEX, END_INDEX)
 
-# 取代指定位置的字元(此時以下的文字向量務必是變數)
-str_sub(文字向量, 開始字元索引, 結束字元索引)="新替換字元"
+# replace character based on the index
+str_sub(CHARACTER_VECTOR, START_INDEX, END_INDEX)="NEW_CHARACTER"
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_replace_all()`：取代字元**</p>  
-`str_replace_all()`可取代所有字元，而`str_replace()`僅能取代第一次出現的字元，應用性較低。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_replace_all()`：Replace all matched characters**</p>  
+`str_replace_all()` replaces all occurrences of a pattern (same as `gsub()` function), while `str_replace()` only replaces the first occurrence, making it less flexible in practice.
 
 ```{r sub-string4, echo=T, eval=F}
-str_replace_all(文字向量, "被取代字元", "新替換字元")
+str_replace_all(CHARACTER_VECTOR, pattern="REPLACED", replacement="REPLACEMENT")
 ```
 
-以下簡單示範擷取與取代字元之應用案例。
+The `pattern=` argument (string or regular expression) that specifies the characters or string to be replaced, while the `replacement=` argument specifies the new character string that will replace all matches of the  pattern.
+
+The following example demonstrates the application of extracting and replacing characters.
 
 ```{r sub-string5, echo=T, eval=T}
-# 原始文字向量
+# create character vector 
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 all_name="Mode"
 
-# substr()擷取字元
+# use substr() function to extract character
 substr(transport, 1, 3)
 
-# gsub()取代字元
+# use gsub() to replace character
 gsub("a", "?", transport)
 
-# str_sub()擷取字元
+# use str_sub() to extract character
 str_sub(transport, 1, 2)
 
-# str_sub()取代特定位置之字元
+# use str_sub() to replace character by setting the position
 transport_new=transport
 str_sub(transport_new, 2, 3)="??"
 transport_new
 
-# str_replace_all()取代字元
+# use str_replace_all() to replace character
 str_replace_all(transport, "[aeiou]", "?")
 ```
 
-以上範例中`str_replace()`函式的`[aeiou]`係指中括號內任一字元皆可被取代。關於此類符號的表達請參考[**正規表示式**](#正規表示式)一節。
+In the example above, `[aeiou]` in the `str_replace()` function indicates that any character inside the brackets can be replaced. For more details on such expressions, please refer to the [**Regular Expressions**](#regular-expressions) section.
 
-
-### 拆解字串
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `strsplit()`：拆解字串**</p>  
+### Split Strings
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `strsplit()`: Split string**</p>  
 ```{r split-string1, echo=T, eval=F}
-strsplit(文字向量, "切割符號")
+strsplit(CHARACTER_VECTOR, "SEPARATION")
 ```
 
-程式碼中的「切割符號」係指在字串中用以切割字串的符號。
+The `SEPARATION` in the code refers to the character used to split a string.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_split()`：拆解字串**</p>
-`str_split()`函式為`stringr`套件的函式，其與`base`套件中的`strsplit`函式完全相同。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_split()`: Split string**</p>
+The `str_split()` function is provided by the `stringr` package and is equivalent to the `strsplit()` function in the `base` package.
 
 ```{r split-string2, echo=T, eval=F}
-str_split(文字向量, "切割符號")
+str_split(CHARACTER_VECTOR, "SEPARATION")
 ```
 
-以下範例說明拆解字串的做法。
+The following example demonstrates how to split strings.
 
 ```{r split-string3, echo=T, eval=T}
-# 原始文字向量
+# create character vector
 transport_comb=c("Bus & MRT & Bike", "Motorcycle & Car", "Taxi")
 
-# strsplit()拆解字串
+# use strsplit() to split the string
 strsplit(transport_comb, " & ")
 
-# str_split()拆解字串
+# use str_split() to split the string
 str_split(transport_comb, " & ")
 ```
 
-上述拆解完成後的字串，儲存於一陣列中，[[1]] 中即是`transport_comb`向量中第一個元素拆解後的結果，包含三個元素（Bus、MRT、Bike），其他則以此類推。此外我們亦可利用`unlist()`函式將所有拆解的結果從陣列中抽離出來，轉換成向量。程式碼撰寫如下。
+After splitting, the resulting strings are stored in a list. `[[1]]` represents the result of splitting the first element of the `transport_comb` vector, which contains three elements (Bus, MRT, Bike), and the others follow the same structure. In addition, we can use the `unlist()` function to extract all split results from the list and convert them into a vector. The code is written as follows.
 
 ```{r split-string-unlist, echo=T, eval=T}
-# 拆解字串
+# split string
 word_split=strsplit(transport_comb, " & ")
 
-# 去除陣列，轉換為向量
+# remove the list structure to form a vector
 unlist(word_split)
 ```
 
 
-### 計算字元數
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `nchar()`：計算字串內所有字元數**</p>  
+### Count Characters
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `nchar()`: String length**</p>  
 ```{r count-string1, echo=T, eval=F}
-nchar(文字向量)
+nchar(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_length()`：計算字串內所有字元數**</p>  
-抑或可利用`stringr`套件中的`str_length()`函式達成相同目的。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_length()`: String length**</p>  
+Alternatively, the same purpose can be achieved using the `str_length()` function from the `stringr` package.
 
 ```{r count-string2, echo=T, eval=F}
-str_length(文字向量)
+str_length(CHARACTER_VECTOR)
 ```
 
 ```{r count-string3, echo=T, eval=T}
-# 建立向量
+# create vector
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 
-# nchar()計算長度
+# use nchar() to count number of characters
 nchar(transport)
 
-# str_length()計算長度
+# use str_length() to count number of characters
 str_length(transport)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_count()`：計算符合條件的字元數**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_count()`: Count occurrences of pattern**</p>  
 
 ```{r count-string4, echo=T, eval=F}
-str_count(文字向量, "欲尋找字元")
+str_count(CHARACTER_VECTOR, "PATTERN")
 ```
 
 ```{r count-string5, echo=T, eval=T}
 str_count(transport, "[^aeiou]")
 ```
 
-程式碼中的`[^aeiou]`意指「不包含」「aeiou」任一字元者，因此「Bus」去除「u」之後，字元數為 2。此類符號的表達請參考[**正規表示式**](#正規表示式)一節。
+In the code, `[^aeiou]` means characters that do **not** include any of `aeiou`. Therefore, after removing `u` from "Bus", the remaining character count is 2. For more details on such expressions, please refer to the [**Regular Expressions**](#regular-expressions) section.
 
 
-### 搜尋字元
-透過搜尋字元，可以瞭解特定字元是否存在於一文字向量中，抑或進一步知道特定字元在向量各元素內的出現位置。
+### Search Characters
+By searching characters, we can determine whether a specific pattern exists in a character vector, or further identify the positions where the pattern appears within each element of the vector.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `grep()`尋找特定字元存在索引**</p>  
-回傳結果為一索引值向量，若完全無符合條件者，會回傳`integer(0)`。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `grep()`: Return indices matching pattern	**</p>  
+The result is an index vector. If no elements match the condition, the function returns `integer(0)`.
 
 ```{r grep-string, echo=T, eval=F}
-grep("欲尋找字元", 文字向量)
+grep("PATTERN", CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_which()`尋找特定字元存在索引**</p>  
-回傳結果為一索引值向量，若完全無符合條件者，會回傳`integer(0)`。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_which()`: Return indices matching pattern**</p>  
+The result is an index vector. If no elements match the condition, the function returns `integer(0)`.
 
 ```{r str_which-string, echo=T, eval=F}
-str_which(文字向量, "欲尋找字元")
+str_which(CHARACTER_VECTOR, "PATTERN")
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `grepl()`尋找特定字元存在與否**</p>  
-回傳結果為一邏輯向量，該向量長度與輸入的文字向量長度相同。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `grepl()`: Check if string contains specific pattern**</p>  
+The result is a logical vector whose length is the same as that of the input character vector.
 
 ```{r grepl-string, echo=T, eval=F}
-grepl("欲尋找字元", 文字向量)
+grepl("PATTERN", CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_detect()`尋找特定字元存在與否**</p>  
-回傳結果為一邏輯向量，該向量長度與輸入的文字向量長度相同。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_detect()`: Check if string contains specific pattern**</p>  
+The result is a logical vector whose length is the same as that of the input character vector.
 
 ```{r str_detect-string, echo=T, eval=F}
-str_detect(文字向量, "欲尋找字元")
+str_detect(CHARACTER_VECTOR, "PATTERN")
 ```
 
 
 ```{r find-string1, echo=T, eval=T}
-# 建立向量
+# create character vector
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 
-# grep()尋找字元存在之索引
+# use grep() function to return indices matching pattern
 grep("a|c", transport)
 
-# str_which()尋找字元存在之索引
+# use str_which() function to return indices matching pattern
 str_which(transport, "a|c")
 
-# grepl()尋找字元存在之邏輯值
+# use grepl() to check if string contains specific pattern
 grepl("a|c", transport)
 
-# str_detect()尋找字元存在之邏輯值
+# use str_detect() to check if string contains specific pattern
 str_detect(transport, "a|c")
 ```
 
-程式碼中，`a|c`表示 a 或者 c，相當於`[ac]`，關於此類符號的表達請參考[**正規表示式**](#正規表示式)一節。
+In the code, `a|c` means **a or c**, which is equivalent to `[ac]`. For more details on such expressions, please refer to the [**Regular Expressions**](#regular-expressions) section.
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_starts()`查看是否以特定字元起始**</p>  
-程式碼中所設定的引數「欲尋找字元」，會尋找文字向量中各元素是否會以該字元為開頭。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_starts()`: Check whether a string starts with a specific character**</p>  
+The argument `PATTERN` in the code checks whether each element in the character vector begins with the specified character.
 
 ```{r str_start-string1, echo=T, eval=F}
-str_starts(文字向量, "欲尋找字元")
+str_starts(CHARACTER_VECTOR, "PATTERN")
 ```
 
-再次以`transport`向量為例，程式碼撰寫如下。
+Using the `transport` vector as an example again, the code is written as follows.
 
 ```{r str_start-string2, echo=T, eval=T}
 str_starts(transport, "B")
 ```
 
-回傳結果顯示第一個元素（Bus）與第五個元素（Bike）符合所設定規則。
+The results indicate that the first element (Bus) and the fifth element (Bike) satisfy the specified condition, which the character starts from "B".
+
+The examples above check whether a specific pattern exists in a vector, returning either a logical vector or an index vector. However, in some cases we may want to know the exact position of the pattern within each element of the vector. This can be achieved using the `regexpr()` and `str_locate()` functions.
 
 
-上述是查看特定字元是否存在於向量中，輸出結果為邏輯向量或索引值向量。然有時我們會希望瞭解該特定字元位於向量各元素中的位置，此時可利用`regexpr()`與`str_locate()`函式達成目的。
-
-
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `regexpr()`尋找特定字元「首次」出現位置**</p>  
-回傳結果為一索引值向量，該向量長度與輸入的文字向量長度相同。若元素無該字元，會回傳`-1`。  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `regexpr()`: Return index of first occurrence of pattern**</p>  
+The result is an index vector whose length is the same as that of the input character vector. If an element does not contain the specified pattern, `-1` is returned. 
 
 ```{r regexpr-string, echo=T, eval=F}
-regexpr("欲尋找字元", 文字向量)
+regexpr("PATTERN", CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_locate()`尋找特定字元「首次」出現位置**</p>  
-回傳結果為一矩陣（matrix），該矩陣的橫列數（`nrow()`）為輸入的文字向量之長度，而直行有兩個，其一為 start，表示字元開始的索引；另一為 end，表示字元結束的索引。若元素無該字元，會回傳`NA`。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_locate()`: Return index of first occurrence of pattern**</p>  
+The result is a matrix. The number of rows (`nrow()`) equals the length of the input character vector, and the matrix contains two columns: `start`, indicating the starting index of the pattern, and `end`, indicating the ending index. If an element does not contain the specified pattern, `NA` is returned.
 
 ```{r str_locate-string, echo=T, eval=F}
-str_locate(文字向量, "欲尋找字元")
+str_locate(CHARACTER_VECTOR, "PATTERN")
 ```
 
 
 ```{r location-string1, echo=T, eval=T}
-# 建立向量
+# create vector
 fruit_eg=c("papaya", "grape", "lychee", "apple", "guava", "coconut")
 
-# grepl()尋找字元出現位置
+# use grepl() function to find the first occurrence of pattern
 regexpr("a", fruit_eg)
 ```
 
-回傳結果第一列係顯示 a 字元第一次出現於`fruit_eg`向量各元素中的索引位置，如第一個元素「papaya」，其首次出現 a，是位於第二個字元，故回傳結果為「2」。此外，以第三個元素「lychee」為例，由於該元素內並無 a 字元，故回傳結果為「-1」。
+The results show the index position where the character `a` first appears in each element of the `fruit_eg` vector. For example, in the first element "p**a**paya", the first occurrence of `a` is at the second character, so the returned value is "2". In contrast, for the third element "lychee", since it does not contain the character `a`, the returned value is "-1".
 
 ```{r location-string2, echo=T, eval=T}
 # str_locate()尋找字元出現位置
 str_locate(fruit_eg, "a")
 ```
 
-利用`str_locate()`函式所得結果更為直接，其顯示字元出現的起迄位置，如回傳結果第一列係指第一個元素「papaya」首次出現 a，是位於第二個字元；而第三列的「NA」則表示該字元未出現於第三個元素中。
+The results obtained using the `str_locate()` function are more direct, as they display the start and end positions of the character. For example, the first row of the result indicates that the first occurrence of `a` in the first element "p**a**paya" is at the second character. The `NA` in the third row indicates that the character does not appear in the third element.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_locate_all()`尋找特定字元「所有」出現位置**</p>  
 
-然而由上述範例可知，無論是`regexpr()`或是`str_locate()`函式接僅能回傳首次出現字元的位置，若希望能回傳所有結果，可使用`str_locate_all()`函式，引數設定方式與`str_locate()`相同，回傳結果則包含各元素內所有出現特定字元的起迄位置，並以陣列（list）顯示，有別於`str_locate()`係以矩陣表示。程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_locate_all()`: Return indices of all occurrences of pattern**</p>  
+
+As shown in the examples above, both `regexpr()` and `str_locate()` only return the position of the **first** occurrence of a pattern. If we want to obtain **all** occurrences, we can use the `str_locate_all()` function. The argument settings are the same as those of `str_locate()`. The returned result contains the start and end positions of all occurrences of the specified pattern within each element and is displayed as a list, unlike `str_locate()`, which returns a matrix. The code is written as follows.
 
 ```{r location-string3, echo=T, eval=T}
-# str_locate_all()尋找字元所有出現位置
+# use str_locate_all() function to return indices of all occurrences of pattern
 str_locate_all(fruit_eg, "a")
 ```
 
-回傳結果為一陣列，陣列中共有 6 個子陣列，分別代表`fruit_eg`向量中各元素的執行結果。其中第一個陣列 [[1]] 的矩陣內橫列數（`nrow()`）為 3，表示在「papaya」元素中共找到 3 個符合條件的字元，而其位置分別為第 2、4、6 個字元。若未找到符合條件的字元，則逕顯示表頭（start、end），其橫列數為 0。
+The result is a list containing six sublists, each representing the result for an element in the `fruit_eg` vector. For example, the matrix in the first sublist `[[1]]` has three rows (`nrow(fruit_eg)=3`), indicating that three matching characters were found in the element "p**a**p**a**y**a**", located at the 2nd, 4th, and 6th positions. If no matching characters are found, only the column headers (`start`, `end`) are displayed, and the number of rows is 0.
 
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Search and extract characters**</p>  
+In practical data analysis, we often search for specific patterns within a character vector and extract segments based on those patterns. This typically requires combining functions for searching and [extracting](#extract-and-replace-characters) characters.  
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  合併使用尋找字元與擷取字元**</p>  
-在實務資料分析時，我們很常在一文字向量中尋找特定字元並依據特定字元擷取段落，此時有賴於尋找及[擷取](#擷取與取代字元)兩種不同功能的函式。範例如下：
 
 以鄉鎮市區的名稱擷取為例，由於全臺灣行政區的名稱長度落於 2 至 4 字之間，無法單純藉由`substr()`直接鎖定位置，故應先尋找出「鄉鎮市區」字元所在的位置，再進一步擷取。得知該位置後，擷取的字元必須自第一個開始，結束於上述「鄉鎮市區」的位置減 1。程式碼撰寫如下。
 
@@ -1338,7 +1342,7 @@ substr(cha_vec, 1, district_loc-1)
 ```
 
 
-### 文字填補
+### String Padding
 
 文字填補可使向量中所有文字皆為固定長度，使文字格式得以統一，在`stringr`套件中可利用`str_pad()`函式填補字元。
 
@@ -1365,7 +1369,7 @@ str_pad(num_pad, width=3, side="left", pad="0")
 ```
 
 
-### 文字排序
+### String Sorting
 向量排序是利用`sort()`、`order()`、`rank()`等達成目的（參見<A href="#vector-sort">向量排序</A>小節），而在文字分析中可以利用`str_sort()`與`str_order()`達成之。文字的排序係以 UTF-8 編碼順序為原則。程式碼傳如下。
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_sort()`排序**</p>  
@@ -1392,7 +1396,7 @@ str_order(transport)
 ```
 
 
-### 正規表示式
+### Regular Expressions
 正規表示式（Regular Expression）是各程式語言中的標準格式，可藉此做進階的文字處理，擴充上述小節中文字取代、搜尋等功能的彈性，若能掌握此技巧，得以提升文字探勘的能力。常用的正規表示式彙整如表\@ref(tab:string-regular-expr)。
 
 ```{r string-regular-expr, echo=F, eval=T, message=F}

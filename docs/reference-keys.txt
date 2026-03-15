@@ -52,3 +52,12 @@ data-frame
 list
 date-and-time
 text-processing
+concatenate-strings
+convert-case
+extract-and-replace-characters
+split-strings
+count-characters
+search-characters
+string-padding
+string-sorting
+regular-expressions
