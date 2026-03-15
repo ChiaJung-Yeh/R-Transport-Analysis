@@ -61,3 +61,10 @@ search-characters
 string-padding
 string-sorting
 regular-expressions
+control-flow
+conditional-statement
+for-loop
+while-loop
+custom-functions
+error-handling
+apply-family

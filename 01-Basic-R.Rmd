@@ -1304,7 +1304,7 @@ regexpr("a", fruit_eg)
 The results show the index position where the character `a` first appears in each element of the `fruit_eg` vector. For example, in the first element "p**a**paya", the first occurrence of `a` is at the second character, so the returned value is "2". In contrast, for the third element "lychee", since it does not contain the character `a`, the returned value is "-1".
 
 ```{r location-string2, echo=T, eval=T}
-# str_locate()尋找字元出現位置
+# use str_locate() function to return index of first occurrence 
 str_locate(fruit_eg, "a")
 ```
 
@@ -1326,139 +1326,140 @@ The result is a list containing six sublists, each representing the result for a
 In practical data analysis, we often search for specific patterns within a character vector and extract segments based on those patterns. This typically requires combining functions for searching and [extracting](#extract-and-replace-characters) characters.  
 
 
-以鄉鎮市區的名稱擷取為例，由於全臺灣行政區的名稱長度落於 2 至 4 字之間，無法單純藉由`substr()`直接鎖定位置，故應先尋找出「鄉鎮市區」字元所在的位置，再進一步擷取。得知該位置後，擷取的字元必須自第一個開始，結束於上述「鄉鎮市區」的位置減 1。程式碼撰寫如下。
+Take council names in New South Wales, Australia as an example. In practice, NSW councils mainly fall into four naming types: City Council, Municipal Council, Shire Council, and Regional Council. The following task extracts the name of each council while ignoring the council type.
 
 ```{r location-string4, echo=T, eval=T}
-# 建立文字向量
-cha_vec=c("竹北市","東區","那瑪夏區","羅東鎮","太麻里鄉")
+# create vector
+cha_vec=c("Albury City Council","Coolamon Shire Council","Kiama Municipal Council","Snowy Monaro Regional Council","Liverpool Plains Shire Council")
 
-# 先利用regexpr()搜尋「鄉鎮市區」的位置
-district_loc=regexpr("[鄉鎮市區]", cha_vec)
-# regexpr("鄉|鎮|市|區", cha_vec) # 或利用「|」
-district_loc
+# use regexpr() function to find the position of all types of council
+council_pos=regexpr("City Council|Municipal Council|Shire Council|Regional Council", cha_vec)
+council_pos
 
-# 接著利用substr()擷取字元 (注意必須減1)
-substr(cha_vec, 1, district_loc-1)
+# use the substr() function to extract the string by index
+# (note that 2 must be subtracted from council_pos to stop before the council type)
+substr(cha_vec, 1, council_pos-2)
 ```
 
 
 ### String Padding
 
-文字填補可使向量中所有文字皆為固定長度，使文字格式得以統一，在`stringr`套件中可利用`str_pad()`函式填補字元。
+String padding can be used to ensure that all strings in a vector have the same length, thereby standardising the text format. In the `stringr` package, this can be achieved using the `str_pad()` function.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_pad()`填補字元**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_pad()`: Standardise string width**</p>  
 
 ```{r pad-string, echo=T, eval=F}
-str_pad(文字向量, width=, side=, pad="填補字元")
+str_pad(CHARACTER_VECTOR, width=, side=, pad="FILL_TEXT")
 ```
 
-在上述程式碼中所需設定的引數彙整如下：  
+The required arguments in the code above are summarised as follows:
 
-*  `width=`設定文字的寬度，如希望的統一字串格式為「5」個字元，則設定「`width=5`」  
-*  `side=`設定填補的方向，包含`right`與`left`  
-*  `pad=`設定欲填補的字元，如希望統一補上「A」字元，則設定「`pad="A"`」  
+* `width=` specifies the target string width. For example, if the desired length is 5 characters, set `width=5`.  
+* `side=` specifies the direction of padding, either `right` or `left`.  
+* `pad=` specifies the character used for padding. For example, if the string should be padded with the character "A", set `pad="A"`.
 
-實際範例如下。
+An example is shown below.
 
 ```{r pad-string1, echo=T, eval=T}
-# 建立向量
+# create vector
 num_pad=seq(2, 20, 2)
 
-# 若希望以0填補於文字最前方，並須為三個字元
+# The total length is set to 3, and pad 0 on the left side of the string
 str_pad(num_pad, width=3, side="left", pad="0")
 ```
 
 
 ### String Sorting
-向量排序是利用`sort()`、`order()`、`rank()`等達成目的（參見<A href="#vector-sort">向量排序</A>小節），而在文字分析中可以利用`str_sort()`與`str_order()`達成之。文字的排序係以 UTF-8 編碼順序為原則。程式碼傳如下。
+Vector sorting can be performed using functions such as `sort()`, `order()`, and `rank()` (see the <A href="#vector-sort">Vector Sorting</A>). In text analysis, sorting can also be carried out using `str_sort()` and `str_order()`. String sorting generally follows the UTF-8 encoding order. The code is shown below.  
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_sort()`排序**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `str_sort()`: Sort the string**</p>  
 ```{r str_sort-string, echo=T, eval=F}
-str_sort(文字向量)
+str_sort(CHARACTER_VECTOR)
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_order()`取得排序索引**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾  `str_order()`: Retrieve the order of the string**</p>  
 ```{r str_order-string, echo=T, eval=F}
-str_order(文字向量)
+str_order(CHARACTER_VECTOR)
 ```
 
-實際範例如下。
+An example is shown below.
 
 ```{r sort-order-string, echo=T, eval=T}
-# 建立向量
+# Create vector
 transport=c("Bus", "MRT", "Car", "Motorcycle", "Bike", "Taxi")
 
-# 排序
+# Sort the string
 str_sort(transport)
 
-# 排序索引
+# Retrieve the order of string
 str_order(transport)
 ```
 
 
 ### Regular Expressions
-正規表示式（Regular Expression）是各程式語言中的標準格式，可藉此做進階的文字處理，擴充上述小節中文字取代、搜尋等功能的彈性，若能掌握此技巧，得以提升文字探勘的能力。常用的正規表示式彙整如表\@ref(tab:string-regular-expr)。
+Regular expressions are a standard syntax used across many programming languages and enable advanced text processing. They enhance the flexibility of operations such as text replacement and searching discussed in the previous sections. Mastering this technique can greatly improve text mining capabilities. Commonly used regular expressions are summarised in Table \@ref(tab:string-regular-expr).
 
 ```{r string-regular-expr, echo=F, eval=T, message=F}
 string_sign=data.frame(sign=c("`\\\\`", "`\\\\n`", "`\\\\t`", "`\\\\s`", "`\\\\S`", "`\\\\d`", "`\\\\D`", "`\\\\w`", "`\\\\W`", "`|`","`.`", "`*`", "`+`", "`?`", "`{n}`", "`[]`", "`[^]`", "`[-]`", "`^`", "`$`", "`(?=)`", "`(?!)`"),
-                       meaning=c("符號（如：`\\\\.`表示「.」`\\\\\\`表示「\\\\」）", "換行","tab","空白","非空白","數值","非數值","文字","非文字","或者（如：`a|b`即是 a 或者 b）","連接一個未知字元（如：`ab.`表示 ab 後面必須連接一個字元）","連接零個或多個未知字元（如：`ab*`表示 ab 後面可接或不接任何字元）","連接一個或多個未知字元（如：`ab+`表示 ab 後面需加一個或多個字元）","連接零個或一個未知字元（如：`ab?`表示 ab 後面可接一個或不接任何字元）","連接前一個字元 n 次（如：`a{5}`表示 a 重複 5 次）","任一字元（如：`[abc]`表示「a、b、c」任一字元）","排除..的其他字元（如：`[^abc]`表示不包含「a、b、c」此三者的其他字元）","範圍（如：`[a-c]`表示 a 至 c 所有字元）","以...為起始字元（如`^abc`即是以 abc 為起始字元）","以...為結尾字元（如`abc$`即是以 abc 為結尾字元）","字元後方必須為特定字元者（如：`a(?=b)`表示 a 後面必須接 b 字元者）","字元後方必須非特定字元者（如：`a(?!b)`表示 a 後面非接 b 字元者）"))
+                       meaning=c("Escape character (e.g., `\\\\.` represents '.' and `\\\\\\\\` represents '\\\\')", "New line", "Tab", "Whitespace", "Non-whitespace", "Digit", "Non-digit", "Letter", "Non-letter", "Or (e.g., `a|b` means a or b)", "Match any single character (e.g., `ab.` means 'ab' followed by one character)", "Match zero or more characters (e.g., `ab*` means 'ab' followed by zero or more characters)", "Match one or more characters (e.g., `ab+` means 'ab' followed by one or more characters)", "Match zero or one character (e.g., `ab?` means 'ab' followed by zero or one character)", "Repeat the preceding character n times (e.g., `a{5}` means 'a' repeated 5 times)", "Any one of the characters (e.g., `[abc]` means 'a', 'b', or 'c')", "Exclude specified characters (e.g., `[^abc]` means any character except 'a', 'b', or 'c')", "Range (e.g., `[a-c]` means any character from a to c)", "Starts with (e.g., `^abc` means the string starts with 'abc')", "Ends with (e.g., `abc$` means the string ends with 'abc')", "Followed by a specific character (e.g., `a(?=b)` means 'a' must be followed by 'b')", "Not followed by a specific character (e.g., `a(?!b)` means 'a' must not be followed by 'b')"))
 
 tt=ceiling(nrow(string_sign)/2)
 # temp=bind_cols(string_sign[1:tt,], bind_rows(string_sign[(tt+1):nrow(string_sign),], data.frame(sign="", meaning="")))
 temp=bind_cols(string_sign[1:tt,], bind_rows(string_sign[(tt+1):nrow(string_sign),]))
-colnames(temp)=c("符號","意義","符號","意義")
-kbl(temp, booktabs=T, escape=F, caption="文字符號規則")%>%
+colnames(temp)=c("Expression","Meaning","Expression","Meaning")
+kbl(temp, booktabs=T, escape=F, caption="Summary of regular expression")%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
 
-關於正規表示式的詳細說明請參考[此](https://www.wikiwand.com/zh-tw/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F)。
+Please find detailed instructions on the usage of regular expression [here](https://en.wikipedia.org/wiki/Regular_expression)。
 
 
-## 控制流程
+## Control Flow
 
-### 邏輯判斷
+### Conditional Statement
 
-<H2 id="if-else"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ `if()`函式邏輯控制**</p></H2>  
+<H2 id="if-else"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ `if()`: Conditional statement**</p></H2>  
 
-在程式語言中往往需要使用邏輯判斷進一步控制是否往下執行，此時可以利用`if(){}`的函式判斷，程式碼撰寫如下。
+In programming, logical conditions are often used to control whether subsequent code should be executed. This can be implemented using the `if(){}` statement. The code is written as follows.
 
 ```{r if-code, echo=T, eval=F}
-if(條件){
-  條件為「真」的執行程序
+if(CONDITION){
+  EXECTION WHEN TRUE
 }
 ```
 
-若`條件`回傳結果為「真」（`TRUE`），執行下方的程式碼，否則不執行之。
+If the `condition` evaluates to `TRUE`, the code below it will be executed; otherwise, it will not be executed.
 
-此外，若條件為「偽」（`FALSE`）時亦有其他須執行程序，可利用`else{}`控制之，程式碼撰寫如下。
+In addition, if there are procedures that should be executed when the condition evaluates to `FALSE`, this can be controlled using `else{}`. The code is written as follows.
 
 ```{r if-else-code, echo=T, eval=F}
-if(條件){
-  條件為「真」的執行程序
+if(CONDITION){
+  EXECTION WHEN TRUE
 }else{
-  條件為「偽」的執行程序
+  EXECTION WHEN FALSE
 }
 ```
 
-若有多重條件判斷，可利用`else if(){}`判斷多種不同的條件，程式碼撰寫如下。
+If multiple conditions need to be evaluated, the `else if(){}` statement can be used to handle different conditions. The code is written as follows.
 
 ```{r if-elif-else-code, echo=T, eval=F}
-if(條件1){
-  條件1為「真」的執行程序
-}else if(條件2){
-  條件2為「真」的執行程序
+if(CONDITION_1){
+  EXECTION WHEN CONDITION_1 IS TRUE
+}else if(CONDITION_2){
+  EXECTION WHEN CONDITION_2 IS TRUE
 }else{
-  條件為「偽」的執行程序
+  EXECTION WHEN NO CONDITIONS MET
 }
 ```
 
-以上三種不同的邏輯判斷控制，可參照圖\@ref(fig:for-loop-fig)之示意圖。
-```{r for-loop-fig, echo=F, eval=T, out.width="70%", fig.align="center", fig.cap="邏輯判斷示意圖"}
+The three types of conditional statements described above are illustrated in Figure \@ref(fig:for-loop-fig).
+
+```{r for-loop-fig, echo=F, eval=T, out.width="70%", fig.align="center", fig.cap="Illustration of conditional statements"}
 include_graphics("./figure/if_loop.png")
 ```
 
-以下示範多重條件判斷的程式碼，撰寫如下。
+The following code demonstrates an example of multiple conditional statements.
 
 ```{r if-elif-else-code-eg, echo=T, eval=T}
 score=65
@@ -1474,11 +1475,11 @@ if(score>=90){
 }
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `ifelse()`函式**</p>  
-除了上述流程控制以外，若欲執行簡單的邏輯判斷，並將程式碼縮減至一行，可嘗試使用`ifelse()`函式，程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `ifelse()` conditional statement in one-line code**</p>  
+In addition to the conditional statements above, the `ifelse()` function can be used for simple logical conditions, allowing the code to be condensed into a single line. The code is written as follows.
 
 ```{r ifelse-code, echo=T, eval=F}
-ifelse(條件, 條件為「真」的執行程序, 條件為「偽」的執行程序)
+ifelse(CONDITION, EXECTION WHEN CONDITION_1 IS TRUE, EXECTION WHEN CONDITION_1 IS FALSE)
 ```
 
 ```{r ifelse-code-eg1, echo=T, eval=T}
@@ -1486,28 +1487,28 @@ score=65
 ifelse(score>=90, "Excellent", "Good")
 ```
 
-或撰寫複雜的巢式邏輯判斷，如下：
+Alternatively, more complex nested logical conditions can be written as follows:
 
 ```{r ifelse-code-eg2, echo=T, eval=T}
 score=65
 ifelse(score>=90, "A", ifelse(score>=70, "B", ifelse(score>=60, "C", "F")))
 ```
 
-雖然利用`ifelse()`函式可達到相同目的，且程式碼縮減至一行，然而此種寫法在偵錯時不容易檢查，故建議若只是執行簡單（非巢狀）的邏輯判斷時可利用`ifelse()`函式；若為複雜的邏輯判斷，仍須使用<A href="#if-else">`if(){}else if{}else{}`</A>的邏輯控制較為清楚。
+Although the `ifelse()` function can achieve the same purpose and condense the code into a single line, this approach can be difficult to debug. Therefore, it is recommended to use `ifelse()` only for simple (non-nested) logical conditions. For more complex logical conditions, using <A href="#if-else">`if(){} else if(){} else{}`</A> control structures is clearer and easier to manage.
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `switch()`函式判斷**</p>  
-`switch()`的功能與`if()`函式邏輯控制相當，在判斷的邏輯較為單純的時候，可應用此函式較為簡潔，程式碼撰寫如下：
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `switch()`: Conditional statement**</p>  
+The `switch()` function serves a similar purpose to the conditional statement provided by `if()`. When the conditional statement is relatively simple, using this function can make the code more concise. The code is written as follows:
 
 ```{r switch-code, echo=T, eval=F}
 switch(x,
-       條件1 = 結果1,
-       條件2 = 結果2,
-       條件3 = 結果3,
+       CONDITION_1 = RESULT_1,
+       CONDITION_2 = RESULT_2,
+       CONDITION_3 = RESULT_3
 )
 ```
 
-再次以分數與等第之間的轉換為例，若等第與分數之間屬於一對一的關係，則可單純透過`switch()`函式控制，程式碼撰寫如下。
+Using the conversion between scores and grades as an example again, if the relationship between grades and scores is one-to-one, the control can be handled directly using the `switch()` function. The code is written as follows.
 
 ```{r switch-code-eg, echo=T, eval=T}
 grade="A"
@@ -1522,16 +1523,16 @@ switch(grade,
 ```
 
 
-### `for()`迴圈
-迴圈應用於需要重複執行的程式碼，其中最常見的是`for()`迴圈，用以控制執行的次數，其程式撰寫如下：
+### `for()` Loop
+Loops are used when code needs to be executed repeatedly. The most common type is the `for()` loop, which controls the number of iterations. The code is written as follows:  
 
 ```{r for-loop1, echo=T, eval=F}
-for(物件 in 向量){
-  執行程序
+for(ITERATION in VECTOR){
+  EXECUTION
 }
 ```
 
-程式中的`物件`為向量中的元素，當所有元素皆輪流執行程序，則此迴圈即停止。具體來說，以由 1 計數並列印至 5 為例，程式碼撰寫如下。
+In the code, `ITERATION` represents the elements in a vector. The loop stops once all elements have been processed sequentially. For example, to count from 1 and print up to 5, the code is written as follows.
 
 ```{r for-loop2, echo=T, eval=T}
 for(i in c(1:5)){
@@ -1539,10 +1540,10 @@ for(i in c(1:5)){
 }
 ```
 
-此範例中`c(1:5)`即是向量，而向量中的每一元素即作為迴圈中的物件`i`，並用以執行程式（列印`i`）。
+In this example, `c(1:5)` is a vector, and each element in the vector serves as the loop object `i`, which is then used to execute the code (printing `i`).
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `break`結束迴圈**</p>  
-有時我們希望在特定條件「結束」整個迴圈，可利用`break`終止之。如以下範例中，若遇到除以 3 的<A href="#vector-compute">餘數（`%%`）</A>為 0 時即停止。程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `break`: Stop the loop**</p>  
+In some cases, we may want to terminate the entire loop when a specific condition is met. This can be achieved using `break`. In the following example, the loop stops when the <A href="#vector-compute">remainder (`%%`)</A> after division by 3 equals 0. The code is written as follows.
 
 ```{r for-loop-break, echo=T, eval=T}
 for(i in c(1:10)){
@@ -1553,8 +1554,8 @@ for(i in c(1:10)){
 }
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `next`跳過迴圈**</p>  
-有時我們希望在特定條件「跳過」迴圈，可利用`next`執行下一程序。如以下範例中，若遇到除以 3 的<A href="#vector-compute">餘數（`%%`）</A>為 0 時跳過該執行程序，並繼續執行下一個。程式碼撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `next`: **</p>  
+In some cases, we may want to skip the current iteration when a specific condition is met. This can be achieved using `next`, which moves the loop to the next iteration. In the following example, if the <A href="#vector-compute">remainder (`%%`)</A> after division by 3 equals 0, that iteration is skipped and the loop continues with the next one. The code is written as follows.
 
 ```{r for-loop-next, echo=T, eval=T}
 for(i in c(1:10)){
@@ -1566,16 +1567,16 @@ for(i in c(1:10)){
 ```
 
 
-### `while()`迴圈
-`for()`迴圈可以控制執行的次數，所輸入向量的長度即表示程式需執行的次數，然而有時候我們不知道須執行幾次，或希望程式不斷地執行，直至「不滿足」指定的執行條件時才終止，此時可以利用`while()`迴圈達成此目的。程式碼撰寫如下：
+### `while()` Loop
+The `for()` loop controls the number of iterations, where the length of the input vector determines how many times the code is executed. However, in some cases we may not know how many iterations are required, or we may want the code to keep running until a specified condition is no longer satisfied. In such situations, the `while()` loop can be used. The code is written as follows:
 
 ```{r while-loop-next, echo=T, eval=F}
-while(執行條件){
-  執行程序
+while(CONDITION){
+  EXECUTION
 }
 ```
 
-以由 1 計數至 10 為例，利用`while()`迴圈執行之程式碼撰寫如下。
+Using counting from 1 to 10 as an example, the code executed with a `while()` loop is written as follows.
 
 ```{r while-loop-next-eg, echo=T, eval=T}
 i=1
@@ -1586,48 +1587,47 @@ while(i<=10){
 ```
 
 
-### 建立自定義函式
-在程式撰寫中，通常我們會使用套件中的函式來做運算，然而有時候現成的函式無法滿足自身需求，此時就必須自行建立函式，可透過`function()`函式建立之。`function()`函式的撰寫架構如下：
+### Custom Functions
+While R’s extensive library of packages offers numerous functions for streamlined data analysis, there are instances where built-in tools may not align with specific needs. In such cases, R allows for the creation of user-defined functions via the `function()`. The general structure of defining a custom function is as follows:
 
 ```{r function-code, echo=T, eval=F}
-函式名稱=function(變數1, 變數2, ...){
-  執行程式
-  return(結果)
+FUNCTION_NAME=function(VAR1, VAR2, ...){
+  EXCEUTION
+  return(RESULT)
 }
 ```
 
-其中，`執行程式`為利用所輸入的`變數`進行程式運算，而最終`結果`即為欲輸出的資訊，可為任何一種物件（object），並利用`return()`函式明確說明欲輸出的資訊。
+Here, `EXCEUTION` refers to the operations performed given the input variables (`VAR1`, `VAR2`,...). The `RESULT` represents the information for output, which can be any type of object. The `return()` function is used to explicitly specify the output.
 
-以下以簡單的範例說明`function()`函式之應用，以向量的最小值與最大值之加總為例。
+The following example demonstrates the use of the `function()` by calculating the sum of the minimum and maximum values of a vector.
 
 ```{r function-minmax, echo=T, eval=T}
-# 建立函式
+# create a function to sum up the maximum and minimum
 minmax=function(x){
   temp=min(x)+max(x)
   return(temp)
 }
 
-# 測試函式
+# test the function
 minmax(c(1,2,3,4,5))
 ```
 
-透過自定義函式，可提升程式撰寫的效率，並簡化程式碼的複雜度，對於後續偵錯與檢驗有極高助益。此外在 R 語言中自定義函式亦可打包為套件，未來執行相關程式時，僅需讀取套件後，即可應用自定義的函式，進而提升程式編撰彈性與效率。
+By defining custom functions, programming efficiency can be improved and code complexity can be reduced, which greatly facilitates subsequent debugging and verification. In R, user-defined functions can also be packaged into libraries. When running related programs in the future, users only need to load the package to apply the custom functions, thereby improving flexibility and efficiency in programming.
 
-
-### 錯誤處理
-在迴圈控制中，有時程式會因執行錯誤而停止迴圈，造成執行的困擾。此時可以利用`tryCatch()`函式偵錯，以決定發現錯誤後的下一步驟，可透過「停止（`stop()`）」立即終止迴圈，或透過「警告（`warning()`）」顯示警告訊息，抑或透過「訊息（`message()`）」顯示提示訊息。`tryCatch()`函式的撰寫說明如下。
+### Error Handling
+In loop control, programs may sometimes stop due to execution errors, which can interrupt the workflow. In such cases, the `tryCatch()` function can be used for error handling to determine the next action when an error occurs. For example, the loop can be immediately terminated using `stop()`, a warning message can be displayed using `warning()`, or an informational message can be shown using `message()`. The structure of the `tryCatch()` function is described as follows.
 
 ```{r catch-error-code, echo=T, eval=F}
 tryCatch({
-    執行程式碼
+    EXECUTION
   }, error=function(e){
-    錯誤回傳訊息（可為stop、warning或message）
+    EXECUTION IF ERROR（can be stop, warning, or message）
 })
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `stop()`終止迴圈**</p>  
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `stop()`: Terminate the loop**</p>  
 
-為說明錯誤處理的程序，在此先建立一個錯誤的程式，此程式係將陣列中的各元素乘以 2。
+To illustrate the process of error handling, we first construct an erroneous program. This program multiplies each element in a list by 2, with some characters in the vectors.
 
 ```{r catch-error-eg, echo=T, eval=T, error=T}
 vec_try=list(1, 5, "a", 10, "b", 6, 8)
@@ -1637,9 +1637,9 @@ for(i in vec_try){
 }
 ```
 
-由上述執行結果可知，由於`vec_try`陣列中含有部分元素屬於文字，無法做四則運算，故程式執行有誤。
+As shown in the result above, the program fails because some elements in the `vec_try` list are character values and therefore cannot be used in arithmetic operations.
 
-若希望迴圈遇到問題即自動停止，並顯示自定義的錯誤訊息，程式撰寫如下。
+If we want the loop to stop immediately when an error occurs and display a custom error message, the code can be rewritten as follows.
 
 ```{r catch-error-eg1, echo=T, eval=T, error=T}
 for(i in vec_try){
@@ -1651,8 +1651,8 @@ for(i in vec_try){
 }
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `warning()`顯示警告**</p>  
-若希望迴圈遇到錯誤時勿停止，而是顯示自定義的警告訊息，並繼續執行程式碼，則程式撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `warning()`: Shows warning when error**</p>  
+If we want the loop to continue running when an error occurs, a custom warning message can be displayed instead of stopping the execution. The code is written as follows.
 
 ```{r catch-error-eg2, echo=T, eval=T}
 for(i in vec_try){
@@ -1664,8 +1664,8 @@ for(i in vec_try){
 }
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `message()`顯示訊息**</p>  
-若希望迴圈遇到錯誤時勿停止，而是顯示自定義的訊息，並繼續執行程式碼，則程式撰寫如下。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ `message()`: Shows message when error**</p>  
+If we want the loop to continue running when an error occurs, a custom message can also be displayed while allowing the code to proceed. The code is rewritten as follows.
 
 ```{r catch-error-eg3, echo=T, eval=T}
 for(i in vec_try){
@@ -1677,18 +1677,17 @@ for(i in vec_try){
 }
 ```
 
-錯誤處理範例可應用於未來執行複雜程式碼時所面臨到的執行錯誤，使程式執行更自動化，以避免受到資料品質等問題的干擾而需人工涉入除錯。
+The error-handling examples can be applied when executing more complex programs in the future. They help automate program execution and reduce the need for manual debugging when errors arise due to issues such as data quality.
 
 
-
-### `apply`函式家族
+### `apply` Family
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ `apply()`**</p>  
 
-在[矩陣（Matrix）](#矩陣matrix)小節中，我們提過可以利用`rowSums`等函式達成橫列與直行運算（請參照表\@ref(tab:matrix-operation-table)），然試想若沒有該函式用以處理矩陣資料，我們可直接透過`for()`迴圈逐行或逐列針對矩陣運算，以橫列加總（`rowSums`）為例，程式碼撰寫如下。
+In the [Matrix](#matrix) section, we introduced functions such as `rowSums` for performing row-wise and column-wise operations (see Table \@ref(tab:matrix-operation-table)). However, suppose such functions were unavailable for handling matrix data. In that case, we could perform the calculations directly using a `for()` loop by iterating through rows or columns. Taking row summation (`rowSums`) as an example, the code is written as follows.
 
 ```{r matrix-for-loop, echo=T, eval=T}
-# 建立mat_eg矩陣
+# create matrix mat_eg
 mat_eg=matrix(c(10,1,4,8,6,
                 8,7,8,6,10,
                 2,5,9,7,5,
@@ -1700,15 +1699,15 @@ for(i in c(1:nrow(mat_eg))){
 }
 ```
 
-然而如是的寫法效率極差，在 R 語言中類似 `for()` 迴圈的程序可以考慮更高效率的`apply()`函式取代之，程式語法如下：
+However, this approach is highly inefficient. In R, procedures similar to a `for()` loop can often be replaced with the more efficient `apply()` function. The syntax is shown as follows:
 
 ```{r apply-fun, echo=T, eval=F}
-apply(矩陣資料, 方向, 運算函式)
+apply(MATRIX, MARGIN, FUNCTION)
 ```
 
-其中`方向`有兩種選擇：`1`表示逐列（row）運算；`2`表示逐行（column）運算。而`運算函式`可以是 R 語言中固有的運算式（如：`sum`、`mean`）等，亦可利用自定義的函式。`apply()`函式的運算概念如圖\@ref(fig:apply-fig)之示意圖。
+The `margin` argument has two options: `1` indicates row-wise operations, and `2` indicates column-wise operations. The `function` argument can be a built-in R function (e.g., `sum`, `mean`) or a user-defined function. The concept of the `apply()` function is illustrated in Figure \@ref(fig:apply-fig).
 
-```{r apply-fig, echo=F, eval=T, out.width="60%", fig.align="center", fig.cap="`apply()`函式運算示意圖"}
+```{r apply-fig, echo=F, eval=T, out.width="60%", fig.align="center", fig.cap="Illustration of `apply()` function"}
 include_graphics("./figure/apply.png")
 ```
 
