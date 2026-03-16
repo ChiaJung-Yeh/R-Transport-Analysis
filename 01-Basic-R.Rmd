@@ -14,6 +14,7 @@ library(stringr)
 library(jsonlite)
 library(xml2)
 library(lubridate)
+library(readxl)
 
 Sys.setlocale(category = "LC_ALL", locale = "en")
 
@@ -1823,7 +1824,8 @@ CSV and TXT files are both **plain text data formats**. The former uses **comma-
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Read data**</p>  
 
-<p style="font-size:18px;line-height:1">**<u>Read from the local directory</u>**</p>  
+
+<H2 id="read-csv"><p style="font-size:18px;line-height:1">**<u>Read from the local directory</u>**</p></H2>
 In the `read.csv()` function shown below, fill in the **file path (`PATH`)** of the data. The file type can be either a `.csv` or `.txt` file.
 
 ```{r read-csv1, echo=T, eval=F}
@@ -1852,7 +1854,7 @@ read.csv("url")
 world=read.csv("https://raw.githubusercontent.com/ChiaJung-Yeh/Transport-Analysis/master/Data/world.csv")
 ```
 
-The result of reading the `world` data is shown below.
+The `world` data is shown below.
 
 ```{r read-data-show, echo=F, eval=T, message=F, warning=F}
 world=read.csv("https://raw.githubusercontent.com/ChiaJung-Yeh/Transport-Analysis/master/Data/world.csv")
@@ -1914,6 +1916,36 @@ XLSX is one of the most common data formats and is based on Microsoft Excel. Des
 ```{r readxl-install, echo=T, eval=F}
 install.packages("readxl")
 library(readxl)
+```
+
+The syntax of reading Excel file is as follows. The `PATH` argument specifies the path of the Excel file (see how to write the <A href="#read-csv">file path</A>), while the `sheet=` argument can be either the name of the worksheet or its index. It is not necessary to specify the `sheet=` argument if the workbook contains one sheet only.
+
+```{r readxl-read-excel-code, echo=T, eval=F}
+read_excel("PATH.xlsx", sheet="SHEET_NAME/SHEET_INDEX")
+```
+
+To begin with an example, please download the Excel file [here](https://raw.githubusercontent.com/ChiaJung-Yeh/R-Transport-Analysis/master/Data/nsw_busperformance_reports.xlsx). The dataset contains bus performance data from New South Wales, Australia. Reading the data can be straightforward by specifying the name of workbook and worksheet, as shown below.
+
+```{r readxl-example, echo=T, eval=F}
+# specify the worksheet name
+bus_performance=read_excel("nsw_busperformance_reports.xlsx", sheet="BusData")
+
+# specify the worksheet index
+bus_performance=read_excel("nsw_busperformance_reports.xlsx", sheet=1)
+```
+
+
+The `bus_performance` data is shown below.
+
+```{r read-excel-show, echo=F, eval=T, message=F, warning=F}
+bus_performance=read_excel("Data/nsw_busperformance_reports.xlsx", sheet="BusData")
+datatable(bus_performance, options=list(pageLength=5, scrollX=T, headerCallback = DT::JS(
+    "function(thead) {",
+    "  $(thead).css('font-size', '0.7em');",
+    "}"
+  )))%>%
+  formatStyle(columns=c(1:ncol(bus_performance)), fontSize="12px")%>%
+  formatRound(c("OTR","Percentage of services cancelled","Untracked trips"), digits=3)
 ```
 
 

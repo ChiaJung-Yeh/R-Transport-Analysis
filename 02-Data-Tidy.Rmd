@@ -15,6 +15,7 @@ library(jsonlite)
 library(xml2)
 library(tidyr)
 library(knitrhooks)
+library(readxl)
 
 Sys.setlocale(category = "LC_ALL", locale = "en")
 
@@ -1366,21 +1367,22 @@ fill(DATA, FILL_COLUMN, .direction="DIRECTION")
 
 The `.direction=` argument specifies the **direction of filling**, which can be set to one of four options: upward (`up`), downward (`down`), first upward then downward (`updown`), or first downward then upward (`downup`).
 
-以臺鐵各鄉鎮市區的站點數目統計資料（`tra_town`）為例，其中詳列縣市、鄉鎮市區與車站數量，而縣市名稱（COUNTYNAME）僅羅列於各縣市的第一筆資料，因此需要將其「向下」填補。程式碼撰寫如下。
+Using the bus performance data from New South Wales as an example, first download and read the Excel file. The original dataset contains `NA` values in the Region and Year fields. This commonly occurs when importing XLSX files into R because Excel files may contain merged cells. When such files are read into R, the values in merged cells are typically recorded only in the first row, while the remaining rows are interpreted as empty and therefore appear as `NA`.
 
 ```{r fill-eg, echo=T, eval=T}
-# 讀取臺鐵各鄉鎮市區的站點數目統計資料
-tra_town=read.csv("https://raw.githubusercontent.com/ChiaJung-Yeh/Transport-Analysis/master/Data/TRA_Town.csv")
+bus_performance=read_excel("Data/nsw_busperformance_reports.xlsx", sheet="BusData")
 
-# 查看前六筆資料
-head(tra_town)
+# check the first 10 rows
+bus_performance[1:10,]
 
-# 將縣市名稱向下填補
-tra_town_fill=fill(tra_town, COUNTYNAME, .direction="down")
+# fill the "Region" and "Year" downward
+bus_performance=fill(bus_performance, c("Region", "Year"), .direction="down")
 
-# check the first six rows
-head(tra_town_fill)
+# check the first 10 rows again
+bus_performance[1:10,]
 ```
+
+After filling these two fields, the complete dataset can be used for further analysis.
 
 
 ## **Summary of Data Tidy and Processing Functions** {-}
