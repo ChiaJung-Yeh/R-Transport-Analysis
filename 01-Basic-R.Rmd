@@ -161,7 +161,7 @@ sum(vec_na, na.rm=T)
 ```
 
 
-<p style="font-size:18px;line-height:1">**<u>Numeric computation</u>**</p>  
+<H2 id="numeric-computation"><p style="color:#003D79;font-size:18px;line-height:2"><p style="font-size:18px;line-height:1">**<u>Numeric computation</u>**</p></H2>  
 
 The following example uses `vec4` and a newly created vector `vec5`. The corresponding code and results of all operations are presented in Table \@ref(tab:vector-calculation-table).
 ```{r vector-exg2, echo=T, eval=T}
@@ -663,7 +663,7 @@ head(iris, 3)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Augment the data frame**</p>
+<H2 id="data-frame-bind"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Augment the data frame**</p></H2>
 
 <p style="font-size:18px;line-height:1">**<u>Append a new row (new record)</u>**</p>  
 To add new data, the `rbind()` function can be used to append rows. The code is shown below.
