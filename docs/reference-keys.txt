@@ -95,3 +95,7 @@ fig:set-operations-fig
 fig:melt-dcast-fig
 tab:function-summary
 xlsx-file
+fig:ggplot2-fig
+fig:fig-exp
+data-visualisation
+chart-types
