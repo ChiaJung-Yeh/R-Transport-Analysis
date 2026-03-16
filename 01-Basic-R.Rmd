@@ -161,7 +161,7 @@ sum(vec_na, na.rm=T)
 ```
 
 
-<H2 id="numeric-computation"><p style="color:#003D79;font-size:18px;line-height:2"><p style="font-size:18px;line-height:1">**<u>Numeric computation</u>**</p></H2>  
+<H2 id="numeric-computation"><p style="color:#003D79;font-size:18px;line-height:2"><p style="font-size:18px;line-height:1">**<u>Numeric computation</u>**</p></H2>
 
 The following example uses `vec4` and a newly created vector `vec5`. The corresponding code and results of all operations are presented in Table \@ref(tab:vector-calculation-table).
 ```{r vector-exg2, echo=T, eval=T}
@@ -708,7 +708,7 @@ StuScore
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check duplicated rows**</p>  
+<H2 id="duplicated-rows"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check duplicated rows**</p></H2>
 For illustration, we first create a data frame that contains duplicate records.
 
 ```{r dataframe_duplicated1, echo=T, eval=T}
@@ -1905,6 +1905,17 @@ In the `write.csv()` function, the main arguments are as follows:
 * `fileEncoding=` specifies the text encoding. Generally, English text does not require additional settings; however, Traditional Chinese character is typically encoded in **"Big5"** or **"UTF-8"**.
 
 Similarly, the `write.csv()` function for exporting data is not efficient. The `fwrite()` function in the `data.table` package can be used instead to reduce execution time, which is particularly useful when handling **large datasets**. 
+
+
+
+### XLSX File
+XLSX is one of the most common data formats and is based on Microsoft Excel. Despite its widespread use, importing XLSX files into analytical software can be relatively time-consuming. In contrast, simpler formats such as CSV or TXT are designed for efficient data transmission and are therefore typically faster and easier to read into software environments. Nevertheless, several packages are designed for reading XLSX file in R. The most recommended and stable package is `readxl`. 
+
+```{r readxl-install, echo=T, eval=F}
+install.packages("readxl")
+library(readxl)
+```
+
 
 
 ### JSON File

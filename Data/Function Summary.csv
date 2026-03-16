@@ -69,7 +69,7 @@ Set Operations,Difference,"fsetdiff(DATA_1, DATA_2)",data.table
 Set Operations,Symmetric difference,"symdiff(DATA_1, DATA_2)",dplyr
 Set Operations,Check identical data frame,"setequal(DATA_1, DATA_2)",dplyr
 Set Operations,Check identical data table,"fsetequal(DATA_1, DATA_2)",data.table
-Transform Data Shape,Long format to wide format,"cast(DATA, RETAIN_COLUMN_1+RETAIN_COLUMN_2+... ~ REERENCE_COLUMN, value.var=""MEASURE_COLUMN"")",data.table
+Transform Data Shape,Long format to wide format,"dcast(DATA, RETAIN_COLUMN_1+RETAIN_COLUMN_2+... ~ REERENCE_COLUMN, value.var=""MEASURE_COLUMN"")",data.table
 Transform Data Shape,Wide format to long format,"melt(DATA, id.vars=c(""RETAIN_COLUMN"", ...),
      measure.vars=""MEASURE_COLUMN"",
      variable.name=""REFERENCE_COLUMN"",

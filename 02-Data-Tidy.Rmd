@@ -129,7 +129,7 @@ setDT(world_DT, name_long)
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ Combine rows and columns**</p>  
 
-In Chapter 1, we introduced the concept of **row and column binding** for data frames (see [Data Frame](#data-frame-bind) section), including the functions `rbind()` and `cbind()`. The `dplyr` package provides similar functions, `bind_rows()` and `bind_cols()`, which serve the same purposes: the former combines datasets by **rows**, while the latter combines them by **columns**. In fact, the functionality of `bind_cols()` is identical to that of `cbind()`.
+In Chapter 1, we introduced the concept of **row and column binding** for data frames (see <A href="#data-frame-bind">Data Frame</A> section), including the functions `rbind()` and `cbind()`. The `dplyr` package provides similar functions, `bind_rows()` and `bind_cols()`, which serve the same purposes: the former combines datasets by **rows**, while the latter combines them by **columns**. In fact, the functionality of `bind_cols()` is identical to that of `cbind()`.
 
 However, the `rbind()` function requires the input datasets to have **exactly the same columns**; otherwise, the datasets cannot be combined. In contrast, `bind_rows()` is more flexible, as it merges datasets based on their shared columns and fills `NA` for columns that are not present in one of the datasets. A specific example is shown below.
 
@@ -199,8 +199,8 @@ world_DT[, .(name_long, area_km2)]
 ```
 :::
 
-
-The following presents other approaches to select fields. Please review the [Retrieve specific columns](#retrieve-column) in `data.frame`.
+ 
+The following presents other approaches to select fields. Please review the <A href="#retrieve-column">Retrieve specific columns</A> in `data.frame`.
 
 ```{r select-eg2, echo=T, eval=F}
 # use the column index
@@ -293,7 +293,7 @@ world_DT[pop>100000000]
 
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ `filter()`: Filtering character data**</p>  
-When filtering character data, the `%in%` operator is commonly used to check whether elements of one vector exist in another vector. Please refer to the section [Vector](#contain-vector) for checking whether each element in a vector is contained in another vector.
+When filtering character data, the `%in%` operator is commonly used to check whether elements of one vector exist in another vector. Please refer to the section <A href="#contain-vector">Vector</A> for checking whether each element in a vector is contained in another vector.
 
 The follwowing example presents how to filter countries in the `world` dataset whose continent belongs to **Asia** or **Europe**.
 
@@ -301,7 +301,7 @@ The follwowing example presents how to filter countries in the `world` dataset w
 # filter data by population
 world_fil2=filter(world, continent %in% c("Asia", "Europe"))
 
-# check out the first six rows
+# check the first six rows
 head(world_fil2)
 ```
 
@@ -368,7 +368,7 @@ world_DT[continent %in% c("Asia", "Europe") | pop>100000000]
 
 
 ## Append Fields
-As mentioned earlier, the [`cbind()` and `bind_cols()` functions](#combine-data) can be used to combine columns, thereby expanding the attributes of a dataset. In addition, the `$` operator introduced in [Chapter 1](#retrieve-column) can also be used to add new variables to a dataset. 
+As mentioned earlier, the [`cbind()` and `bind_cols()` functions](#combine-data) can be used to combine columns, thereby expanding the attributes of a dataset. In addition, the `$` operator introduced in <A href="#retrieve-column">Chapter 1</A> can also be used to add new variables to a dataset. 
 
 Besides these approaches, the `mutate()` function from the `dplyr` package can be used to create new variables, providing greater flexibility in data manipulation. The syntax is as follows.
 
@@ -386,7 +386,7 @@ Using the `world` dataset as an example, add a new column for **population densi
 world_mut=mutate(world, pop_dens=pop/area_km2,
                  district=paste0(continent, " (", subregion, ")"))
 
-# check out the first six rows
+# check the first six rows
 head(world_mut[, c("name_long", "area_km2", "pop", "pop_dens", "district")])
 ```
 
@@ -405,7 +405,7 @@ world_mut=world_DT[, c("pop_dens", "district") := .(pop/area_km2, paste0(contine
 When adding new fields in `data.table`, the operator `:=` is used to define the assignment. The name of the new column is placed on the left-hand side, while the expression used to generate its values is specified on the right-hand side.
 :::
 
-Other approaches are shown below (please review the [Data Frame](#data-frame-bind) section):
+Other approaches are shown below (please review the <A href="#data-frame-bind">Data Frame</A> section):
 
 ```{r mutate-eg3, echo=T, eval=F}
 # use $ to add new field
@@ -444,7 +444,7 @@ world_mutat1=mutate_at(world, c("area_km2", "pop"), log)
 # calculate the logarithmic values of area_km2 and pop, and replace the field - 2
 world_mutat1=mutate_at(world, vars(area_km2, pop), log)
 
-# check out the first six rows
+# check the first six rows
 head(world_mutat1[, c("name_long","area_km2","pop")])
 ```
 
@@ -459,7 +459,7 @@ world_mutat2=mutate_at(world, c("area_km2", "pop"), list(log=log, scale=scale))
 # calculate the logarithmic values and scale of both area_km2 and pop, and replace the field - 2
 world_mutat2=mutate_at(world, vars(area_km2, pop), list(log=log, scale=scale))
 
-# check out the first six rows
+# check the first six rows
 head(world_mutat2[, c("name_long","area_km2","pop","area_km2_log","pop_log","area_km2_scale","pop_scale")])
 ```
 
@@ -479,7 +479,7 @@ area_med=median(world$area_km2)
 # use ifelse() function to classify the groups
 world_ifel=mutate(world, TYPE=ifelse(area_km2>=area_med, "L", "S"))
 
-# check out the first six rows
+# check the first six rows
 head(world_ifel[, c("name_long", "area_km2", "TYPE")])
 ```
 
@@ -514,7 +514,7 @@ world_casewhen=mutate(world, TYPE=case_when(
   TRUE ~ "SASP"
 ))
 
-# check out the first six rows
+# check the first six rows
 head(world_casewhen[, c("name_long", "area_km2", "pop", "TYPE")])
 ```
 
@@ -524,7 +524,7 @@ head(world_casewhen[, c("name_long", "area_km2", "pop", "TYPE")])
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ `arrange()`: Data Sorting (Ascending Order)**</p>  
 
-We have introduced several methods for sorting data in Chapter 1, including [vector sorting](#vector-sort) (`sort()`, `order()`, `rank()`) and [string sorting](#string-sorting) (`str_sort()`, `str_order()`). Here, we can further sort datasets using the `arrange()` function from the `dplyr` package. The general syntax is as follows.
+We have introduced several methods for sorting data in Chapter 1, including <A href="#vector-sort">vector sorting</A> (`sort()`, `order()`, `rank()`) and [string sorting](#string-sorting) (`str_sort()`, `str_order()`). Here, we can further sort datasets using the `arrange()` function from the `dplyr` package. The general syntax is as follows.
 
 ```{r arrange-code, echo=T, eval=F}
 arrange(DATA, COLUMN)
@@ -537,7 +537,7 @@ Using the `world` dataset as an example, the following code arranges all countri
 ```{r arrange-eg1, echo=T, eval=T}
 world_arr1=arrange(world, pop)
 
-# check out the first six rows
+# check the first six rows
 head(world_arr1[, c("name_long", "continent", "pop")])
 ```
 
@@ -557,7 +557,7 @@ world_DT[order(pop)]
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ `arrange()`: Data Sorting (Descending Order)**</p>  
 
-It should be noted that the `arrange()` function sorts data in **ascending order by default**. To sort in **descending order**, a `-` can be placed before the column name, or the `desc()` function can be used. Using the `world` dataset as an example, the following code arranges countries in descending order based on population:
+It should be noted that the `arrange()` function sorts data in **ascending order by default**. To sort in **descending order**, a `-` can be placed before the column name, or the `desc()` function can be used. Using the `world` dataset as an example, the following code arranges countries in descending order based on population.
 
 ```{r arrange-eg2, echo=T, eval=T}
 world_arr2=arrange(world, -pop)
@@ -565,7 +565,7 @@ world_arr2=arrange(world, -pop)
 # or use desc() function to sort in descending order
 world_arr2=arrange(world, desc(pop))
 
-# check out the first six rows
+# check the first six rows
 head(world_arr2[, c("name_long", "continent", "pop")])
 ```
 
@@ -605,7 +605,7 @@ Using the `world` dataset as an example, the data are first grouped by continent
 world_gro1=group_by(world, continent)%>%
   filter(area_km2==max(area_km2))
 
-# check out the first six rows
+# check the first six rows
 world_gro1[, c("continent","name_long","area_km2")]
 ```
 
@@ -619,7 +619,7 @@ world_gro2=group_by(world, continent)%>%
   mutate(area_km2_cum=cumsum(area_km2))%>%
   arrange(continent)
 
-# check out the first six rows
+# check the first six rows
 head(world_gro2[, c("continent","name_long","area_km2","area_km2_cum")])
 ```
 
@@ -639,7 +639,7 @@ For example, to return the **first observation within each group** in the `world
 world_gro3=group_by(world, continent)%>%
   slice(1)
 
-# check out the result
+# check the result
 world_gro3[, c("continent","name_long","area_km2","pop","lifeExp","gdpPercap")]
 ```
 
@@ -665,7 +665,7 @@ In addition, multiple index positions can be specified. For example, to return t
 world_gro4=group_by(world, continent)%>%
   slice(1, n())
 
-# check out the result
+# check the result
 world_gro4[, c("continent","name_long")]
 ```
 
@@ -688,7 +688,7 @@ world_gro5=arrange(world, desc(area_km2))%>%
   group_by(continent)%>%
   slice(1:3)
 
-# check out the result
+# check the result
 world_gro5[, c("continent","name_long","area_km2","pop","lifeExp","gdpPercap")]
 ```
 
@@ -717,7 +717,7 @@ world_gro6=group_by(world, continent)%>%
   slice(which.max(area_km2),
         which.min(area_km2))
 
-# check out the result
+# check the result
 world_gro6[, c("continent","name_long","area_km2")]
 ```
 
@@ -750,7 +750,7 @@ world_gro7=group_by(world, continent)%>%
   summarise(pop=sum(pop, na.rm=T),
             County_N=n())
 
-# check out the result
+# check the result
 world_gro7
 ```
 
@@ -779,7 +779,7 @@ If the same operation needs to be applied to multiple variables, the `summarise_
 world_gro8=group_by(world, continent)%>%
   summarise_at(c("lifeExp", "gdpPercap"), mean, na.rm=T)
 
-# check out the result
+# check the result
 world_gro8
 ```
 
@@ -796,7 +796,7 @@ For example, computing the average values from data field area to lifeExp in the
 world_gro9=group_by(world, continent)%>%
   summarise(across(area_km2:lifeExp, ~ mean(.x, na.rm=T)))
 
-# check out the result
+# check the result
 world_gro9
 ```
 
@@ -806,7 +806,7 @@ If operations need to be applied to all variables that satisfy a specified condi
 world_gro10=group_by(world, continent)%>%
   summarise_if(is.numeric, mean, na.rm=T)
 
-# check out the result
+# check the result
 world_gro10
 ```
 
@@ -830,7 +830,7 @@ Using the `world` dataset again as an example, the data are first grouped by con
 world_gro11=group_by(world, continent)%>%
   reframe(gdpPercap=range(gdpPercap, na.rm=T))
 
-# 輸出資料
+# check the result
 world_gro11
 ```
 
@@ -847,76 +847,83 @@ world_DT[, .(pop=range(gdpPercap, na.rm=T)), by=continent]
 
 
 ## Join Data
-[`cbind`與`bind_cols()`](#合併資料)函式是將兩份相同橫列數的資料直接予以合併，以連結兩份資料。不過在資料分析時，我們往往會有許多來源與目的不同的資料，而若希望將其合併，則必須依據「參照欄位」貼附。具體而論，`world`資料中記錄世界各國的詳細資訊，而`coffee`資料中則記錄世界各國的咖啡產量，若我們想同時知道各國的面積與咖啡產量，勢必需要將這兩份資料合併在一起，而合併的原則須依據「國家名稱」以貼附資料。
+[`cbind()` and `bind_cols()`](#combine-data) functions directly combine two datasets that have the same number of rows, linking them together side by side. However, in data analysis we often deal with datasets that come from different sources and serve different purposes. If we want to combine them, we must attach them based on **join keys**.
 
-在`dplyr`套件中可以利用`join`相關函式，包括<A href="#left-join">`left_join()`</A>、<A href="#full-join">`full_join()`</A>與<A href="#inner-join">`inner_join()`</A>。
+More specifically, the `world` dataset records detailed information about countries around the world, while the `coffee` dataset records coffee production for countries worldwide. If we want to know both the land area and coffee production of each country at the same time, we need to merge these two datasets. The principle of merging is to attach the data based on the **country name** as the join key.
 
-`left_join()`是只保留**第一份（左側）**所有資料，並依據參照欄位貼附第二份（右側）資料；`full_join()`是指所有**兩份資料皆須保留**，並進一步依據參照欄位相互貼附；`inner_join()`則是指保留兩份資料**共同擁有**的參照欄位，並依此相互貼附。
+In the `dplyr` package, this can be done using `join`-related functions, including <A href="#left-join">`left_join()`</A>, <A href="#full-join">`full_join()`</A>, and <A href="#inner-join">`inner_join()`</A>.
 
-在`base`套件中與在`data.table`套件中，無論是何種形式的連接資料方式，皆可分別利用`merge()`與`merge.data.table()`函式達成目的，其中可透過設定引數（`all=`與`all.x=`）之方式決定連接資料的方式。
+* `left_join()` keeps **all observations from the first (left) dataset**, and brings the data from the second (right) dataset based on the join key.    
+* `full_join()` keeps **all observations from both datasets**, and attaches them to each other based on the join key.  
+* `inner_join()` keeps only the observations whose the value of join keys are **shared by both datasets**, and attaches them accordingly.
 
-關於連接資料的概念詳見圖\@ref(fig:join-fig)之示意圖，而以上三套件連接資料的函式彙整如表\@ref(tab:join-table)。
+In the `base` package and the `data.table` package, regardless of the type of data joining required, the task can be achieved using the `merge()` and `merge.data.table()` functions respectively. The joining method can be determined by setting the arguments (`all=` and `all.x=`).
 
-```{r join-fig, echo=F, eval=T, out.width="80%", fig.align="center", fig.cap="連接資料示意圖"}
+For a conceptual illustration of data joining, see the diagram in Figure \@ref(fig:join-fig). A summary of the functions for joining data in the three packages above is presented in Table \@ref(tab:join-table).
+
+
+```{r join-fig, echo=F, eval=T, out.width="80%", fig.align="center", fig.cap="Illustration of joining data"}
 include_graphics("./figure/join.png")
 ```
 
 ```{r join-table, echo=F, eval=T}
-join_table=data.frame(method=c("<A href='#left-join'>以第一份（左側）資料為基準</A>","<A href='#full-join'>保留資料1與資料2所有資料</A>","<A href='#inner-join'>保留共同擁有的參照欄位之資料</A>"),
-                      func_dplyr=c("`left_join(資料1, 資料2)`","`full_join(資料1, 資料2)`","`inner_join(資料1, 資料2)`"),
-                      func_base=c("`merge(資料1, 資料2, all.x=T)`","`merge(資料1, 資料2, all=T)`","`merge(資料1, 資料2)`"),
-                      func_datatable=c("`merge.data.table(資料1, 資料2, all.x=T)`","`merge.data.table(資料1, 資料2, all=T)`","`merge.data.table(資料1, 資料2)`"))
+join_table=data.frame(method=c("<A href='#left-join'>keep all observations from the first (left) dataset</A>","<A href='#full-join'> keep all observations from both datasets</A>","<A href='#inner-join'>keep only the observations with join key shared by both datasets</A>"),
+                      func_dplyr=c("`left_join(DATA_1, DATA_2)`","`full_join(DATA_1, DATA_2)`","`inner_join(DATA_1, DATA_2)`"),
+                      func_base=c("`merge(DATA_1, DATA_2, all.x=T)`","`merge(DATA_1, DATA_2, all=T)`","`merge(DATA_1, DATA_2)`"),
+                      func_datatable=c("`merge.data.table(DATA_1, DATA_2, all.x=T)`","`merge.data.table(DATA_1, DATA_2, all=T)`","`merge.data.table(DATA_1, DATA_2)`"))
 
-kbl(join_table, booktabs=T, escape=F, caption="連接資料函式彙整", col.names=c("資料連接方式","`dplyr`套件","`base`套件","`data.table`套件"))%>%
+kbl(join_table, booktabs=T, escape=F, caption="Summary of join methods", col.names=c("Join Method","`dplyr` Pacakage","`base` Pacakage","`data.table` Package"))%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="black", background="#8E8E8E")%>%
   column_spec(1, bold=T, color="white", background="#D0D0D0")
 ```
 
 
-<H2 id="left-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ 以第一份（左側）資料為基準**</p></H2>  
+<H2 id="left-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Keep all observations from the first (left) dataset**</p></H2>  
 
-`left_join()`的函式撰寫架構如下。
+The `left_join()` function is structured as below.  
 
 ```{r leftjoin-code, echo=T, eval=F}
-left_join(資料1, 資料2, by="參照欄位")
+left_join(DATA_1, DATA_2, by="KEY")
 ```
 
-函式中的`by=`引數用以設定「參照欄位」，亦即若兩份資料的參照欄位內容是相同者，便將`資料2`的欄位貼附於`資料1`後。`left_join()`函式是保留`資料1`的所有資料，故若參照欄位的內容於`資料2`找不到相對應者，則該列貼附的結果會直接回傳「NA」。
+The `by=` argument in the function is used to specify the **join key** (`KEY`). In other words, when the values in the join keys are the same in both datasets, the columns from `DATA_1` will be attached to `DATA_2`.
 
-另外需注意的是，`by=`引數可以不用設定，而此時該函式預設在兩份資料中尋找所有相同欄位名稱者作為參照欄位。而若兩份資料內欲參照的欄位名稱不相同時，引數設定須為`by=c(資料1參照欄位=資料2參照欄位)`。若有多個參照欄位，各欄位的名稱須以向量表達，如`by=c("參照欄位1", "參照欄位2")`。
+The `left_join()` function keeps **all observations in `DATA_1`**. Therefore, if a value in the join key of `DATA_1` cannot find a corresponding match in `DATA_2`, the attached result for that row will return **`NA`**.
 
-以學生資料（`StuInfo`）與學生分數紀錄（`StuScore`）作為範例，程式碼撰寫如下。
+It is also important to note that the `by=` argument is not mandatory. If it is omitted, the function will **automatically search for columns with the same names in both datasets and use them as the join keys**. If the reference columns in the two datasets have **different column names**, the argument should be specified as `by=c(DATA_1_REFERENCE=DATA_2_REFERENCE)`. If there are **multiple reference columns**, the column names should be expressed as a vector, for example: `by=c("REFERENCE_1", "REFERENCE_2")`. It is strongly recommended to explicitly specify the join key to avoid ambiguity and incorrect results.
+
+Using student information (`StuInfo`) and student score records (`StuScore`) as an example, the code can be written as follows.
 
 ```{r leftjoin-eg1, echo=T, eval=T}
-# 建立學生資料與分數資料
+# create student and grade data
 StuInfo=data.frame(StudentID=c("ID1","ID2","ID3","ID4","ID5","ID6"),
                    Class=c("A","B","A","C","D","A"),
                    Name=c("Bob","Mary","Robert","Jason","Jane","Jessie"))
 StuScore=data.frame(StudentID=c("ID1","ID2","ID4","ID5","ID6","ID7"),
                     Score=c(60,80,40,50,100,90))
 
-# 連接兩份資料
+# left join both datasets
 left_join(StuInfo, StuScore, by="StudentID")
 ```
 
-以上程式碼中`by="StudentID"`即為兩份資料的共同參照欄位，由於兩參照欄位正好名稱相同，故若未設定此一引數亦可。另外從回傳結果可發現，由於資料 1（`StuInfo`）中並無學生代碼「ID7」，故該欄位的資料 2（`StuScore`）屬性皆為`NA。`
+In the above code, `by="StudentID"` specifies the join key shared by the two datasets. Since the reference columns in both datasets have the same name, this argument could also be omitted. Since student code **“ID7”** does not exist in Dataset 1 (`StuInfo`), the corresponding attributes from Dataset 2 (`StuScore`) are returned as `NA`.
 
 :::strong
-<p style="color:#750000;">**使用`base`與`data.table`套件連接資料**</p>  
-在此二套件中，若連接方式為「**以第一份（左側）資料為基準**」，必須設定引數**`all.x=T`**。函式中的`by=`引數用以設定「參照欄位」，而若兩資料的參照欄位名稱不同時，需進一步設定`by.x=`與`by.y=`兩引數，分別為左側資料的參照欄位名稱與右側資料的欄位名稱。函式撰寫架構如下：
+<p style="color:#750000;">**Joining data in the `base` and `data.table` packages**</p>  
+In these two packages, if the joining method is **based on the first (left) dataset**, the argument **`all.x=TRUE`** must be specified. The `by=` argument in the function is used to define the **join key**. If the names of join key differ between the two datasets, the arguments `by.x=` and `by.y=` must be specified to indicate their names in the both datasets. The general structure of the function is as follows:
 
 ```{r merge1-code-dt, echo=T, eval=F}
-# 若兩資料的參照欄位名稱不同
-merge(資料1, 資料2, all.x=T, by="參照欄位")
-merge.data.table(資料1, 資料2, all.x=T, by="參照欄位")
+# if the name of join keys are identical
+merge(DATA_1, DATA_2, all.x=T, by="KEY")
+merge.data.table(DATA_1, DATA_2, all.x=T, by="KEY")
 
-# 若兩資料的參照欄位名稱不同
-merge(資料1, 資料2, all.x=T, by.x="資料1參照欄位", by.y="資料2參照欄位")
-merge.data.table(資料1, 資料2, all.x=T, by.x="資料1參照欄位", by.y="資料2參照欄位")
+# if the name of join keys are different
+merge(DATA_1, DATA_2, all.x=T, by.x="KEY_DATA_1", by.y="KEY_DATA_2")
+merge.data.table(DATA_1, DATA_2, all.x=T, by.x="KEY_DATA_1", by.y="KEY_DATA_2")
 ```
 
-以連接`StuInfo`與`StuScore`兩資料為例，參照欄位為「StudentID」。
+Using the student score data for example, the left join can be implemented as follows.
 ```{r merge-eg1-dt, echo=T, eval=F}
 StuInfo_DT=data.table(StudentID=c("ID1","ID2","ID3","ID4","ID5","ID6"),
                       Class=c("A","B","A","C","D","A"),
@@ -924,102 +931,103 @@ StuInfo_DT=data.table(StudentID=c("ID1","ID2","ID3","ID4","ID5","ID6"),
 StuScore_DT=data.table(StudentID=c("ID1","ID2","ID4","ID5","ID6","ID7"),
                        Score=c(60,80,40,50,100,90))
 
-# base套件
+# base Package
 merge(StuInfo, StuScore, all.x=T, by="StudentID")
 
-# data.table套件
+# data.table Package
 merge.data.table(StuInfo_DT, StuScore_DT, all.x=T, by="StudentID")
 ```
 :::
 
 
-利用前述`world`與`coffee`兩資料，依據國家名稱相連接為例，在`world`資料中貼附各國咖啡的產量。程式碼撰寫如下。
+Using the previously introduced `world` and `coffee` datasets as an example, the data are joined based on country names, with each country’s coffee production attached to the `world` dataset. The code is written as follows.
 
 ```{r leftjoin-eg2, echo=T, eval=T}
-# 合併world與coffee兩資料
+# left join two datasets based on the join key name_long
 world_coffee=left_join(world, coffee, by="name_long")
 
-# 將world_coffee依據coffee_production_2017由大至小排序
+# sort the coffee production in 2017 in descending order 
 world_coffee=arrange(world_coffee, desc(coffee_production_2017))
 
-# 查看前六筆資料
+# check the first six rows
 head(world_coffee[, c("name_long","continent","coffee_production_2016","coffee_production_2017")])
 ```
 
-請注意由於此範例中，`world`資料內的國家名稱欄位與`coffee`資料內的國家名稱相同，皆為「name_long」，故若不設定`by=`引數，亦可得到相同結果。
+Note that in this example, the country name column in the `world` dataset and the corresponding column in the `coffee` dataset share the same name, **`name_long`**. Therefore, even if the `by=` argument is not specified, the same result will still be obtained.
 
 
-<H2 id="full-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ 保留資料1與資料2所有資料**</p></H2>  
-`full_join()`的函式撰寫架構與前述<A href='#left-join'>`left_join()`</A>函式完全相同。
+<H2 id="full-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Keep all observations from both datasets**</p></H2>  
 
-再次以`StuInfo`與`StuScore`兩資料為例，利用`full_join()`所得結果如下。
+The function structure of `full_join()` is similar to that of the previously introduced <A href='#left-join'>`left_join()`</A> function.
+
+Using `StuInfo` and `StuScore` as examples again, the result obtained using `full_join()` is shown below.
 
 ```{r fulljoin-eg, echo=T, eval=T}
 full_join(StuInfo, StuScore, by="StudentID")
 ```
 
-由以上結果可知，兩份資料中所有的「StudentID」皆會保留，而無法匹配資料者，顯示`NA`。例如「ID3」在`StuScore`中無紀錄；「ID7」在`StuInfo`中無紀錄，故配對後其他欄位的資料即顯示`NA`。
+From the results above, we can observe that all **“StudentID”** values from both datasets are retained. If a record cannot be matched, the corresponding fields are displayed as `NA`. For example, **“ID3”** has no record in `StuScore`, while **“ID7”** has no record in `StuInfo`. Therefore, after the join, the unmatched attributes in the other dataset are shown as `NA`.
+
 
 :::strong
-<p style="color:#750000;">**使用`base`與`data.table`套件連接資料**</p>  
-若連接方式為「**保留資料1與資料2所有資料**」，必須設定引數**`all=T`**，而其他引數之設定方式與前者相同。函式撰寫架構如下：
+<p style="color:#750000;">**Joining data (full) in the `base` and `data.table` packages**</p>  
+If the joining method is to **keep all observations from both datasets**, the argument **`all=TRUE`** must be specified. The configuration of the other arguments is the same as previously described. The general structure of the function is as follows:
 
 ```{r merge2-code-dt, echo=T, eval=F}
-merge(資料1, 資料2, all=T, by="參照欄位")
-merge.data.table(資料1, 資料2, all=T, by="參照欄位")
+merge(DATA_1, DATA_2, all=T, by="KEY")
+merge.data.table(DATA_1, DATA_2, all=T, by="KEY")
 ```
 
-以連接`StuInfo`與`StuScore`兩資料為例，參照欄位為「StudentID」。
+Using the two dataset `StuInfo`, `StuScore` for full join, for example.
 ```{r merge-eg2-dt, echo=T, eval=F}
-# base套件
+# base Package
 merge(StuInfo, StuScore, all=T, by="StudentID")
 
-# data.table套件
+# data.table Package
 merge.data.table(StuInfo_DT, StuScore_DT, all=T, by="StudentID")
 ```
 :::
 
 
-<H2 id="inner-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ 保留共同擁有的參照欄位之資料**</p></H2>  
-`inner_join()`的函式撰寫架構亦與前述<A href='#left-join'>`left_join()`</A>函式完全相同。
+<H2 id="inner-join"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Keep only the observations with join key shared by both datasets**</p></H2>  
+The function structure of `inner_join()` is similar to that of the previously introduced <A href='#left-join'>`left_join()`</A> function.
 
-再次以`StuInfo`與`StuScore`兩資料為例，利用`inner_join()`所得結果如下。
+Using the two dataset `StuInfo`, `StuScore` again for inner join, for example. The join key is `StudentID`.。
 
 ```{r innerjoin-eg, echo=T, eval=T}
 inner_join(StuInfo, StuScore, by="StudentID")
 ```
 
-由以上結果可知，兩份資料中所有的「StudentID」僅會保留共同擁有的紀錄，而無法匹配資料者逕予以刪除。例如「ID3」在`StuScore`中無紀錄；「ID7」在`StuInfo`中無紀錄，故配對後即刪除此二筆資料。
-
+From the results above, we can observe that only the **“StudentID”** values shared by both datasets are retained, while unmatched records are removed. For example, **“ID3”** has no record in `StuScore`, and **“ID7”** has no record in `StuInfo`. Therefore, after the join, these two records are excluded from the result.
 
 :::strong
-<p style="color:#750000;">**使用`base`與`data.table`套件連接資料**</p>  
-若連接方式為「**保留共同擁有的參照欄位之資料**」，**無須**設定`all=`或`all.x=`之引數。函式撰寫架構如下：
+<p style="color:#750000;">**Joining data (inner) in the `base` and `data.table` packages**</p>  
+If the joining method is to **keep only the observations with join key shared by both datasets**, the arguments `all=` and `all.x=` **do not need to be specified**. The general structure of the function is as follows:
 
 ```{r merge3-code-dt, echo=T, eval=F}
-merge(資料1, 資料2, by="參照欄位")
-merge.data.table(資料1, 資料2, by="參照欄位")
+merge(DATA_1, DATA_2, by="KEY")
+merge.data.table(DATA_1, DATA_2, by="KEY")
 ```
 
-以連接`StuInfo`與`StuScore`兩資料為例，參照欄位為「StudentID」。
+Using the two dataset `StuInfo`, `StuScore` again for inner join.  
 ```{r merge-eg3-dt, echo=T, eval=F}
-# base套件
+# base Package
 merge(StuInfo, StuScore, by="StudentID")
 
-# data.table套件
+# data.table Package
 merge.data.table(StuInfo_DT, StuScore_DT, by="StudentID")
 ```
 :::
 
 
 ## Rename Fields
-在第一章節中提及設定資料欄位名稱的方法，可藉由`colnames()`設定或修改欄位名稱。此外`dplyr`套件中的`rename()`函式亦可指定修改名稱的欄位，並賦予新名稱。函式撰寫架構如下。
+In chapter 1, methods for assigning column names to a dataset were introduced, such as using `colnames()` to set or modify column names. In addition, the `rename()` function in the `dplyr` package can also be used to assign new field names by specifying columns. The general structure of the function is as follows.
 
 ```{r rename-code, echo=T, eval=F}
-rename(資料, 新欄位名稱=舊欄位名稱)
+rename(DATA, NEW_NAME=OLD_NAME)
 ```
 
-以修改`StuScore`資料的名稱為例，程式碼撰寫如下。
+Using the `StuScore` dataset as an example, the following code demonstrates how to rename its columns.
 
 ```{r rename-eg1, echo=T, eval=T}
 StuInfo_rn1=rename(StuInfo, STUID=StudentID, CLASS=Class)
@@ -1027,13 +1035,13 @@ StuInfo_rn1=rename(StuInfo, STUID=StudentID, CLASS=Class)
 StuInfo_rn1
 ```
 
-此外，亦可利用`rename_with()`函式，使修改名稱的方式更有所彈性，其函式撰寫架構如下。
+In addition, the `rename_with()` function can be used to provide greater flexibility when modifying column names. The general structure of the function is as follows.
 
 ```{r rename-with-code, echo=T, eval=F}
-rename_with(資料, 修正函式)
+rename_with(DATA, FUNCTION)
 ```
 
-再以`StuScore`資料為例，若欲將所有欄位名稱修正為[全大寫字母](#文字處理)，程式碼撰寫如下。
+Using the `StuScore` dataset again as an example, if we want to convert all column names to [uppercase letters](#convert-case), the code can be written as follows.
 
 ```{r rename-eg2, echo=T, eval=T}
 StuInfo_rn2=rename_with(StuInfo, toupper)
@@ -1041,22 +1049,23 @@ StuInfo_rn2=rename_with(StuInfo, toupper)
 StuInfo_rn2
 ```
 
-除可設定既有的函式外，亦可藉由[自定義函式](#建立自定義函式)修正之，例如若我們希望所有名稱都接上「_A」，則程式碼撰寫如下。
+
+In addition to using existing functions, column names can also be modified by defining a [custom function](#custom-functions). For example, if we want to append “_A” to all column names, the code can be written as follows.
 
 ```{r rename-eg3, echo=T, eval=T}
-# 建立自定義函式
+# define custom functions
 paste_A=function(x){
   return(paste0(x, "_A"))
 }
 
-# 修正名稱，全部欄位名稱加上「_A」
+# revise the column name by appending "_A"
 StuInfo_rn3=rename_with(StuInfo, paste_A)
 
 StuInfo_rn3
 ```
 
 
-而若希望有條件式的修正欄位名稱，則可利用`.cols=`引數設定需要更動的欄位索引值。以`StuInfo`資料為例，若欲針對欄位名稱具有「a」者，轉換為全大寫，程式碼撰寫如下。
+If conditional modification of column names is required, the `.cols=` argument can be used to specify the column indices that need to be changed. Using the `StuInfo` dataset as an example, if we want to convert column names containing the letter **“a”** to uppercase, the code can be written as follows.
 
 ```{r rename-eg4, echo=T, eval=T}
 StuInfo_rn4=rename_with(StuInfo, toupper, .cols=grep("a", colnames(StuInfo)))
@@ -1064,34 +1073,37 @@ StuInfo_rn4=rename_with(StuInfo, toupper, .cols=grep("a", colnames(StuInfo)))
 StuInfo_rn4
 ```
 
-以上程式碼中的[`colnames()`](#資料框data-frame)函式用以回傳特定資料的名稱，[`grep()`](#搜尋字元)函式為尋找含括特定字元的元素索引值。
+In the above code, the [`colnames()`](#data-frame) function is used to return the column names of a dataset, while the [`grep()`](#search-characters) function searches for the index values of elements containing a specific character.
+
 
 
 ## Remove Duplicate
-在第一章節中我們提過可以利用`unique()`函式篩選出向量的唯一值，亦即將重複的元素予以去除。而若希望刪除重複的資料列，可利用`distinct()`函式，其撰寫架構如下。
+We have introduced the `unique()` function in Chapter 1, which can be used to extract the unique values of a vector by removing duplicated elements. If we want to remove duplicated **rows** from a dataset, the `distinct()` function can be used. Its general structure is as follows.
 
 ```{r distinct-code, echo=T, eval=F}
-distinct(資料)
+distinct(DATA)
 ```
 
-以下範例演示`distinct()`函式的功能，同時利用[`duplicated`](#資料框data-frame)函式先行檢查是否有重複的列。
+
+
+The following example demonstrates the functionality of the `distinct()` function. The <A href="#duplicated-rows">`duplicated`</A> function is also used beforehand to check whether there are duplicated rows.
 
 ```{r distinct-eg, echo=T, eval=T}
-# 建立具有重複資料的資料框
+# create data with duplicated rows
 StuScore_dup=data.frame(StudentID=c("ID1","ID2","ID4","ID3","ID4","ID5","ID2"),
                         Name=c("Bob","Mary","Jason","Robert","Jason","Jane","Mary"),
                         Score=c(60,80,40,100,40,100,80))
 
-# 檢查是否有重複列
+# check if duplicated row exists
 duplicated(StuScore_dup)
 
-# 去除重複列
+# remove duplicates
 distinct(StuScore_dup)
 ```
 
 :::strong
-<p style="color:#750000;">**使用`base`套件去除重複資料**</p>  
-`unique()`函式不僅可去除向量內的重複元素，亦可去除資料框中的重複資料。
+<p style="color:#750000;">**Remove duplicates in `base` package**</p>  
+The `unique()` function can not only remove duplicated elements within a vector, but can also be used to remove duplicated rows in a data frame. Note that `unique()` function can also be applied to `data.table` format, which may be more efficienct in removing duplicates.  
 
 ```{r unique-eg-dt, echo=T, eval=F}
 unique(StuScore_dup)
@@ -1100,32 +1112,32 @@ unique(StuScore_dup)
 
 
 ## Set Operations
-資料集合包含交集（intersect）、聯集（union）、差集（difference）、對稱差集（symmetric difference），如圖\@ref(fig:set-operations-fig)之示意圖所示。
+Set operations include **intersect**, **union**, **difference** and **symmetric difference**, as illustrated in Figure \@ref(fig:set-operations-fig).
 
 ```{r set-operations-fig, echo=F, eval=T, out.width="80%", fig.align="center", fig.cap="資料集合示意圖"}
 include_graphics("./figure/set_operations.png")
 ```
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 交集**</p>
-資料交集可利用`intersect()`函式，撰寫架構如下。其中`資料1`與`資料2`的欄位必須相同。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Intersect**</p>
+The **intersect** of datasets can be obtained using the `intersect()` function. The general structure of the function is as follows. The columns of `DATA_1` and `DATA_2` must be identical.
 
 ```{r intersect-code, echo=T, eval=F}
-intersect(資料1, 資料2)
+intersect(DATA_1, DATA_2)
 ```
 
-以新建資料`data1`與`data2`為例，程式碼撰寫如下。
+Using the newly created datasets `data1` and `data2` as examples, the code can be written as follows.
 
 ```{r intersect-eg, echo=T, eval=T}
-# 建立資料
+# create data
 data1=data.frame(Var1=c("A","B","C","D","E"), Var2=c(1,2,3,4,5), Var3=c(T,F,T,F,T))
 data2=data.frame(Var1=c("F","D","G","E","B"), Var2=c(6,4,7,5,2), Var3=c(F,F,T,T,F))
 
-# 交集
+# intersect
 intersect(data1, data2)
 ```
 
 :::strong
-<p style="color:#750000;">**使用`data.table`套件取交集**</p>  
+<p style="color:#750000;">**Intersect in `data.table` package**</p>  
 ```{r intersect-eg-dt, echo=T, eval=F}
 data1_DT=data.table(Var1=c("A","B","C","D","E"), Var2=c(1,2,3,4,5), Var3=c(T,F,T,F,T))
 data2_DT=data.table(Var1=c("F","D","G","E","B"), Var2=c(6,4,7,5,2), Var3=c(F,F,T,T,F))
@@ -1135,25 +1147,25 @@ fintersect(data1_DT, data2_DT)
 :::
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 聯集**</p>
-資料聯集可利用`union()`函式，撰寫架構如下。其中`資料1`與`資料2`的欄位必須相同。另須注意的是，若資料中有重複者，`union()`函式會自動去除，若欲回傳所有重複資料，則可使用`union_all()`函式。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Union**</p>
+The **union** of datasets can be obtained using the `union()` function. The general structure of the function is as follows. The columns of `DATA_1` and `DATA_2` must be identical. It should also be noted that if duplicated records exist in the datasets, the `union()` function will automatically remove them. If all duplicated records are to be retained, the `union_all()` function can be used instead.
 
 ```{r union-code, echo=T, eval=F}
-# 聯集（去除重複資料）
-union(資料1, 資料2)
+# Union (remove duplicated data)
+union(DATA_1, DATA_2)
 
-# 聯集（保留重複資料）
-union_all(資料1, 資料2)
+# Union（retain duplicated data）
+union_all(DATA_1, DATA_2)
 ```
 
-以`data1`與`data2`資料為例，程式碼撰寫如下。
+Taking the union of `data1` and `data2` for examples, the code can be written as follows.
 ```{r union-eg, echo=T, eval=T}
-# 聯集
+# union
 union(data1, data2)
 ```
 
 :::strong
-<p style="color:#750000;">**使用`data.table`套件取聯集**</p>  
+<p style="color:#750000;">**Union in `data.table` package**</p>  
 ```{r union-eg-dt, echo=T, eval=F}
 funion(data1_DT, data2_DT)
 ```
@@ -1161,58 +1173,57 @@ funion(data1_DT, data2_DT)
 
 
 <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 差集**</p>
-資料差集可利用`setdiff()`函式，撰寫架構如下。其中`資料1`與`資料2`的欄位必須相同。
+The **difference** between datasets can be obtained using the `setdiff()` function. The general structure of the function is as follows. The columns of `DATA_1` and `DATA_2` must be identical.
 
 ```{r setdiff-code, echo=T, eval=F}
-setdiff(資料1, 資料2)
+setdiff(DATA_1, DATA_2)
 ```
 
-再此以`data1`與`data2`資料為例，程式碼撰寫如下。
+Taking the set difference of `data1` and `data2` for examples, the code can be written as follows.
 ```{r setdiff-eg, echo=T, eval=T}
-# 差集 (data1-data2)
+# difference (data1-data2)
 setdiff(data1, data2)
 
-# 差集 (data2-data1)
+# difference (data2-data1)
 setdiff(data2, data1)
 ```
 
 :::strong
-<p style="color:#750000;">**使用`data.table`套件取差集**</p>  
+<p style="color:#750000;">**Difference in `data.table` pacakge**</p>  
 ```{r setdiff-eg-dt, echo=T, eval=F}
 fsetdiff(data1_DT, data2_DT)
 ```
 :::
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 對稱差集**</p>
-資料對稱差集可利用`symdiff()`函式，撰寫架構如下。其中`資料1`與`資料2`的欄位必須相同。
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Symmetric difference**</p>
+The **symmetric difference** between datasets can be obtained using the `setdiff()` function. The general structure of the function is as follows. The columns of `DATA_1` and `DATA_2` must be identical.
 
 ```{r symdiff-code, echo=T, eval=F}
-symdiff(資料1, 資料2)
+symdiff(DATA_1, DATA_2)
 ```
 
-以`data1`與`data2`資料為例，程式碼撰寫如下。
+Taking the symmetric difference of `data1` and `data2` for examples, the code can be written as follows.
 ```{r symdiff-eg, echo=T, eval=T}
-# 對稱差集
+# symmetric difference
 symdiff(data1, data2)
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 檢查兩資料是否完全相同**</p>
-若希望檢查兩資料是否完全相同，可透過`setequal()`函式檢查之，撰寫架構如下。
-
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Checking whether two datasets are identical**</p>
+If we want to check whether two datasets are exactly the same, the `setequal()` function can be used. The general structure of the function is as follows.  
 ```{r setequal-code, echo=T, eval=F}
-setequal(資料1, 資料2)
+setequal(DATA_1, DATA_2)
 ```
 
-以`data1`與`data2`資料為例，程式碼撰寫如下。
+The following code checks whether the two datasets are identical.  
 ```{r setequal-eg, echo=T, eval=T}
-# 對稱差集
+# check identical datasets
 setequal(data1, data2)
 ```
 
 :::strong
-<p style="color:#750000;">**使用`data.table`套件檢查兩資料是否完全相同**</p>  
+<p style="color:#750000;">**Check identical datasets in `data.table` pacakge**</p>  
 ```{r setequal-eg-dt, echo=T, eval=F}
 fsetequal(data1_DT, data2_DT)
 ```
@@ -1220,129 +1231,140 @@ fsetequal(data1_DT, data2_DT)
 
 
 ## Transform Data Shape
-依據資料的長度與寬度，可以將其簡單分為「長資料（long data）」與「寬資料（wide data）」。長資料是指針對不同屬性**逐列羅列**的資料格式，通常資料筆數會較多，會存在許多重複的資料列；寬資料則是指將不同屬性**逐行展開**的資料格式，通常資料筆數較少。以圖\@ref(fig:melt-dcast-fig)之示意圖為例，若欲記錄學生各科目的成績，有兩種紀錄方式，其一為長資料，亦即將學生、科目、分數分欄紀錄；另一為寬資料，係建立科目別（如示意圖中為「Math」與「English」）欄位，並依序記錄各科目的分數。
+Based on the length and width of a dataset, it can be broadly classified into **long data** and **wide data** formats. **Long data** refers to a format in which different attributes are **listed row by row**. This format typically contains a larger number of observations and often includes many repeated rows. In contrast, **wide data** refers to a format in which different attributes are **spread across columns**. This format usually contains fewer observations but more fields.
 
-```{r melt-dcast-fig, echo=F, eval=T, out.width="85%", fig.align="center", fig.cap="資料型態轉換示意圖"}
+As illustrated in Figure \@ref(fig:melt-dcast-fig), if we want to record students’ scores for different subjects, there are two possible recording methods. One is the **long data** format, where student, subject, and score are recorded in separate columns. The other is the **wide data** format, where subject-specific columns (such as “Math” and “English” in the figure) are created and the corresponding scores are recorded in each column.
+
+```{r melt-dcast-fig, echo=F, eval=T, out.width="85%", fig.align="center", fig.cap="Illustration of long and wide format"}
 include_graphics("./figure/melt_dcast.png")
 ```
 
-長資料與寬資料皆有不同的應用時機，舉例而言，在資料統計時，長資料即有利於透過[`group_by() %>% summarise()`](#資料分群與統計)函式分群與統計資料；而寬資料則有利於表格輸出時的數據呈現與觀察。此外，在運輸領域中為瞭解運具、路徑、方案的選擇行為，通常我們會透過[選擇模型（Discrete Choice Model）](https://www.wikiwand.com/en/Discrete_choice)作為量化分析的工具，而 R 語言常見的選擇模型套件包含[`mlogit`](https://cran.r-project.org/web/packages/mlogit/mlogit.pdf)與[`apollo`](https://www.apollochoicemodelling.com/)，兩者皆可在函式中設定使用寬資料或長資料，以利於不同形式資料的讀取。
+Both long and wide data formats have different application scenarios. For example, when performing statistical analysis, the **long format** is advantageous because it facilitates grouping and summarising data using functions such as [`group_by() %>% summarise()`](#group-and-summarise). On the other hand, the **wide format** is more convenient for presenting and inspecting numerical results in tabular outputs.
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 長資料轉換為寬資料**</p>
-將長資料轉換為寬資料可以透過`data.table`套件中的`dcast()`函式，其撰寫架構如下，請參照圖\@ref(fig:melt-dcast-fig)關於「欄位」的說明。
+In addition, in the transport field, **discrete choice models** are often used to analyse the selection behavior of transport modes, routes, or alternatives. In R, commonly used packages for discrete choice modeling include [`mlogit`](https://cran.r-project.org/web/packages/mlogit/mlogit.pdf) and [`apollo`](https://www.apollochoicemodelling.com/). Both packages allow users to specify either wide or long data formats within their functions, enabling flexible data input depending on the dataset structure.
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Long format to wide format**</p>
+Long data can be converted into wide data using the `dcast()` function in the `reshape2` or `data.table` package. Its general structure is as follows. Please note that two packages use the same function name; however, the output result might be different in some cases. `reshape2` package is most suitable for `data.frame`, while `data.table` package is desinged for `data.table` format. Therefore, it is recommended to specify the package name (e.g., `reshape2::dcast()``) when using the functions based on the input data format.
+
 
 ```{r dcast-code, echo=T, eval=F}
-dcast(資料, 保留欄位+保留欄位+... ~ 參照欄位, value.var="展開欄位")
+dcast(DATA, RETAINED_COLUMN_1+RETAINED_COLUMN_2+... ~ REERENCE_COLUMN, value.var="MEASURE_COLUMN")
 ```
 
-「保留欄位」係指在轉換後仍然保留不動的欄位，以圖\@ref(fig:melt-dcast-fig)中的學生分數資料為例，學生的學號（StuID）與姓名（Name）轉換後仍固定。「參照欄位」為變動欄位的依據，會新增至表頭，如科目（Subject）即為參照欄位，轉換為寬資料後會將該欄位內容新增至表頭。「展開欄位」係指轉換為寬資料後依據「參照欄位」所填入的內容，如分數（Score）即為展開欄位，依據科目將分數依序填入至指定的科目欄位中。
+Please refer to Figure \@ref(fig:melt-dcast-fig) for the explanation of each type of **columns**.
 
-另外`dcast()`函式可應用於 data.table 與 data.frame 兩種資料型態，惟建議處理大數據時使用 data.table 格式較佳，對於此函式的相容性較高。若欲將原本的 data.frame 格式轉換為 data.table，可利用[`data.table()`](#data.frame-與-data.table)函式新增該資料型態。
+A **retained column** refers to a column that remains unchanged after the transformation. Using the student score data in Figure \@ref(fig:melt-dcast-fig) as an example, the student ID (`StuID`) and name (`Name`) remain fixed after the transformation.
 
-具體範例以圖\@ref(fig:melt-dcast-fig)中的學生分數資料做說明，程式碼撰寫如下。
+A **reference column** is the basis for the varying columns and will be expanded into the header. For example, **subject** (`Subject`) serves as the reference column; after converting the data to wide format, the values in this column are added to the header as new column names.
+
+A **value column** refers to the column whose values are filled into the wide-format table according to the **reference column**. For example, **score** (`Score`) is the value column, and the value of scores are filled into the corresponding reference columns based on the subject names.
+
+A concrete example is illustrated using the student score data shown in Figure \@ref(fig:melt-dcast-fig). The code is written as follows.
 
 ```{r dcast-eg, echo=T, eval=T, warning=F}
-# 建立長資料
+# create data in long format 
 StuScore=data.frame(StuID=rep(1:3, each=2),
                     Name=rep(c("John", "Robert", "Mary"), each=2),
                     Subject=rep(c("Math", "English"), times=3),
                     Score=c(80,70,90,75,85,95))
 
-# 查看資料
+# check the data
 StuScore
 
-# 將長資料轉換為寬資料
+# convert long format to wider format
 StuScore_wide=reshape2::dcast(StuScore, StuID+Name ~ Subject, value.var="Score")
 
-# 查看資料
+# check the result
 StuScore_wide
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ 寬資料轉換為長資料**</p>
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Wide format to long format**</p>
 
-將寬資料轉換為長資料可以透過`data.table`套件中的`melt()`函式，其撰寫架構如下，請參照圖\@ref(fig:melt-dcast-fig)以及前文關於「欄位」的說明，此函式同樣建議使用 data.table 格式較佳。
+Wide data can be converted into long data using the `melt()` function. Its general structure is as follows. Please refer to Figure \@ref(fig:melt-dcast-fig) and the previous explanation of each type of **column**.
 
 ```{r melt-code, echo=T, eval=F}
-melt(資料, id.vars=c("保留欄位", ...),
-     measure.vars="展開欄位",
-     variable.name="參照欄位名稱",
-     value.name="展開欄位名稱")
+melt(DATA, id.vars=c("RETAINED_COLUMN", ...),
+     measure.vars="MEASURE_COLUMN",
+     variable.name="REFERENCE_COLUMN",
+     value.name="MEASURE_COLUMN_NAME")
 ```
 
-再次以學生資料分數為例，將前面使用`dcast()`函式轉換為寬資料的`StuScore_wide`進一步透過`melt()`函式轉換回長資料，程式碼撰寫如下。
+Using the student score data as an example again, the wide-format dataset `StuScore_wide`, which was previously created using the `dcast()` function, can be converted back into long format using the `melt()` function. The code is written as follows.
 
 ```{r melt-eg, echo=T, eval=T, warning=F}
-# 將寬資料轉換為長資料
+# covert wide format to long format
 StuScore_long=reshape2::melt(StuScore_wide, id.vars=c("StuID", "Name"),
-                   measure.vars=c("Math","English"), variable.name="Subject", value.name="Score")
+                             measure.vars=c("Math","English"), variable.name="Subject", value.name="Score")
 
-# 查看資料
+# check the first six rows
 StuScore_long
 ```
 
-以`coffee`資料為例，其屬於寬資料，將咖啡的產量分欄記錄（coffee_production_2016、coffee_production_2017），若欲將其轉換為長資料，亦即所有的產量放置於同一欄位，並額外新增一欄記錄「年度（Year）」，程式碼撰寫如下。
+Using the `coffee` dataset as an example, it is in **wide format**, where coffee production is recorded in separate columns (e.g., `coffee_production_2016`, `coffee_production_2017`). If we want to convert it into **long format**, all production values can be placed in a single column, with an additional column added to record the **year (`Year`)**. The code can be written as follows.
 
 ```{r melt-eg-coffee1, echo=T, eval=T, warning=F}
-# 將寬資料轉換為長資料
+# covert wide format to long format
 coffee_long=reshape2::melt(coffee, id.vars=c("name_long"),
-                 measure.vars=c("coffee_production_2016","coffee_production_2017"),
-                 variable.name="Year", value.name="Production")
+                           measure.vars=c("coffee_production_2016","coffee_production_2017"),
+                           variable.name="Year", value.name="Production")%>%
+  arrange(name_long)
 
-# 查看資料
+# check the first six rows
 head(coffee_long)
 ```
 
-此時的「年度（Year）」欄位經過長資料轉換後，記錄的是「coffee_production_2016」與「coffee_production_2017」兩欄位名稱，若欲僅保留年度（2016、2017），可利用文字處理的函式[`gsub()`](#擷取與取代字元)將「coffee_production_」之字元取代為「無字元（`""`）」，並利用`as.numeric()`函式將其傳換為數值型態，程式碼撰寫如下。
+After converting to long format, the **Year** column records the original column names (`coffee_production_2016` and `coffee_production_2017`). If we want to keep only the year values (2016, 2017), we can use the text replacement function [`gsub()`](#extract-and-replace-characters) to replace the string `"coffee_production_"` with an empty string (`""`). The result can then be converted to a numeric type using the `as.numeric()` function. The code is written as follows.
 
 ```{r melt-eg-coffee2, echo=T, eval=T, warning=F}
-# 以gsub()函式取代不需要的字元
+# replace the characters using gsub()
 coffee_long$Year=as.numeric(gsub("coffee_production_", "", coffee_long$Year))
 
-# 查看前六筆資料
+# check the first six rows
 head(coffee_long)
 ```
 
 ## Split Column
-有時一個欄位中可能儲存多個屬性資料，並透過符號分隔連接為一字串，然我們希望可將其拆分至不同欄位，以便後續資料分析，此時可以利用[`str_split()`](#拆解字串)函式先行將文字拆分，並將拆分結果轉換為 data.frame 格式，最後再透過[`cbind()`](#合併資料)函式將該資料框與原始資料合併，即可拆分特定欄位。以學生分數資料（`StuScore_split`）為例，其中 Student 欄位同時記錄學號與姓名，並以「-」符號區隔，若欲將其拆分，並建立兩個欄位，程式碼撰寫如下。
+Sometimes a single column may contain multiple attributes combined into one string and separated by a delimiter. For subsequent data analysis, it may be necessary to split these attributes into separate columns. In such cases, the [`str_split()`](#split-strings) function can be used to first split the string. The result can then be converted into a `data.frame`, and finally merged with the original dataset using the [`cbind()`](#combine-data) function to complete the column separation.
+
+Using the student score dataset (`StuScore_split`) as an example, the **Student** column records both the student ID and name, separated by the symbol “-”. If we want to split this column and create two separate columns, the code can be written as follows.
 
 ```{r separate-eg1, echo=T, eval=T}
-# 建立資料
+# create data
 StuScore_split=data.frame(Student=c("1-John","2-Robert","3-Mary"), Score=c(80,70,90))
 
-# 將Student欄位拆分，並儲存於資料框中
+# split the Student field and store in a data frame
 stu_split=strsplit(StuScore_split$Student, "-")
 stu_split=data.frame(matrix(unlist(stu_split), ncol=2, byrow=T))
 colnames(stu_split)=c("StuID", "Name")
 
-# 合併資料，並刪除原始欄位
+# bind all data and delete the original column
 cbind(stu_split, StuScore_split)%>%
   select(-Student)
 ```
 
-上述的寫法較為冗長，而`tidyr`套件中所提供的`separate()`函式則可較有效率地處理此類狀況，該函式撰寫架構如下。
+The approach above is relatively verbose. The `separate()` function provided in the `tidyr` package can handle such situations more efficiently. The general structure of the function is as follows.
 
 ```{r separate-code, echo=T, eval=F}
-separate(資料, col=欲拆分欄位, into=新欄位名稱向量, sep="分隔符號")
+separate(DATA, col=SPLIT_COLUMN, into=NEW_COLUMN_NAME, sep="SEPARATION")
 ```
 
-其中若拆分的結果含有 n 個，則`into=`引數必須設定 n 個元素之向量，否則僅回傳部分結果。`sep=`引數則用以設定欲拆分欄位中的分隔符號。
+If the split operation produces **n** components, the `into=` argument must be specified as a vector containing **n elements**; otherwise, only part of the result will be returned. The `sep=` argument is used to define the **delimiter** within the column to be split.
 
 ```{r separate-eg2, echo=T, eval=T}
 separate(StuScore_split, col="Student", into=c("StuID","Name"), sep="-")
 ```
 
-由上述範例可知，藉由`separate()`函式拆分資料欄位甚為輕鬆，可提升撰寫程式的簡潔度。
-
+As shown in the example above, using the `separate()` function to split data columns is straightforward and can significantly improve the conciseness of the code.
 
 ## Fill Data
-在實務資料中，往往有些資料是空缺的，必須將其填補後，尚能進一步進行統計與資料處理。若欲透過其上下筆資料予以填補，則可透過`fill()`函式達成目的，該函式撰寫架構如下。
+In practical datasets, some values are often missing and need to be filled before further statistical analysis or data processing can be performed. If we want to fill missing values using the observations above or below them, the `fill()` function can be used. The general structure of the function is as follows.
 
 ```{r fill-code, echo=T, eval=F}
-fill(資料, 欲填補欄位名稱, .direction="方向")
+fill(DATA, FILL_COLUMN, .direction="DIRECTION")
 ```
 
-其中`.direction=`引數用以設定填補的方向，可為上（`up`）、下（`down`）、先上後下（`updown`）與先下後上（`downup`）四種。
+The `.direction=` argument specifies the **direction of filling**, which can be set to one of four options: upward (`up`), downward (`down`), first upward then downward (`updown`), or first downward then upward (`downup`).
 
 以臺鐵各鄉鎮市區的站點數目統計資料（`tra_town`）為例，其中詳列縣市、鄉鎮市區與車站數量，而縣市名稱（COUNTYNAME）僅羅列於各縣市的第一筆資料，因此需要將其「向下」填補。程式碼撰寫如下。
 
@@ -1356,18 +1378,18 @@ head(tra_town)
 # 將縣市名稱向下填補
 tra_town_fill=fill(tra_town, COUNTYNAME, .direction="down")
 
-# 再次查看前六筆資料
+# check the first six rows
 head(tra_town_fill)
 ```
 
 
 ## **Summary of Data Tidy and Processing Functions** {-}
 
-函式欄位中的顏色表示函式所屬套件：  
+The colours of the function names indicate the package to which each function belongs.  
 
 * <p style="background-color:#FFECEC;">`base`</p>  
 * <p style="background-color:#ECF5FF;">`dplyr`</p>  
-* <p style="background-color:#F5FFE8;">`data.table`（使用此套件時，建議使用 data.table 資料型態）</p>  
+* <p style="background-color:#F5FFE8;">`data.table` (when using this package, the data should be better using `data.table` format)</p>  
 * <p style="background-color:#FFFFDF;">`tidyr`</p>  
 
 ```{r function-summary, echo=F, eval=T}

@@ -94,3 +94,4 @@ tab:join-table
 fig:set-operations-fig
 fig:melt-dcast-fig
 tab:function-summary
+xlsx-file
