@@ -1,76 +1,78 @@
 ﻿chapter,operation,func,package
-合併資料,合併橫列,"rbind(資料1, 資料2, ...)",base
-合併資料,合併橫列,"bind_rows(資料1, 資料2, ...)",dplyr
-合併資料,合併直行,"cbind(資料1, 資料2, ...)",base
-合併資料,合併直行,"bind_cols(資料1, 資料2, ...)",dplyr
-合併資料,合併陣列中的資料,rbindlist(陣列),data.table
-選取資料欄位,選取欄位,"資料[, 欄位名稱向量]",base
-選取資料欄位,選取欄位,"資料[, 欄位索引向量]",base
-選取資料欄位,選取欄位,"select(資料, 欄位名稱1, 欄位名稱2, ...)",dplyr
-選取資料欄位,選取欄位,"資料[, ..欄位名稱向量]",data.table
-選取資料欄位,刪除欄位,"資料[, -欄位名稱向量]",base
-選取資料欄位,刪除欄位,"資料[, -欄位索引向量]",base
-選取資料欄位,刪除欄位,"select(資料, -欄位名稱1, -欄位名稱2, ...)",dplyr
-選取資料欄位,刪除欄位,"資料[, !..欄位名稱向量]",data.table
-依條件篩選資料,篩選資料（AND）,"filter(資料, 條件1, 條件2, ...)",dplyr
-依條件篩選資料,篩選資料（AND）,"filter(資料, 條件1 & 條件2 & ...)",dplyr
-依條件篩選資料,篩選資料（AND）,資料[條件1 & 條件2 & ...],data.table
-依條件篩選資料,篩選資料（OR）,"filter(資料, 條件1 | 條件2 | ...)",dplyr
-依條件篩選資料,篩選資料（OR）,資料[條件1 | 條件2 | ...],data.table
-新增資料屬性,新增欄位,資料$新變數=c(...),base
-新增資料屬性,新增欄位,"mutate(資料, 新變數1=運算1, 新變數2=運算2, ...)",dplyr
-新增資料屬性,取代多個欄位,"mutate_at(資料, c(""變數1"", ""變數2"", ...), 運算函式)",dplyr
-新增資料屬性,建立多個新欄位,"mutate_at(資料, c(""變數1"", ""變數2"", ...), list(新名稱1=運算函式1, 新名稱2=運算函式2))",dplyr
-新增資料屬性,新增欄位,"資料[, c(""新變數1"", ""新變數2"") := .(運算1, 運算2)]",data.table
-條件判斷,邏輯判斷,"ifelse(判斷式, 正確回傳結果, 錯誤回傳結果)",base
-條件判斷,邏輯判斷,"case_when(欄位, 
-          條件1 ~ 結果1, 
-          條件2 ~ 結果2, 
-          TRUE ~ 結果3,
+Combine Data,Combine rows,"rbind(DATA_1, DATA_2, ...)",base
+Combine Data,Combine rows,"bind_rows(DATA_1, DATA_2, ...)",dplyr
+Combine Data,Combine columns,"cbind(DATA_1, DATA_2, ...)",base
+Combine Data,Combine columns,"bind_cols(DATA_1, DATA_2, ...)",dplyr
+Combine Data,Combine data frames in a list,rbindlist(LIST),data.table
+Select Fields,Select fields,"DATA[, NAME_VECTOR]",base
+Select Fields,Select fields,"DATA[, COLUMN_INDEX]",base
+Select Fields,Select fields,"select(DATA, COLUMN_1, COLUMN_2, ...)",dplyr
+Select Fields,Select fields,"DATA[, ..NAME_VECTOR]",data.table
+Select Fields,Remove fields,"DATA[, -NAME_VECTOR]",base
+Select Fields,Remove fields,"DATA[, -COLUMN_INDEX]",base
+Select Fields,Remove fields,"select(DATA, -COLUMN_1, -COLUMN_2, ...)",dplyr
+Select Fields,Remove fields,"DATA[, !..NAME_VECTOR]",data.table
+Filter Data,Filter data (AND),"filter(DATA, CONDITION_1, CONDITION_2, ...)",dplyr
+Filter Data,Filter data (AND),"filter(DATA, CONDITION_1 & CONDITION_2 & ...)",dplyr
+Filter Data,Filter data (AND),DATA[CONDITION_1 & CONDITION_2 & ...],data.table
+Filter Data,Filter data (OR),"filter(DATA, CONDITION_1 | CONDITION_2 | ...)",dplyr
+Filter Data,Filter data (OR),DATA[CONDITION_1 | CONDITION_2 | ...],data.table
+Append Fields,Append fields,DATA$NEW_COLUMN=c(...),base
+Append Fields,Append fields,"mutate(DATA, COLUMN_1=COMPUTATION_1, COLUMN_2=COMPUTATION_2, ...)",dplyr
+Append Fields,Append multiple fields by same computation,"mutate_at(DATA, c(""COLUMN_1"", ""COLUMN_2"", ...), COMPUTATION)",dplyr
+Append Fields,Append multiple fields systematically,"mutate_at(DATA, c(""COLUMN_1"", ""COLUMN_2"", ...),
+               list(COLUMN_1_NEW=COMPUTATION_1,
+                     COLUMN_2_NEW=COMPUTATION_2))",dplyr
+Append Fields,Append fields,"DATA[, c(""COLUMN_1_NEW"", ""COLUMN_2_NEW"") := .(COMPUTATION_1, COMPUTATION_2)]",data.table
+Conditional Evaluation,Conditional evaluation,"ifelse(CONDITION, RETURN_TRUE, RETURN_FALSE)",base
+Conditional Evaluation,Conditional evaluation,"case_when(COLUMN, 
+          CONDITION_1 ~ RETURN_1, 
+          CONDITION_2 ~ RETURN_2, 
+          TRUE ~ RETURN_3,
           ...)",dplyr
-資料排序,資料排序（正序）,"arrange(資料, 待排序欄位)",dplyr
-資料排序,資料排序（正序）,資料[order(待排序欄位)],data.table
-資料排序,資料排序（倒序）,"arrange(資料, desc(待排序欄位))",dplyr
-資料排序,資料排序（倒序）,"arrange(資料, -待排序欄位)",dplyr
-資料排序,資料排序（倒序）,資料[order(-待排序欄位)],data.table
-資料分群與統計,分群篩選資料,"group_by(資料, 分群欄位)%>%
-  filter(條件)",dplyr
-資料分群與統計,分群篩選資料,"group_by(資料, 分群欄位)%>%
-  slice(索引值)",dplyr
-資料分群與統計,分群篩選資料,"資料[, .SD[索引值], by=分群欄位]",data.table
-資料分群與統計,分群統計資料,"group_by(資料, 分群欄位)%>%
-  summarise(運算函式)",dplyr
-資料分群與統計,分群多個運算相同的統計資料,"group_by(資料, 分群欄位)%>%
-  summarise(across(變數1:變數2, ~ 運算函式(.x)))",dplyr
-資料分群與統計,分群統計資料,"資料[, .(運算函式), by=分群欄位]",data.table
-資料分群與統計,分群統計資料,"group_by(資料, 分群欄位)%>%
-  reframe(運算函式)",dplyr
-連接資料,以左側資料為基準,"merge(資料1, 資料2, all.x=T, by=""參照欄位"")",base
-連接資料,以左側資料為基準,"left_join(資料1, 資料2, by=""參照欄位"")",dplyr
-連接資料,以左側資料為基準,"merge.data.table(資料1, 資料2, all.x=T, by=""參照欄位"")",data.table
-連接資料,保留兩份所有資料,"merge(資料1, 資料2, all=T, by=""參照欄位"")",base
-連接資料,保留兩份所有資料,"full_join(資料1, 資料2, by=""參照欄位"")",dplyr
-連接資料,保留兩份所有資料,"merge.data.table(資料1, 資料2, all=T, by=""參照欄位"")",data.table
-連接資料,保留共同擁有欄位的資料,"merge(資料1, 資料2, by=""參照欄位"")",base
-連接資料,保留共同擁有欄位的資料,"inner_join(資料1, 資料2, by=""參照欄位"")",dplyr
-連接資料,保留共同擁有欄位的資料,"merge.data.table(資料1, 資料2, by=""參照欄位"")",data.table
-重新命名欄位,重新命名欄位（逐一羅列）,"rename(資料, 新欄位名稱=舊欄位名稱)",dplyr
-重新命名欄位,重新命名欄位（系統性修改）,"rename_with(資料, 修正函式)",dplyr
-去除重複資料,去除重複資料,distinct(資料),dplyr
-去除重複資料,去除重複資料,unique(資料),data.table
-資料集合,交集,"intersect(資料1, 資料2)",dplyr
-資料集合,交集,"fintersect(資料1, 資料2)",data.table
-資料集合,聯集,"union(資料1, 資料2)",dplyr
-資料集合,聯集,"funion(資料1, 資料2)",data.table
-資料集合,差集,"setdiff(資料1, 資料2)",dplyr
-資料集合,差集,"fsetdiff(資料1, 資料2)",data.table
-資料集合,對稱差集,"symdiff(資料1, 資料2)",dplyr
-資料集合,檢查兩資料是否完全相同,"setequal(資料1, 資料2)",dplyr
-資料集合,檢查兩資料是否完全相同,"fsetequal(資料1, 資料2)",data.table
-資料型態轉換,長資料轉換為寬資料,"cast(資料, 保留欄位+保留欄位+... ~ 參照欄位, value.var=""展開欄位"")",data.table
-資料型態轉換,寬資料轉換為長資料,"melt(資料, id.vars=c(""保留欄位"", ...),
-     measure.vars=""展開欄位"",
-     variable.name=""參照欄位名稱"",
-     value.name=""展開欄位名稱"")",data.table
-拆分欄位,文字切割後拆分欄位,"separate(資料, col=欲拆分欄位, into=新欄位名稱向量, sep=""分隔符號"")",tidyr
-填補資料,依據方向填補資料,"fill(資料, 欲填補欄位名稱, .direction=""方向"")",tidyr
+Sort Data,Sort data in ascending order,"arrange(DATA, COLUMN)",dplyr
+Sort Data,Sort data in ascending order,DATA[order(COLUMN)],data.table
+Sort Data,Sort data in decending order,"arrange(DATA, desc(COLUMN))",dplyr
+Sort Data,Sort data in decending order,"arrange(DATA, -COLUMN)",dplyr
+Sort Data,Sort data in decending order,DATA[order(-COLUMN)],data.table
+Group and Summarise,Group and filter data,"group_by(DATA, COLUMN)%>%
+  filter(CONDITION)",dplyr
+Group and Summarise,Group and filter data,"group_by(DATA, COLUMN)%>%
+  slice(INDEX)",dplyr
+Group and Summarise,Group and filter data,"DATA[, .SD[INDEX], by=COLUMN]",data.table
+Group and Summarise,Group and summarise data,"group_by(DATA, COLUMN)%>%
+  summarise(COMPUTATION)",dplyr
+Group and Summarise,Group and summarise data with same computation,"group_by(DATA, COLUMN)%>%
+  summarise(across(COLUMN_1:COLUMN_2, ~ COMPUTATION(.x)))",dplyr
+Group and Summarise,Group and summarise data,"DATA[, .(COMPUTATION), by=COLUMN]",data.table
+Group and Summarise,Group and summarise data,"group_by(DATA, COLUMN)%>%
+  reframe(COMPUTATION)",dplyr
+Join Data,Left join,"merge(DATA_1, DATA_2, all.x=T, by=""KEY"")",base
+Join Data,Left join,"left_join(DATA_1, DATA_2, by=""KEY"")",dplyr
+Join Data,Left join,"merge.data.table(DATA_1, DATA_2, all.x=T, by=""KEY"")",data.table
+Join Data,Full join,"merge(DATA_1, DATA_2, all=T, by=""KEY"")",base
+Join Data,Full join,"full_join(DATA_1, DATA_2, by=""KEY"")",dplyr
+Join Data,Full join,"merge.data.table(DATA_1, DATA_2, all=T, by=""KEY"")",data.table
+Join Data,Inner join,"merge(DATA_1, DATA_2, by=""KEY"")",base
+Join Data,Inner join,"inner_join(DATA_1, DATA_2, by=""KEY"")",dplyr
+Join Data,Inner join,"merge.data.table(DATA_1, DATA_2, by=""KEY"")",data.table
+Rename Fields,Rename fields,"rename(DATA, NEW_NAME=OLD_NAME)",dplyr
+Rename Fields,Rename fields systematically,"rename_with(DATA, FUNCTION)",dplyr
+Remove Duplicate,Remove duplicated rows,distinct(DATA),dplyr
+Remove Duplicate,Remove duplicated rows,unique(DATA),data.table
+Set Operations,Intersect,"intersect(DATA_1, DATA_2)",dplyr
+Set Operations,Intersect,"fintersect(DATA_1, DATA_2)",data.table
+Set Operations,Union,"union(DATA_1, DATA_2)",dplyr
+Set Operations,Union,"funion(DATA_1, DATA_2)",data.table
+Set Operations,Difference,"setdiff(DATA_1, DATA_2)",dplyr
+Set Operations,Difference,"fsetdiff(DATA_1, DATA_2)",data.table
+Set Operations,Symmetric difference,"symdiff(DATA_1, DATA_2)",dplyr
+Set Operations,Check identical data frame,"setequal(DATA_1, DATA_2)",dplyr
+Set Operations,Check identical data table,"fsetequal(DATA_1, DATA_2)",data.table
+Transform Data Shape,Long format to wide format,"cast(DATA, RETAIN_COLUMN_1+RETAIN_COLUMN_2+... ~ REERENCE_COLUMN, value.var=""MEASURE_COLUMN"")",data.table
+Transform Data Shape,Wide format to long format,"melt(DATA, id.vars=c(""RETAIN_COLUMN"", ...),
+     measure.vars=""MEASURE_COLUMN"",
+     variable.name=""REFERENCE_COLUMN"",
+     value.name=""MEASURE_COLUMN_NAME"")",data.table
+Split Column,Split the string into columns,"separate(DATA, col=SPLIT_COLUMN, into=NEW_COLUMN_NAME, sep=""SEPARATION"")",tidyr
+Fill Data,Fill data by given direction,"fill(DATA, FILL_COLUMN, .direction=""DIRECTION"")",tidyr

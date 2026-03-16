@@ -266,7 +266,7 @@ vec6*5
 ```
 
 
-<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check whether each element in a vector is contained in another vector**</p>  
+<H2 id="contain-vector"><p style="color:#003D79;font-size:18px;line-height:2">**⌾ Check whether each element in a vector is contained in another vector**</p></H2> 
 Check whether each element in the vector `vec6` is contained in the vector `c(1, 2, 3)`. 
 ```{r vector-contain, echo=T, eval=T}
 vec6 %in% c(1,2,3)
@@ -581,7 +581,8 @@ StuScore[c(T,F,T,F,T),]
 StuScore[c(1,3,5),]
 ```
 
-<p style="font-size:18px;line-height:1">**<u>Retrieve specific columns</u>**</p>  
+
+<H2 id="retrieve-column"><p style="font-size:18px;line-height:1">**<u>Retrieve specific columns</u>**</p></H2> 
 There are three ways to return specified (multiple) columns, including:
 
 * Column index vector  
@@ -1875,7 +1876,7 @@ In addition, the `read.csv()` function provides many arguments for configuration
 
 Besides `read.csv()`, data can also be read using the `read.table()` function, which has identical functionality and arguments. In addition, the `fread()` function from the `data.table` package can also be used to read data. Its arguments are largely similar to those of `read.csv()`, and it can read text data from both local files and web sources. However, its reading speed is significantly faster, making it suitable for handling **large datasets**.  
 
-It should also be noted that data read using `fread()` is not only in the **data.frame** format but also in the **data.table** format. For an explanation of these two data structures, please refer to Chapter 2, section [Data.frame and Data.table](#data.frame-and-data.table).
+It should also be noted that data read using `fread()` is not only in the **data.frame** format but also in the **data.table** format. For an explanation of these two data structures, please refer to Chapter 2, section [data.frame and data.table](#data.frame-and-data.table).
 
 
 ```{r read-fread1, echo=T, eval=F}
