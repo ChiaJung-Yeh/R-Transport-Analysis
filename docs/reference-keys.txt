@@ -99,3 +99,8 @@ fig:ggplot2-fig
 fig:fig-exp
 data-visualisation
 chart-types
+tab:tab-export-plot
+types-of-chart
+fig:geom-setting-shape
+fig:geom-setting-linetype
+fig:geom-setting-color
