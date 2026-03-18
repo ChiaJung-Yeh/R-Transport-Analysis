@@ -392,7 +392,7 @@ The settings of all arguments in `geom_line()` function are shown in Table \@ref
 gl_code=data.frame(argument=c("`color=`","`linetype=`","`linewidth=`","`alpha=`","`group=`"),
                    setting=c("Set the colour of the line", "Set the line type", "Set the thickness of the line", "Set the transparency of the line", "Set the grouping of the line"), explain = c("Refer to <A href='#geom-setting-color'>colour settings</A>", "Refer to <A href='#geom-setting-linetype'>line type settings</A>", "Numeric value", "Numeric value between 0 (fully transparent) and 1 (fully opaque)", "Specify the grouping variable (if set to 1, all data will be connected into a single line)"))
 
-kable(gl_code, booktabs=T, escape=F, caption="`geom_line()`函式引數設定", col.names=c("Arguments","Usage","Note"))%>%
+kable(gl_code, booktabs=T, escape=F, caption="Argument settings in `geom_line()`", col.names=c("Arguments","Usage","Note"))%>%
   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
   row_spec(0, bold=T, color="white", background="#8E8E8E")
 ```
