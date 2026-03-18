@@ -104,3 +104,9 @@ types-of-chart
 fig:geom-setting-shape
 fig:geom-setting-linetype
 fig:geom-setting-color
+tab:geom-point-code-tab
+tab:geom-smooth-code-tab
+fig:geom-smooth-eg2
+tab:geom-line-code-tab
+scatter-plot
+line-chart

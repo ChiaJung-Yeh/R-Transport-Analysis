@@ -173,7 +173,7 @@ ggplot()+
 Colours can be specified either by using predefined colour names, as listed in Figure \@ref(fig:geom-setting-color), or by directly providing hexadecimal colour codes. For reference, see the [colour code table](https://www.ifreesite.com/color/).
 
 <H2 id="geom-setting-color"></H2>
-```{r geom-setting-color, echo=F, eval=T, out.width="100%", fig.align="center", fig.cap="Predefined colour namecode"}
+```{r geom-setting-color, echo=F, eval=T, out.width="100%", fig.align="center", fig.cap="Predefined colour name"}
 temp=data.frame(color=grDevices::colors())%>%
   filter(!grepl("[0-9]", color))%>%
   mutate(id=c(1:nrow(.)))%>%
@@ -193,230 +193,252 @@ ggplot(temp, aes(x=x, y=y, fill=color)) +
 
 With the above basic understanding of chart settings, we will now use a variety of datasets and examples to demonstrate the functions of different chart types and their corresponding code implementations.
 
-<!-- ### 散布圖 -->
-<!-- 散布圖（Scatter Plot）應用於表達兩個連續變數之間的關係，橫軸與縱軸分別代表不同的連續變數，並利用點表示此二連續變數在二維空間的分布，可利用`geom_point()`函式達成之，函式撰寫架構如下。 -->
-
-<!-- ```{r geom-point-code, echo=T, eval=F} -->
-<!-- geom_point(color=, shape=, size=, stroke=, fill=, alpha=) -->
-<!-- ``` -->
-
-<!-- 以上各引數的功能彙整如表\@ref(tab:geom-point-code-tab)。 -->
-
-<!-- ```{r geom-point-code-tab, echo=F, eval=T} -->
-<!-- gp_code=data.frame(argument=c("`color=`","`shape=`","`size=`","`stroke=`","`fill=`","`alpha=`"), -->
-<!--                    setting=c("設定點的顏色","設定點的形狀","設定點的大小","設定點外圍框線的粗細","設定點內部的顏色","設定點的透明度"), explain=c("請參考<A href='#geom-setting-color'>顏色設定</A>","請參考<A href='#geom-setting-shape'>形狀設定</A>","數值","數值","請參考<A href='#geom-setting-color'>顏色設定</A>，僅有空心形狀者（如<A href='#geom-setting-shape'>形狀設定</A>為 21~25 者）尚有效","數值，介於 0（完全透明）與 1（完全不透明）間")) -->
-
-<!-- kable(gp_code, booktabs=T, escape=F, caption="`geom_point()`函式引數設定", col.names=c("引數","功能設定","說明"))%>% -->
-<!--   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>% -->
-<!--   row_spec(0, bold=T, color="white", background="#8E8E8E") -->
-<!-- ``` -->
 
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 基礎散布圖**</p>   -->
-<!-- 以`iris`資料為例，以花萼的長度（Sepal.Length）為橫軸，花萼的寬度（Sepal.Width）為縱軸，繪製散布圖，程式碼撰寫如下。 -->
+### Scatter Plot
+A scatter plot is a graphical method for illustrating the relationship between two continuous variables. The horizontal (x) and vertical (y) axes represent different continuous variables, while individual points depict their paired values within a two-dimensional space. This visualisation can be created using the `geom_point()` function, with the general function structure shown below.
 
-<!-- ```{r geom-point-eg1, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--   geom_point() -->
-<!-- ``` -->
+```{r geom-point-code, echo=T, eval=F}
+geom_point(color=, shape=, size=, stroke=, fill=, alpha=)
+```
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 修正散布圖樣式**</p>   -->
-<!-- 若希望更動點的樣式，可利用表\@ref(tab:geom-point-code-tab)的引數控制之。 -->
+The settings of the above arguments are summarised in Table \@ref(tab:geom-point-code-tab).
 
-<!-- ```{r geom-point-eg2, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--   geom_point(color="red", shape=23, size=3, stroke=1, fill="#AE57A4", alpha=0.5) -->
-<!-- ``` -->
+```{r geom-point-code-tab, echo=F, eval=T}
+gp_code=data.frame(argument=c("`color=`","`shape=`","`size=`","`stroke=`","`fill=`","`alpha=`"),
+                   setting=c("Set the Colour of the points", "Set the shape of the points", "Set the size of the points", "Set the thickness of the point outline", "Set the fill Colour of the points", "Set the transparency of the points"), explain=c("Refer to <A href='#geom-setting-color'>colour setttings</A>","Refer to <A href='#geom-setting-shape'>shape settings</A>","Values","Values","Refer to <A href='#geom-setting-color'>colour settings</A>. Note that only the hollow shapes（e.g., 21~25 in <A href='#geom-setting-shape'>Shape Settings</A> are effective.","Numeric value between 0 (fully transparent) and 1 (fully opaque)"))
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 漸層樣式散布圖**</p>   -->
-<!-- 散布圖一般而言僅能表示二維的數據，且大多是連續變數，然而若能在點子上給定顏色或大小，則可進一步顯示更多維度的資料。漸層樣式散布圖中，須**依據資料隨之變動**的樣式，其引數設定亦須置於<A href="#ggplot-aes">`aes()`</A>函式**內**；反之，若樣式不會隨資料變動，則須放置於<A href="#ggplot-aes">`aes()`</A>函式**外**。 -->
-
-<!-- 承繼上述案例，若希望用顏色表示品種（Species），並以點子的大小表示花瓣的長度（Petal.Width），而點子的形狀皆固定為圓點（引數需置於<A href="#ggplot-aes">`aes()`</A>函式**外**），程式碼撰寫如下。 -->
-
-<!-- ```{r geom-point-eg3, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--   geom_point(aes(color=Species, size=Petal.Width), shape=20) -->
-<!-- ``` -->
-
-<!-- 圖中「品種」為類別型資料；「花瓣的寬度」為連續型資料，透過漸層樣式散布圖可表達更多維度的資料，添增資訊的豐富度。觀察出圖結果可發現，setosa 類別（ <span style="color:#F8766D">紅色點子</span>）的花瓣寬度（點子大小）與花萼長度（橫軸）相較於另兩品種偏小，有相當明顯的區別。因此透過漸層樣式散布圖可初步觀察對於資料分類的重要影響變數，為資料科學的關鍵步驟。 -->
-
-<!-- 若欲修正顏色漸層，請參考[此](#顏色漸層)；若欲修正點子大小之漸層，請參考[此](#大小尺度)。 -->
+kable(gp_code, booktabs=T, escape=F, caption="Argument settings in `geom_point()`", col.names=c("Arguments","Usage","Note"))%>%
+  kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
+  row_spec(0, bold=T, color="white", background="#8E8E8E")
+```
 
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 漸層樣式散布圖--修正圖例順序**</p>   -->
-<!-- 關於圖例修正的順序請先參考[此](#調整圖例名稱順序)。在預設情況下，圖例是依據字母順序排列，而若欲修正圖例順序為指定的格式，須利用[`factor()`](#因子factor)函式定義類別的層級。舉例而言，若希望將圖例順序修正為「virginica, versicolor, setosa」，程式碼撰寫如下。 -->
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Basic scatter plot**</p>
+Using the `iris` dataset as an example, plot a scatter plot with `Sepal.Length` on the x-axis and `Sepal.Width` on the y-axis. The code is written as follows.
 
-<!-- ```{r geom-point-eg4, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- iris_rev=iris -->
-<!-- iris_rev$Species=factor(iris_rev$Species, c("virginica","versicolor","setosa")) -->
-<!-- ggplot(iris_rev, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--   geom_point(aes(color=Species, size=Petal.Width), shape=20) -->
-<!-- ``` -->
+```{r geom-point-eg1, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+
+  geom_point()
+```
 
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Revise the styles**</p>
+To customise the appearance of the points, you can adjust them using the arguments listed in Table \@ref(tab:geom-point-code-tab).
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 加入文字或標籤**</p>   -->
-<!-- 關於圖表中插入文字，應利用`geom_text()`函式，請先參考[此](#標註文字與標籤)。以加入各品種（Species）分群中心點的名稱為例，以下程式碼先行透過`group_by() %>% summarise()`計算各分群的中心點位置，最後再添上文字。 -->
+```{r geom-point-eg2, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+
+  geom_point(color="red", shape=23, size=3, stroke=1, fill="#AE57A4", alpha=0.5)
+```
 
-<!-- ```{r geom-point-eg5, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- # 統計各品種的中心點 -->
-<!-- iris_sum=group_by(iris, Species)%>% -->
-<!--   summarise_at(c("Sepal.Length", "Sepal.Width"), mean) -->
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Gradient colour scatter plot**</p>
+A scatter plot typically represents two-dimensional data and is most often used for continuous variables. However, by assigning attributes such as colour or size to the points, additional dimensions of data can be visualised. 
 
-<!-- # 加入文字 -->
-<!-- ggplot()+ -->
-<!--   geom_point(data=iris, aes(x=Sepal.Length, Sepal.Width, color=Species, size=Petal.Width), shape=20, alpha=0.5)+ -->
-<!--   geom_text(data=iris_sum, aes(x=Sepal.Length, y=Sepal.Width, color=Species, label=Species), size=5) -->
-<!-- ``` -->
+In a gradient-style scatter plot, any aesthetic that **varies with the data** must be specified **inside** the <A href="#ggplot-aes">`aes()`</A> function. Conversely, if an aesthetic does **not vary with the data**, it should be placed **outside** the <A href="#ggplot-aes">`aes()`</A> function.
 
-<!-- 抑或使用`geom_label()`建立標籤，程式碼撰寫如下。 -->
+Building on the previous example, colour can be used to distinguish species (`Species`), while point size can represent petal width (`Petal.Width`). The point shape is kept fixed as circles, and therefore its corresponding argument should be specified **outside** the <A href="#ggplot-aes">`aes()`</A> function. The code is shown below.
 
-<!-- ```{r geom-point-eg6, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- # 加入文字 -->
-<!-- ggplot()+ -->
-<!--   geom_point(data=iris, aes(x=Sepal.Length, Sepal.Width, color=Species, size=Petal.Width), shape=20, alpha=0.5)+ -->
-<!--   geom_label(data=iris_sum, aes(x=Sepal.Length, y=Sepal.Width, color=Species, label=Species), size=4) -->
-<!-- ``` -->
+```{r geom-point-eg3, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+
+  geom_point(aes(color=Species, size=Petal.Width), shape=20)
+```
 
+In the figure, “Species” is a categorical variable, while “Petal.Width” is a continuous variable. By incorporating gradient aesthetics in the scatter plot, additional dimensions of the data can be represented, enriching the overall information conveyed.
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 加入趨勢線**</p>   -->
-<!-- 點子圖通常用以表示兩連續變數的關係，可從中推敲其趨勢，繪圖時可另考量繪製趨勢線，有助於引導閱讀者瞭解變數間的關係。趨勢線可透過`geom_smooth()`繪製，函式撰寫架構如下。 -->
+From the plot, it can be observed that the setosa category (<span style="color:#F8766D">red dots</span>) has relatively smaller petal widths (indicated by point size) and shorter sepal lengths (x-axis) compared with the other two species, making it clearly distinguishable. This demonstrates how gradient-enhanced scatter plots can help identify important variables for data classification, which is a key step in data science.
 
-<!-- ```{r geom-smooth-code, echo=T, eval=F} -->
-<!-- geom_smooth(method, se=, span=, level=, color=, linetype=, linewidth=, fill=, alpha=) -->
-<!-- ``` -->
-
-<!-- 以上各引數的功能彙整如表\@ref(tab:geom-smooth-code-tab)。 -->
-
-<!-- ```{r geom-smooth-code-tab, echo=F, eval=T} -->
-<!-- gs_code=data.frame(argument=c("`method=`","`formula=`","`se=`","`level=`","`span=`","`color=`","`linetype=`","`linewidth=`","`fill=`","`alpha=`"), -->
-<!--                    setting=c("設定趨勢線迴歸模型","設定迴歸函式","設定是否回傳趨勢線的標準誤","設定信心水準","設定迴歸的區間","設定趨勢線顏色","設定趨勢線樣式","設定趨勢線粗細","設定趨勢線標準誤範圍的顏色","設定趨勢線標準誤範圍的透明度"), explain=c("可使用線性迴歸（`lm`）或一般化線性迴歸（`glm`）","預設為`y~x`","預設為`T`，若不希望有標準誤，須設定`F`","預設為 95% (`0.95`) 之信心水準","迴歸區間，若區間愈大，線條愈平滑；若區間愈小，線條愈趨近原資料分布","請參考<A href='#geom-setting-color'>顏色設定</A>","請參考<A href='#geom-setting-linetype'>線條樣式設定</A>","數值","請參考<A href='#geom-setting-color'>顏色設定</A>","數值，介於 0（完全透明）與 1（完全不透明）間")) -->
-
-<!-- kable(gs_code, booktabs=T, escape=F, caption="`geom_smooth()`函式引數設定", col.names=c("引數","功能設定","說明"))%>% -->
-<!--   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>% -->
-<!--   column_spec(2, width="6.5cm")%>% -->
-<!--   row_spec(0, bold=T, color="white", background="#8E8E8E") -->
-<!-- ``` -->
-
-<!-- 以加入線性的趨勢線為例，此時`method=`引數設定為`lm`，即線性迴歸（linear model），而公式則為$y=\beta x$（`y~x`），程式碼撰寫如下。另請注意在線性迴歸時，即無須另設定用於曲線的`span=`引數。 -->
-
-<!-- ```{r geom-smooth-eg1, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--   geom_point()+ -->
-<!--   geom_smooth(method=lm, formula=y~x, color="#CE0000", fill="#FF7575", alpha=0.2) -->
-<!-- ``` -->
-
-<!-- 繪製曲線之趨勢線時，不同的`span=`引數所繪製的趨勢圖亦有所不同，如圖\@ref(fig:geom-smooth-eg2)所示，可發現當所設定的數值愈大時，趨勢線愈加平滑。 -->
-
-<!-- ```{r geom-smooth-eg2, echo=F, eval=T, out.width="85%", fig.align="center", fig.cap="趨勢線中的`span=`引數", warning=F, message=F} -->
-<!-- plot_list=list() -->
-<!-- all_span=c(0.2,0.5,0.8,1,1.5,2) -->
-<!-- for(i in c(1:length(all_span))){ -->
-<!--  temp=ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+ -->
-<!--    geom_point()+ -->
-<!--    geom_smooth(color="#CE0000", fill="#FF7575", alpha=0.2, span=all_span[i])+ -->
-<!--    labs(title=paste0("<span style='font-family: B;'>span=", all_span[i], "</span>"))+ -->
-<!--    theme(plot.title=element_markdown(hjust=0.5, fill="#F0F0F0", padding=margin(0,5,0,0, unit="pt"))) -->
-<!--  plot_list[[i]]=temp -->
-<!-- } -->
-<!-- theme1=theme(axis.text.y=element_blank(), -->
-<!--              axis.ticks.y=element_blank(), -->
-<!--              axis.title.y=element_blank()) -->
-<!-- theme2=theme(axis.text.x=element_blank(), -->
-<!--              axis.ticks.x=element_blank(), -->
-<!--              axis.title.x=element_blank()) -->
-<!-- theme3=theme(axis.text=element_blank(), -->
-<!--              axis.ticks=element_blank(), -->
-<!--              axis.title=element_blank()) -->
-<!-- cowplot::plot_grid(plot_list[[1]]+theme2, plot_list[[2]]+theme3, plot_list[[3]]+theme3, plot_list[[4]], plot_list[[5]]+theme1, plot_list[[6]]+theme1, align="hv", ncol=3) -->
-<!-- ``` -->
+To adjust the colour gradient, refer to [this](#gradient-colour); to modify the size scale of the points, refer to [this](#size-scale).
 
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 加入跳點**</p>   -->
-<!-- 有時資料點會重疊，導致肉眼無法觀察，更難以判斷資料的集中程度（重疊後變成單一點，反而會將群聚的點誤判為稀疏），此一情境即常發生於具有整數或類別型的資料。如以下案例，利用`mpg`資料，以汽缸數（cyl）為橫軸；以每加侖英里數（hwy）為縱軸，繪製散布圖如下。 -->
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Gradient colour scatter plot: adjust the legend order**</p>
+For adjusting the order of the legend, please first refer to [this](#adjust-legend). By default, legend entries are arranged in alphabetical order. To customise the legend order into a specified sequence, the [`factor()`](#factor) function can be used to define the levels of the categorical variable. 
 
-<!-- ```{r geom-point-eg7, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(mpg, aes(cyl, hwy))+ -->
-<!--   geom_point() -->
-<!-- ``` -->
+For example, to set the legend order as “virginica, versicolor, setosa”, the code is written as follows.
 
-<!-- 由於汽缸數與每加侖英里數在該資料中皆為正整數，導致有許多資料是重疊的，不易觀察。此時可以利用`geom_jitter()`加入亂數，使資料跳動至鄰近的座標點上，得以較明確觀察資料間的散布情形，且不影響原資料的分布。`geom_jitter()`函式的撰寫架構如下。 -->
-
-<!-- ```{r geom-jitter-code, echo=T, eval=F} -->
-<!-- geom_jitter(width=, height=) -->
-<!-- ``` -->
-
-<!-- 其中，`width=`引數表示橫軸變動的幅度，如`width=0.1`，表示針對橫軸向左與右隨機變動 10% 以內。`height=`引數則表示橫軸變動的幅度。 -->
-
-<!-- 另外`geom_point()`內部的所有引數皆可套用至`geom_jitter()`函式中，如需設定顏色、大小等，皆可使用表\@ref(tab:geom-point-code-tab)的引數。 -->
-
-<!-- ```{r geom-jitter-eg, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- # 先利用duplicated()函式檢查重複資料的筆數 -->
-<!-- sum(duplicated(mpg[, c("cyl","hwy")])) -->
-
-<!-- # 繪製具有跳點的散布圖 -->
-<!-- ggplot(mpg, aes(cyl, hwy))+ -->
-<!--   geom_jitter(width=0.2, height=0.2) -->
-<!-- ``` -->
-
-<!-- 由出圖結果可知，使用`geom_jitter()`可使資料更容易辨識，惟須注意的是，`width=`與`height=`引數對於圖表的視覺化程度有相當大的影響，若數值設定的愈大，資料連續性的情況就會越明顯，但可能過度偏離實際情況。因此針對不同資料，此二引數的調整需多次嘗試，尋找最佳可視化且不影響原始資料分布的繪圖方式。此外，由於`geom_jitter()`的跳動是隨機的，若欲每次輸出的結果是相同的，可設定隨機亂數（[`set.seed()`](https://r-coder.com/set-seed-r/)）在每次繪圖前執行之，以確保使用相同的隨機種子。 -->
+```{r geom-point-eg4, echo=T, eval=T, out.width="70%", fig.align="center"}
+iris_rev=iris
+iris_rev$Species=factor(iris_rev$Species, c("virginica","versicolor","setosa"))
+ggplot(iris_rev, aes(x=Sepal.Length, Sepal.Width))+
+  geom_point(aes(color=Species, size=Petal.Width), shape=20)
+```
 
 
-<!-- ### 折線圖 -->
-<!-- 折線圖（Line Chart）應用於表達兩連續變數的趨勢，或一連續變數隨時間變化的趨勢，可利用`geom_line()`函式達成之，函式撰寫架構如下。 -->
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Add text and label**</p>
+To add text annotations to a plot, the `geom_text()` function should be used (see [this](#add-texts-and-labels)). 
 
-<!-- ```{r geom-line-code, echo=T, eval=F} -->
-<!-- geom_line(color=, linetype=, linewidth=, alpha=, group=) -->
-<!-- ``` -->
+For example, to label the centroid of each species (`Species`), the following code first calculates the centre point of each group using `group_by() %>% summarise()`, and then adds the corresponding text labels to the plot.
 
-<!-- 函式中各引數的功能彙整如表\@ref(tab:geom-line-code-tab)。 -->
+```{r geom-point-eg5, echo=T, eval=T, out.width="70%", fig.align="center"}
+# derive the centre point of each species
+iris_sum=group_by(iris, Species)%>%
+  summarise_at(c("Sepal.Length", "Sepal.Width"), mean)
 
-<!-- ```{r geom-line-code-tab, echo=F, eval=T} -->
-<!-- gl_code=data.frame(argument=c("`color=`","`linetype=`","`linewidth=`","`alpha=`","`group=`"), -->
-<!--                    setting=c("設定線條的顏色","設定線條樣式","設定線條的粗細","設定線條的透明度","設定線條的分群"), explain=c("請參考<A href='#geom-setting-color'>顏色設定</A>","請參考<A href='#geom-setting-linetype'>線條樣式設定</A>","數值","數值，介於 0（完全透明）與 1（完全不透明）間","設定分群欄位名稱（若設定為 1，表示將資料全部連成一折線）")) -->
+# add texts to the plot
+ggplot()+
+  geom_point(data=iris, aes(x=Sepal.Length, Sepal.Width, color=Species, size=Petal.Width), shape=20, alpha=0.5)+
+  geom_text(data=iris_sum, aes(x=Sepal.Length, y=Sepal.Width, color=Species, label=Species), size=5)
+```
 
-<!-- kable(gl_code, booktabs=T, escape=F, caption="`geom_line()`函式引數設定", col.names=c("引數","功能設定","說明"))%>% -->
-<!--   kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>% -->
-<!--   row_spec(0, bold=T, color="white", background="#8E8E8E") -->
-<!-- ``` -->
+Alternatively, using `geom_label()` function to add the labels. The corresponding code is shown below.
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 基礎折線圖**</p>   -->
-
-<!-- 以`airquality`（空氣品質）資料為例，以日期（Month & Day）為橫軸，溫度（Temp）為縱軸，繪製折線圖，程式碼撰寫如下。其中利用[`as.Date()`](#日期與時間)函式建立日期資料，並透過[`str_pad()`](#文字處理)函式建立相同長度的文字。而在`geom_line()`函式中必須設定`group=1`之引數，用以表達將所有資料連貫為一條折線。 -->
-
-<!-- ```{r geom-line-eg1, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- # 先處理airquality資料(建立日期) -->
-<!-- airquality_new=airquality -->
-<!-- airquality_new$Date=as.Date(paste0(str_pad(airquality_new$Month, 2, "left", 0), "-", str_pad(airquality_new$Day, 2, "left", 0)), format="%m-%d") -->
-
-<!-- ggplot(data=airquality_new, aes(x=Date, y=Temp))+ -->
-<!--   geom_line(group=1, color="red") -->
-<!-- ``` -->
-
-<!-- 圖中的橫軸為日期資料，而若欲修正時間軸的日期顯示方式，請參考[此](#座標軸尺度)。 -->
-
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 多線折線圖**</p>   -->
-<!-- 以上的折線圖僅顯示單一條線，而有時我們希望在同一張圖表達多條折線，可藉此必較不同區間的資料，此時必須在`geom_line()`函式中設定`group=`函數為指定的分群欄位。 -->
-
-<!-- 再次以`airquality`（空氣品質）資料為例，若希望根據月份繪製不同折線，並給定不同顏色，此時`group=`引數即須設定為「Month」，並置於<A href="#ggplot-aes">`aes()`</A>函式中，表示須根據不同類別而使設定有所更動者。由於不同折線將賦予不同顏色，故`color=`引數必須置於<A href="#ggplot-aes">`aes()`</A>函式內。最後，若折線的粗細為一固定值，則必須將`linewidth=`引數置於<A href="#ggplot-aes">`aes()`</A>函式外。根據上述繪圖邏輯，程式碼撰寫如下。 -->
-
-<!-- ```{r geom-line-eg2, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(data=airquality, aes(x=Day, y=Temp))+ -->
-<!--   geom_line(aes(group=Month, color=as.factor(Month)), linewidth=1) -->
-<!-- ``` -->
-
-<!-- 請注意以上程式碼中，由於需依據月份分類繪圖，故將 Month 轉換為文字或因子形式。 -->
-
-<!-- 若欲修正顏色漸層，請參考[此](#顏色漸層)。 -->
+```{r geom-point-eg6, echo=T, eval=T, out.width="70%", fig.align="center"}
+# add texts
+ggplot()+
+  geom_point(data=iris, aes(x=Sepal.Length, Sepal.Width, color=Species, size=Petal.Width), shape=20, alpha=0.5)+
+  geom_label(data=iris_sum, aes(x=Sepal.Length, y=Sepal.Width, color=Species, label=Species), size=4)
+```
 
 
-<!-- <p style="color:#003D79;font-size:18px;line-height:2">**⌾ 折線圖與散布圖疊合**</p>   -->
-<!-- 通常表達數據的趨勢，除了使用折線圖外，為了使資料的座標更為清晰，會另將散布圖疊在其上，以`airquality`資料為例，程式碼撰寫如下。程式碼中另將不同月份賦予不同點子的形狀，故此時`geom_point()`函式中的`shape=`引數亦須放置於<A href="#ggplot-aes">`aes()`</A>函式內。而點子的大小不會因為不同月份而有所變動，在圖表中皆為固定者，故須置於<A href="#ggplot-aes">`aes()`</A>函式外。 -->
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Add trend line**</p>
+A scatter plot is commonly used to illustrate the relationship between two continuous variables, allowing underlying trends to be inferred. When creating such plots, it is often helpful to include a trend line to guide interpretation of the relationship between variables. 
 
-<!-- ```{r geom-line-eg3, echo=T, eval=T, out.width="70%", fig.align="center"} -->
-<!-- ggplot(data=airquality, aes(x=Day, y=Temp))+ -->
-<!--   geom_line(aes(group=Month, color=as.factor(Month)), linewidth=1)+ -->
-<!--   geom_point(aes(group=Month, color=as.factor(Month), shape=as.factor(Month)), size=2) -->
-<!-- ``` -->
+A trend line can be added using the `geom_smooth()` function, with the general structure of the function shown as follows.
+
+```{r geom-smooth-code, echo=T, eval=F}
+geom_smooth(method, se=, span=, level=, color=, linetype=, linewidth=, fill=, alpha=)
+```
+
+The settings of all arguments is shown in Table \@ref(tab:geom-smooth-code-tab)。
+
+```{r geom-smooth-code-tab, echo=F, eval=T}
+gs_code=data.frame(argument=c("`method=`","`formula=`","`se=`","`level=`","`span=`","`color=`","`linetype=`","`linewidth=`","`fill=`","`alpha=`"),
+                   setting=c("Set the regression model for the trend line", "Set the regression formula", "Set whether to display the standard error of the trend line", "Set the confidence level", "Set the smoothing span of the regression", "Set the colour of the trend line", "Set the line type of the trend line", "Set the thickness of the trend line", "Set the colour of the standard error band", "Set the transparency of the standard error band"), explain = c("Linear regression (`lm`) or generalised linear models (`glm`) can be used", "Default is `y ~ x`", "Default is `TRUE`; set to `FALSE` to hide the standard error", "Default is 95% (`0.95`) confidence level", "Controls the smoothness of the curve; larger values produce smoother lines, smaller values follow the data more closely", "Refer to <A href='#geom-setting-color'>colour settings</A>", "Refer to <A href='#geom-setting-linetype'>line type settings</A>", "Numeric value", "Refer to <A href='#geom-setting-color'>colour settings</A>", "Numeric value between 0 (fully transparent) and 1 (fully opaque)"))
+
+kable(gs_code, booktabs=T, escape=F, caption="Argument settings of `geom_smooth()`", col.names=c("Arguments","Usage","Note"))%>%
+  kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
+  column_spec(2, width="6.5cm")%>%
+  row_spec(0, bold=T, color="white", background="#8E8E8E")
+```
+
+As an example of adding a linear trend line, the `method =` argument should be set to `lm`, which specifies a linear regression model. The corresponding formula is $y = \beta x$ (`y ~ x`). The code is written as follows. 
+
+Note that when using linear regression, there is no need to specify the `span =` argument, as it is only applicable to smoothing methods for curved lines.
+
+```{r geom-smooth-eg1, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+
+  geom_point()+
+  geom_smooth(method=lm, formula=y~x, color="#CE0000", fill="#FF7575", alpha=0.2)
+```
+
+When plotting a curved trend line, different values of the `span =` argument will produce different smoothing results, as shown in Figure \@ref(fig:geom-smooth-eg2). It can be observed that larger values lead to a smoother trend line.
+
+```{r geom-smooth-eg2, echo=F, eval=T, out.width="85%", fig.align="center", fig.cap="Argument `span=` in `geom_smooth()` function", warning=F, message=F}
+plot_list=list()
+all_span=c(0.2,0.5,0.8,1,1.5,2)
+for(i in c(1:length(all_span))){
+ temp=ggplot(iris, aes(x=Sepal.Length, Sepal.Width))+
+   geom_point()+
+   geom_smooth(color="#CE0000", fill="#FF7575", alpha=0.2, span=all_span[i])+
+   labs(title=paste0("<span style='font-family: B;'>span=", all_span[i], "</span>"))+
+   theme(plot.title=element_markdown(hjust=0.5, fill="#F0F0F0", padding=margin(0,5,0,0, unit="pt")))
+ plot_list[[i]]=temp
+}
+theme1=theme(axis.text.y=element_blank(),
+             axis.ticks.y=element_blank(),
+             axis.title.y=element_blank())
+theme2=theme(axis.text.x=element_blank(),
+             axis.ticks.x=element_blank(),
+             axis.title.x=element_blank())
+theme3=theme(axis.text=element_blank(),
+             axis.ticks=element_blank(),
+             axis.title=element_blank())
+cowplot::plot_grid(plot_list[[1]]+theme2, plot_list[[2]]+theme3, plot_list[[3]]+theme3, plot_list[[4]], plot_list[[5]]+theme1, plot_list[[6]]+theme1, align="hv", ncol=3)
+```
+
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Add jitter points**</p>
+In some cases, data points may overlap, making them difficult to distinguish visually and harder to assess the true concentration of observations. When multiple points overlap into a single point, densely clustered data may be mistakenly perceived as sparse. This situation commonly occurs with integer or categorical data.
+
+For example, using the `mpg` dataset, a scatter plot can be created with the number of cylinders (cyl) on the x-axis and highway miles per gallon (hwy) on the y-axis, as shown below.
+
+```{r geom-point-eg7, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(mpg, aes(cyl, hwy))+
+  geom_point()
+```
+
+Since both the number of cylinders and highway miles per gallon in this dataset are positive integers, many data points overlap, making them difficult to observe clearly. In such cases, `geom_jitter()` can be used to introduce random variation, allowing points to be slightly shifted to nearby positions. This makes the distribution of the data easier to visualise without altering the overall pattern. The general structure of the `geom_jitter()` function is as follows.
+
+```{r geom-jitter-code, echo=T, eval=F}
+geom_jitter(width=, height=)
+```
+
+The `width =` argument controls the amount of horizontal variation. For example, `width = 0.1` allows points to shift randomly up to 10% to the left or right along the x-axis. The `height =` argument controls the amount of vertical variation.
+
+In addition, all arguments available in `geom_point()` can also be applied to `geom_jitter()`. For instance, to adjust colour or size, we may use the arguments listed in Table \@ref(tab:geom-point-code-tab).
+
+```{r geom-jitter-eg, echo=T, eval=T, out.width="70%", fig.align="center"}
+# use duplicated() function to chek number of duplicated data
+sum(duplicated(mpg[, c("cyl","hwy")]))
+
+# dd random noise in jitter plot
+ggplot(mpg, aes(cyl, hwy))+
+  geom_jitter(width=0.2, height=0.2)
+```
+
+From the jitter plot shown above, it is evident that using `geom_jitter()` makes the data easier to distinguish. However, it is important to note that the `width =` and `height =` arguments have a significant impact on the visualisation. Larger values increase the apparent continuity of the data, but may also cause points to deviate too far from their true positions. Therefore, for different datasets, these two arguments should be adjusted through multiple trials to achieve an optimal balance between clarity and faithful representation of the original distribution. 
+
+In addition, since the jittering process is random, the output may vary each time. To ensure reproducibility, a random seed can be set using [`set.seed()`](https://r-coder.com/set-seed-r/) before plotting, so that the same random variation is applied across runs.
+
+
+### Line Chart
+A line chart is used to illustrate the trend between two continuous variables, or to show how a continuous variable changes over time. This can be achieved using the `geom_line()` function, with the general structure of the function shown below.
+
+```{r geom-line-code, echo=T, eval=F}
+geom_line(color=, linetype=, linewidth=, alpha=, group=)
+```
+
+The settings of all arguments in `geom_line()` function are shown in Table \@ref(tab:geom-line-code-tab)。
+
+```{r geom-line-code-tab, echo=F, eval=T}
+gl_code=data.frame(argument=c("`color=`","`linetype=`","`linewidth=`","`alpha=`","`group=`"),
+                   setting=c("Set the colour of the line", "Set the line type", "Set the thickness of the line", "Set the transparency of the line", "Set the grouping of the line"), explain = c("Refer to <A href='#geom-setting-color'>colour settings</A>", "Refer to <A href='#geom-setting-linetype'>line type settings</A>", "Numeric value", "Numeric value between 0 (fully transparent) and 1 (fully opaque)", "Specify the grouping variable (if set to 1, all data will be connected into a single line)"))
+
+kable(gl_code, booktabs=T, escape=F, caption="`geom_line()`函式引數設定", col.names=c("Arguments","Usage","Note"))%>%
+  kable_styling(bootstrap_options=c("striped", "hover"), font_size=14)%>%
+  row_spec(0, bold=T, color="white", background="#8E8E8E")
+```
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Basic line chart**</p>
+
+Using the `airquality` dataset as an example, a line chart can be created with date (Month & Day) on the x-axis and temperature (Temp) on the y-axis. The code is written as follows. 
+
+The [`as.Date()`](#date-and-time) function is used to construct date values, and the [`str_pad()`](#text-processing) function ensures consistent string lengths. In addition, the `geom_line()` function must include the argument `group = 1` to indicate that all observations should be connected into a single line.
+
+```{r geom-line-eg1, echo=T, eval=T, out.width="70%", fig.align="center"}
+# pre-processing the airquality data (create the date)
+airquality_new=airquality
+airquality_new$Date=as.Date(paste0(str_pad(airquality_new$Month, 2, "left", 0), "-", str_pad(airquality_new$Day, 2, "left", 0)), format="%m-%d")
+
+ggplot(data=airquality_new, aes(x=Date, y=Temp))+
+  geom_line(group=1, color="red")
+```
+
+In the figure, the x-axis represents date values. To modify the display format of the time axis, please refer to [axis scale](#axis-scale).
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Multi-line Chart**</p>
+The previous example displays only a single line. However, in many cases, it is useful to present multiple lines within the same chart to compare data across different groups. To achieve this, the `group =` argument in the `geom_line()` function must be set to a specified grouping variable.
+
+Using the `airquality` dataset again as an example, suppose we want to draw separate lines for each month and assign different colours accordingly. In this case, the `group =` argument should be set to `Month` and placed inside the <A href="#ggplot-aes">`aes()`</A> function, indicating that the grouping varies with the data. 
+
+Since each line is assigned a different colour, the `colour =` argument must also be specified within the <A href="#ggplot-aes">`aes()`</A> function. Finally, if the line width is fixed, the `linewidth =` argument should be placed outside the <A href="#ggplot-aes">`aes()`</A> function. Based on this logic, the code is written as follows.
+
+
+```{r geom-line-eg2, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(data=airquality, aes(x=Day, y=Temp))+
+  geom_line(aes(group=Month, color=as.factor(Month)), linewidth=1)
+```
+
+Note that in the above code, since the plot is grouped by month, `Month` should be converted into a character or factor variable. To adjust the colour gradient, please refer to [this](#colour-sacle).
+
+<p style="color:#003D79;font-size:18px;line-height:2">**⌾ Combining line chart and scatter plot**</p>
+When presenting data trends, in addition to using a line chart, it is often helpful to overlay a scatter plot to make the individual data points more explicit. Using the `airquality` dataset as an example, the code is written as follows.
+
+In this code, different point shapes are assigned to different months; therefore, the `shape =` argument in `geom_point()` must be placed in the <A href="#ggplot-aes">`aes()`</A> function, as it varies with the data. In contrast, the point size remains constant across months, so the `size =` argument should be specified outside the <A href="#ggplot-aes">`aes()`</A> function.
+
+```{r geom-line-eg3, echo=T, eval=T, out.width="70%", fig.align="center"}
+ggplot(data=airquality, aes(x=Day, y=Temp))+
+  geom_line(aes(group=Month, color=as.factor(Month)), linewidth=1)+
+  geom_point(aes(group=Month, color=as.factor(Month), shape=as.factor(Month)), size=2)
+```
 
 
 
@@ -1699,7 +1721,7 @@ With the above basic understanding of chart settings, we will now use a variety 
 <!-- ``` -->
 
 
-<!-- ### 標註文字與標籤 -->
+<!-- ### Add Texts and Labels -->
 <!-- 「標註文字」係指在圖片上加入純文字，而「標註標籤」則是指加入具有背景、邊框的文字，範例如圖\@ref(fig:geom-text-eg0)所示所示。在`ggplot2`套件中，標註文字可利用`geom_text()`函式；標註標籤可利用`geom_label()`函式，兩函式的撰寫架構如下。 -->
 
 <!-- ```{r geom-text-eg0, echo=F, eval=T, out.width="70%", fig.height=1, fig.width=5, fig.align="center", fig.cap="標註文字與標籤圖示"} -->
@@ -2055,7 +2077,7 @@ With the above basic understanding of chart settings, we will now use a variety 
 
 <!-- ### 圖例與座標軸設定 -->
 
-<!-- #### 調整圖例名稱 -->
+<!-- #### Adjust Legend -->
 
 <!-- #### 調整座標軸名稱 -->
 
@@ -2064,13 +2086,13 @@ With the above basic understanding of chart settings, we will now use a variety 
 
 <!-- ### 尺度設定 -->
 
-<!-- #### 顏色漸層 -->
+<!-- #### Gradient Colour -->
 
-<!-- #### 大小尺度 -->
+<!-- #### Size Scale -->
 
 <!-- #### 粗細尺度 -->
 
-<!-- #### 座標軸尺度 -->
+<!-- #### Axis Scale -->
 
 <!-- #### 雙重尺度設定 -->
 
