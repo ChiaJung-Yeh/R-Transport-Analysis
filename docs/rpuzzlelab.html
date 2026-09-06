@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+</head>
+
+<body>
+  <p>Redirecting you to a page...</p>
+
+  <script>
+    const pages = [
+      "https://usyditls-rpuzzlelab001.share.connect.posit.cloud/",
+      "https://usyditls-rpuzzlelab002.share.connect.posit.cloud/",
+      "https://usyditls-rpuzzlelab003.share.connect.posit.cloud/"
+    ];
+
+    // Randomly choose one of the three pages
+    const randomPage = pages[Math.floor(Math.random() * pages.length)];
+
+    // Redirect the user
+    window.location.replace(randomPage);
+  </script>
+</body>
+</html>
